@@ -1,4 +1,4 @@
-package bulidings;
+package buildings;
 
 public class Building {
 
