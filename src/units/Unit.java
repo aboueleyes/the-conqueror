@@ -2,50 +2,50 @@ package units;
 
 public abstract class Unit {
 
-    private int level;
-    private int maxSoldierCount;
-    private int currentSoldierCount;
-    private double idleUpkeep;
-    private double marchingUpkeep;
-    private double siegeUpkeep;
-    
-    public int getLevel() {
-        return level;
-    }
+  private int level; // The current level of a unit. READ ONLY.
+  private int maxSoldierCount; // The maximum number of soldiers a unit can  hold
+  private int currentSoldierCount; // the current level of a unit 
+  private double idleUpkeep;   // the amount of food a unit consume when being idle
+  private double marchingUpkeep; // the amount of food a unit consume when marching to another city
+  private double siegeUpkeep; // the amount of food a unit consume when laying siege
 
-    public int getMaxSoldierCount() {
-        return maxSoldierCount;
-    }
+  public int getLevel() {
+    return level;
+  }
 
-    public int getCurrentSoldierCount() {
-        return currentSoldierCount;
-    }
+  public int getMaxSoldierCount() {
+    return maxSoldierCount;
+  }
 
-    public void setCurrentSoldierCount(int currentSoldierCount) {
-        this.currentSoldierCount = currentSoldierCount;
-    }
+  public int getCurrentSoldierCount() {
+    return currentSoldierCount;
+  }
 
-    public double getIdleUpkeep() {
-        return idleUpkeep;
-    }
+  public void setCurrentSoldierCount(int currentSoldierCount) {
+    this.currentSoldierCount = currentSoldierCount;
+  }
 
-    public double getMarchingUpkeep() {
-        return marchingUpkeep;
-    }
+  public double getIdleUpkeep() {
+    return idleUpkeep;
+  }
 
-    public double getSiegeUpkeep() {
-        return siegeUpkeep;
-    }
-    
-    public Unit(){
+  public double getMarchingUpkeep() {
+    return marchingUpkeep;
+  }
 
-    }
+  public double getSiegeUpkeep() {
+    return siegeUpkeep;
+  }
 
-    public Unit(int level, int maxSoldierCount, double idleUpkeep, double marchingUpkeep, double siegeUpkeep){
-        this.level = level;
-        this.maxSoldierCount = maxSoldierCount;
-        this.idleUpkeep = idleUpkeep;
-        this.marchingUpkeep = marchingUpkeep;
-        this.siegeUpkeep = siegeUpkeep;
-    }
+  public Unit() {
+
+  }
+
+  public Unit(int level, int maxSoldierCount, double idleUpkeep, double marchingUpkeep, double siegeUpkeep) {
+    this.level = level;
+    this.maxSoldierCount = maxSoldierCount;
+    this.idleUpkeep = idleUpkeep;
+    this.marchingUpkeep = marchingUpkeep;
+    this.siegeUpkeep = siegeUpkeep;
+  }
 }
