@@ -35,7 +35,7 @@ public abstract class Building {
         this.coolDown = coolDown;
     }
 
-    protected Building() {
+    public Building() {
 
     }
 
