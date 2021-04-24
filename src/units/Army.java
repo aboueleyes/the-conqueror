@@ -57,10 +57,6 @@ public class Army {
     this.currentLocation = currentLocation;
   }
 
-  public Army() {
-
-  }
-
   public Army(String currentLocation) {
     this.currentLocation = currentLocation;
     units = new ArrayList<>();
