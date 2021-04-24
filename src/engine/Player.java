@@ -1,26 +1,27 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import units.Army;
 
 public class Player {
 	
-  private String name; //Variable representing the name of the player, READ ONLY
-  private ArrayList<City> controlledCities; // An ArrayList containing the player’s controlled cities, READ ONLY
-  private ArrayList<Army> controlledArmies; //An ArrayList containing the player’s controlled armies, READ ONLY
-  private double treasury; //The amount of gold the player has
-  private double food; //The amount of food the player has
+  private String name; // Variable representing the name of the player, READ ONLY
+  private List<City> controlledCities; // An ArrayList containing the player’s controlled cities, READ ONLY
+  private List<Army> controlledArmies; // An ArrayList containing the player’s controlled armies, READ ONLY
+  private double treasury; // The amount of gold the player has
+  private double food; // The amount of food the player has
   
   public String getName() {
 	  return this.name;
   }
   
-  public ArrayList<City> getControlledCities(){
+  public List<City> getControlledCities(){
 	  return this.controlledCities;
   }
   
-  public ArrayList<Army> getControlledArmies(){
+  public List<Army> getControlledArmies(){
 	  return this.controlledArmies;
   }
   
