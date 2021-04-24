@@ -7,10 +7,11 @@ public class Army {
 
   private Status currentStatus = Status.IDLE; // the current status of an army initially being idle .READ ONLY
   private List<Unit> units; // a list containing the units of an army
-  private int distancetoTarget = -1; // the distance needed to reach target city 
+  private int distancetoTarget = -1; // the distance needed to reach target city
   private String target = ""; // the target city
   private String currentLocation; // the current location of the army either in a city or road to another
-  private final int maxToHold = 10; // maximum number of units an army could hold  (should better declared as static final)
+  private final int maxToHold = 10; // maximum number of units an army could hold (should better declared as static
+                                    // final)
 
   public int getMaxToHold() {
     return maxToHold;
@@ -56,7 +57,11 @@ public class Army {
     this.currentLocation = currentLocation;
   }
 
-  public Army(String currentLocation){
+  public Army() {
+
+  }
+
+  public Army(String currentLocation) {
     this.currentLocation = currentLocation;
     units = new ArrayList<>();
   }

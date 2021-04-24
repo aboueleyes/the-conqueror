@@ -2,9 +2,9 @@ package buildings;
 
 public abstract class Building {
 
-  private int cost; // The cost for creating a buliding. READ ONLY
-  private int level = 1; // The current level of the bulding.
-  private int upgradeCost; // The cost for upgrading building’s level.
+  private int cost; // The cost for creating a building. READ ONLY
+  private int level = 1; // The current level of the building.
+  private int upgradeCost; // The cost for upgrading buildings level.
   private boolean coolDown = true; // variable stating if the building is cooling down.
 
   public int getCost() {

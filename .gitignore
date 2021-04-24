@@ -23,7 +23,9 @@
 hs_err_pid*
 /bin/
 
-.class
+*.class*
 .vscode
 .idea
 .project 
+*.iml
+vs*
