@@ -56,7 +56,7 @@ public class City {
     this.name = name;
     economicalBuildings = new ArrayList<>();
     militaryBuildings = new ArrayList<>();
-    defendingArmy = new Army();
+    defendingArmy = new Army(name);
   }
 
 }
