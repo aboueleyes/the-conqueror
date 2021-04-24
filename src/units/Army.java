@@ -55,6 +55,10 @@ public class Army {
   public void setCurrentLocation(String currentLocation) {
     this.currentLocation = currentLocation;
   }
+  
+  public Army() {
+	  
+  }
 
   public Army(String currentLocation){
     this.currentLocation = currentLocation;
