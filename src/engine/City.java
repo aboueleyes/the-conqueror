@@ -28,7 +28,7 @@ public class City {
     return this.militaryBuildings;
   }
 
-  public Army getDefendignArmy() {
+  public Army getDefendingArmy() {
     return this.defendingArmy;
   }
 
