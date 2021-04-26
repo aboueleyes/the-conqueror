@@ -10,7 +10,7 @@ import java.util.List;
 public class ReadingCSVFile {
 
   private ReadingCSVFile() {
-    throw new IllegalStateException("Utlitay Class");
+    throw new IllegalStateException("Utility Class");
   }
 
   private static final String COMMA_DELIMITER = ",";

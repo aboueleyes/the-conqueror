@@ -1,7 +1,6 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import buildings.EconomicBuilding;
 import buildings.MilitaryBuilding;
@@ -10,8 +9,8 @@ import units.Army;
 public class City {
 
   private String name; // The name of the city, READ ONLY
-  private List<EconomicBuilding> economicalBuildings; // AList containing the economical building in the city,READONLY
-  private List<MilitaryBuilding> militaryBuildings; // AList containing the military building in the city, READONLY
+  private ArrayList<EconomicBuilding> economicalBuildings; // AArrayList containing the economical building in the city,READONLY
+  private ArrayList<MilitaryBuilding> militaryBuildings; // AArrayList containing the military building in the city, READONLY
   private Army defendingArmy; // The defending army of the city
   private int turnsUnderSiege; // Number of turns the city has been siege
   private boolean underSiege = false; // Variable checking if the is under siege or not
@@ -20,11 +19,11 @@ public class City {
     return this.name;
   }
 
-  public List<EconomicBuilding> getEconomicalBuildings() {
+  public ArrayList<EconomicBuilding> getEconomicalBuildings() {
     return this.economicalBuildings;
   }
 
-  public List<MilitaryBuilding> getMilitaryBuildings() {
+  public ArrayList<MilitaryBuilding> getMilitaryBuildings() {
     return this.militaryBuildings;
   }
 

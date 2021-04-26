@@ -1,12 +1,11 @@
 package units;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Army {
 
   private Status currentStatus = Status.IDLE; // the current status of an army initially being idle .READ ONLY
-  private List<Unit> units; // a list containing the units of an army
+  private ArrayList<Unit> units; // a list containing the units of an army
   private int distancetoTarget = -1; // the distance needed to reach target city
   private String target = ""; // the target city
   private String currentLocation; // the current location of the army either in a city or road to another
@@ -25,11 +24,11 @@ public class Army {
     this.currentStatus = currentStatus;
   }
 
-  public List<Unit> getUnits() {
+  public ArrayList<Unit> getUnits() {
     return units;
   }
 
-  public void setUnits(List<Unit> units) {
+  public void setUnits(ArrayList<Unit> units) {
     this.units = units;
   }
 
