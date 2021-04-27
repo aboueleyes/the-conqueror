@@ -46,6 +46,7 @@ public class Game {
   public Game(String playerName, String cityName) throws IOException{
     this.player = new Player(playerName);
     distances = new ArrayList<>();
+    availableCities = new ArrayList<>();
   }
 
   // Load distances.csv file with format from,to,distance and initialise distances,availableCities attributes
