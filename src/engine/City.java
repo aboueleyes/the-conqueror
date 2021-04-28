@@ -9,8 +9,10 @@ import units.Army;
 public class City {
 
   private String name; // The name of the city, READ ONLY
-  private ArrayList<EconomicBuilding> economicalBuildings; // AArrayList containing the economical building in the city,READONLY
-  private ArrayList<MilitaryBuilding> militaryBuildings; // AArrayList containing the military building in the city, READONLY
+  private ArrayList<EconomicBuilding> economicalBuildings; // AArrayList containing the economical building in the
+                                                           // city,READONLY
+  private ArrayList<MilitaryBuilding> militaryBuildings; // AArrayList containing the military building in the city,
+                                                         // READONLY
   private Army defendingArmy; // The defending army of the city
   private int turnsUnderSiege; // Number of turns the city has been siege
   private boolean underSiege = false; // Variable checking if the is under siege or not
@@ -58,4 +60,15 @@ public class City {
     defendingArmy = new Army(name);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof City)) {
+      return false;
+    }
+    City city = (City) o;
+    return city.getName().equals(this.getName());
+  }
 }
