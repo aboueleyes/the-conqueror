@@ -62,7 +62,7 @@ public class Game {
   }
 }
   
-  // Load distances.csv file with format from,to,distance and initialise
+  // Load distances.csv file with format from,to,distance and initialize
   // distances,availableCities attributes
   public void loadCitiesAndDistances() throws IOException {
     List<List<String>> data = ReadingCSVFile.readFile("distances.csv");
@@ -111,11 +111,16 @@ public class Game {
       }
   }
   public static void main(String[] args) throws IOException{
-    Game game = new Game("Blabizo", "Cairo");
+    Game game = new Game("Balabizo", "Rome");
     System.out.println(Arrays.asList(game.getAvailableCities()));
     for (City city : game.availableCities) {
       System.out.println(city.getName());
       System.out.println(city.getDefendingArmy().getUnits().size());
     }
+    for (Unit unit : game.getAvailableCities().get(2).getDefendingArmy().getUnits()){
+      System.out.println(unit.getClass());
+      System.out.println(unit);
+    }
+
   }
 }

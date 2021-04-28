@@ -36,7 +36,16 @@ public abstract class Unit {
   public double getSiegeUpkeep() {
     return siegeUpkeep;
   }
-
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  
+  @Override
+  public String toString() {
+    return "Unit [currentSoldierCount=" + currentSoldierCount + ", idleUpkeep=" + idleUpkeep + ", level=" + level
+        + ", marchingUpkeep=" + marchingUpkeep + ", maxSoldierCount=" + maxSoldierCount + ", siegeUpkeep=" + siegeUpkeep
+        + "]";
+  }
   public Unit() {
 
   }
