@@ -55,10 +55,12 @@ public class Game {
     distances = new ArrayList<>();
     availableCities = new ArrayList<>();
     loadCitiesAndDistances();
-    String path = cityName.toLowerCase()+"_city.csv";
+    
     for (City city : availableCities){
-      if (!city.getName().equals(cityName))
+      if (!city.getName().equals(cityName)){
+        String path = city.getName().toLowerCase()+"_city.csv";
         loadArmy(city.getName(), path);
+      }
   }
 }
   
