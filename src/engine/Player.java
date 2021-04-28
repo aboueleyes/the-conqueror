@@ -39,7 +39,9 @@ public class Player {
   public void setFood(double food) {
     this.food = food;
   }
-
+  public void addControlCity(City city){
+    controlledCities.add(city);
+  }
   public Player(String name) {
     this.name = name;
     controlledCities = new ArrayList<>();
