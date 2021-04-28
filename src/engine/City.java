@@ -57,7 +57,6 @@ public class City {
     this.name = name;
     economicalBuildings = new ArrayList<>();
     militaryBuildings = new ArrayList<>();
-    defendingArmy = new Army(name);
   }
 
   @Override
