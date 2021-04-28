@@ -3,7 +3,7 @@ package units;
 public class Infantry extends Unit {
 
   private static final double[][] ARCHER_VAlUES = {
-    {50,0.5,0.7,0.7},
+    {50,0.5,0.6,0.7},
     {50,0.5,0.6,0.7},
     {60,0.6,0.7,0.8}
   };
