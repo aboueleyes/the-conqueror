@@ -3,9 +3,14 @@ package engine;
 import utlis.ReadingCSVFile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+
+import units.Archer;
 import units.Army;
+import units.Cavalry;
+import units.Infantry;
 import units.Unit;
 
 public class Game {
@@ -49,12 +54,13 @@ public class Game {
     this.player = new Player(playerName);
     distances = new ArrayList<>();
     availableCities = new ArrayList<>();
-    // loadCitiesAndDistances();
-    //TODO
-    // for (City city : availableCities){
-    //   if (!city.getName().equals(cityName))
-    //     city.setDefendingArmy(new Army(cityName));
+    loadCitiesAndDistances();
+    String path = cityName.toLowerCase()+"_city.csv";
+    for (City city : availableCities){
+      if (!city.getName().equals(cityName))
+        loadArmy(city.getName(), path);
   }
+}
   
   // Load distances.csv file with format from,to,distance and initialise
   // distances,availableCities attributes
@@ -76,18 +82,40 @@ public class Game {
     }
   }
   public void loadArmy(String cityName, String path) throws IOException{
-    // TODO
-    // List<List<String>> data = ReadingCSVFile.readFile(path);
-    // ArrayList<Unit> uniArrayList = new ArrayList<>();
-
-    // for (List<String> line : data) {
-    //   String unitName = line.get(0);
-    //   int level = Integer.getInteger(line.get(1));
-    //   uniArrayList.add(new Unit())
-    //   City city = new City(cityName);
-    //   Army army = new Army(cityName);
-    //   city.setDefendingArmy(army);
-      
-    // }
+    ArrayList<Unit> unitList  = new ArrayList<>();
+    List<List<String>> data = ReadingCSVFile.readFile(path);
+    City currentCity = null;
+    for (List<String> line : data) {
+      String unitName = line.get(0);
+      int level = Integer.parseInt(line.get(1));
+      for(City city: availableCities){
+        if (cityName.equals(city.getName())){
+         currentCity = city;
+          break;
+        }
+      }
+      switch (unitName){
+        case "Archer" : unitList.add(new Archer(level));break;
+        case "Infantry" : unitList.add(new Infantry(level));break;
+        case "Cavalry" : unitList.add(new Cavalry(level));break;
+        default : break;
+      }      
+    }
+      Army army = new Army(cityName);
+      army.setUnits(unitList);
+      try {
+        currentCity.setDefendingArmy(army);
+      }
+      catch(NullPointerException e){
+        System.out.println(e.getMessage());
+      }
+  }
+  public static void main(String[] args) throws IOException{
+    Game game = new Game("Blabizo", "Cairo");
+    System.out.println(Arrays.asList(game.getAvailableCities()));
+    for (City city : game.availableCities) {
+      System.out.println(city.getName());
+      System.out.println(city.getDefendingArmy().getUnits().size());
+    }
   }
 }
