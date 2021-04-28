@@ -27,4 +27,7 @@ public class ReadingCSVFile {
       return result;
     }
   }
+  public static void main(String[] args)throws IOException {
+    System.out.println(readFile("rome_city.csv").size());
+  }
 }

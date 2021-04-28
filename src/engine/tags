@@ -1,0 +1,72 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/ibrahim/TheConqueror/src/engine/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210110.0/
+City	City.java	/^  public City(String name) {$/;"	m	class:City
+City	City.java	/^public class City {$/;"	c
+Distance	Distance.java	/^  public Distance(String from, String to, int distance) {$/;"	m	class:Distance
+Distance	Distance.java	/^public class Distance {$/;"	c
+Game	Game.java	/^  public Game(String playerName, String cityName) throws IOException {$/;"	m	class:Game
+Game	Game.java	/^public class Game {$/;"	c
+Player	Player.java	/^  public Player(String name) {$/;"	m	class:Player
+Player	Player.java	/^public class Player {$/;"	c
+availableCities	Game.java	/^  private ArrayList<City> availableCities; \/\/ An ArrayList containing the cities in the game, /;"	f	class:Game	file:
+controlledArmies	Player.java	/^  private ArrayList<Army> controlledArmies; \/\/ An ArrayList containing the player�s controll/;"	f	class:Player	file:
+controlledCities	Player.java	/^  private ArrayList<City> controlledCities; \/\/ An ArrayList containing the player�s controll/;"	f	class:Player	file:
+currentTurnCount	Game.java	/^  private int currentTurnCount = 1; \/\/ Current number of turns, READ ONLY$/;"	f	class:Game	file:
+defendingArmy	City.java	/^  private Army defendingArmy; \/\/ The defending army of the city$/;"	f	class:City	file:
+distance	Distance.java	/^  private int distance; \/\/ The distance between the two cities, READ ONLY$/;"	f	class:Distance	file:
+distances	Game.java	/^  private ArrayList<Distance> distances; \/\/ An ArrayList containing the distances between the /;"	f	class:Game	file:
+economicalBuildings	City.java	/^  private ArrayList<EconomicBuilding> economicalBuildings; \/\/ AArrayList containing the econom/;"	f	class:City	file:
+engine	City.java	/^package engine;$/;"	p
+engine	Distance.java	/^package engine;$/;"	p
+engine	Game.java	/^package engine;$/;"	p
+engine	Player.java	/^package engine;$/;"	p
+equals	City.java	/^  public boolean equals(Object o) {$/;"	m	class:City
+food	Player.java	/^  private double food; \/\/ The amount of food the player has$/;"	f	class:Player	file:
+from	Distance.java	/^  private String from; \/\/ The name of the city that the army will begin moving from, READ ONLY$/;"	f	class:Distance	file:
+getAvailableCities	Game.java	/^  public ArrayList<City> getAvailableCities() {$/;"	m	class:Game
+getControlledArmies	Player.java	/^  public ArrayList<Army> getControlledArmies() {$/;"	m	class:Player
+getControlledCities	Player.java	/^  public ArrayList<City> getControlledCities() {$/;"	m	class:Player
+getCurrentTurnCount	Game.java	/^  public int getCurrentTurnCount() {$/;"	m	class:Game
+getDefendingArmy	City.java	/^  public Army getDefendingArmy() {$/;"	m	class:City
+getDistance	Distance.java	/^  public int getDistance() {$/;"	m	class:Distance
+getDistances	Game.java	/^  public ArrayList<Distance> getDistances() {$/;"	m	class:Game
+getEconomicalBuildings	City.java	/^  public ArrayList<EconomicBuilding> getEconomicalBuildings() {$/;"	m	class:City
+getFood	Player.java	/^  public double getFood() {$/;"	m	class:Player
+getFrom	Distance.java	/^  public String getFrom() {$/;"	m	class:Distance
+getMaxTurnCount	Game.java	/^  public int getMaxTurnCount() {$/;"	m	class:Game
+getMilitaryBuildings	City.java	/^  public ArrayList<MilitaryBuilding> getMilitaryBuildings() {$/;"	m	class:City
+getName	City.java	/^  public String getName() {$/;"	m	class:City
+getName	Player.java	/^  public String getName() {$/;"	m	class:Player
+getPlayer	Game.java	/^  public Player getPlayer() {$/;"	m	class:Game
+getTo	Distance.java	/^  public String getTo() {$/;"	m	class:Distance
+getTreasury	Player.java	/^  public double getTreasury() {$/;"	m	class:Player
+getTurnsUnderSiege	City.java	/^  public int getTurnsUnderSiege() {$/;"	m	class:City
+isUnderSiege	City.java	/^  public boolean isUnderSiege() {$/;"	m	class:City
+loadArmy	Game.java	/^  public void loadArmy(String cityName, String path) throws IOException{$/;"	m	class:Game
+loadCitiesAndDistances	Game.java	/^  public void loadCitiesAndDistances() throws IOException {$/;"	m	class:Game
+main	Game.java	/^  public static void main(String[] args) throws IOException{$/;"	m	class:Game
+maxTurnCount	Game.java	/^  private final int maxTurnCount = 30; \/\/ Maximum number of turns in the Game$/;"	f	class:Game	file:
+militaryBuildings	City.java	/^  private ArrayList<MilitaryBuilding> militaryBuildings; \/\/ AArrayList containing the military/;"	f	class:City	file:
+name	City.java	/^  private String name; \/\/ The name of the city, READ ONLY$/;"	f	class:City	file:
+name	Player.java	/^  private String name; \/\/ Variable representing the name of the player, READ ONLY$/;"	f	class:Player	file:
+player	Game.java	/^  private Player player; \/\/ The current player of the game$/;"	f	class:Game	file:
+setCurrentTurnCount	Game.java	/^  public void setCurrentTurnCount(int currentTurnCount) {$/;"	m	class:Game
+setDefendingArmy	City.java	/^  public void setDefendingArmy(Army defendingArmy) {$/;"	m	class:City
+setFood	Player.java	/^  public void setFood(double food) {$/;"	m	class:Player
+setPlayer	Game.java	/^  public void setPlayer(Player player) {$/;"	m	class:Game
+setTreasury	Player.java	/^  public void setTreasury(double treasury) {$/;"	m	class:Player
+setTurnsUnderSiege	City.java	/^  public void setTurnsUnderSiege(int trunsUnderSiege) {$/;"	m	class:City
+setUnderSiege	City.java	/^  public void setUnderSiege(boolean underSiege) {$/;"	m	class:City
+to	Distance.java	/^  private String to; \/\/ The name of the city that the army will move to, READ ONLY$/;"	f	class:Distance	file:
+treasury	Player.java	/^  private double treasury; \/\/ The amount of gold the player has$/;"	f	class:Player	file:
+turnsUnderSiege	City.java	/^  private int turnsUnderSiege; \/\/ Number of turns the city has been siege$/;"	f	class:City	file:
+underSiege	City.java	/^  private boolean underSiege = false; \/\/ Variable checking if the is under siege or not$/;"	f	class:City	file:
