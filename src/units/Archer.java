@@ -13,7 +13,7 @@ public class Archer extends Unit {
   }
 
   public Archer(int level){
-      this(level, (int)ARCHER_VAlUES[level -1][0], ARCHER_VAlUES[level -1][1], ARCHER_VAlUES[level -1][2],ARCHER_VAlUES[level -1][2]);
+      this(level, (int)ARCHER_VAlUES[level -1][0], ARCHER_VAlUES[level -1][1], ARCHER_VAlUES[level -1][2],ARCHER_VAlUES[level -1][3]);
   }
 
 }

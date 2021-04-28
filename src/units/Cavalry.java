@@ -11,6 +11,6 @@ public class Cavalry  extends Unit{
     super(level, maxSoldierCount, idleUpkeep, marchingUpkeep, siegeUpkeep);
   }
   public Cavalry(int level){
-      this(level, (int)CAVALRY_VAlUES[level -1][0], CAVALRY_VAlUES[level -1][1], CAVALRY_VAlUES[level -1][2],CAVALRY_VAlUES[level -1][2]);
+      this(level, (int)CAVALRY_VAlUES[level -1][0], CAVALRY_VAlUES[level -1][1], CAVALRY_VAlUES[level -1][2],CAVALRY_VAlUES[level -1][3]);
   }
 }
