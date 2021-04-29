@@ -66,8 +66,6 @@ public class Game {
 
   public void loadCitiesAndDistances() throws IOException {
     List<List<String>> data = ReadingCSVFile.readFile("distances.csv");
-    City cityTo = null;
-    City cityFrom = null;
 
     for (List<String> line : data) {
       String from = line.get(0);
@@ -75,10 +73,8 @@ public class Game {
       int distance = Integer.parseInt(line.get(2));
 
       distances.add(new Distance(from, to, distance));
-      cityTo = new City(to);
-      cityFrom = new City(from);
-      addToSet(cityFrom);
-      addToSet(cityTo);
+      addToSet(new City(to));
+      addToSet(new City(from));
     }
   }
 
