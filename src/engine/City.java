@@ -9,10 +9,8 @@ import units.Army;
 public class City {
 
   private String name; // The name of the city, READ ONLY
-  private ArrayList<EconomicBuilding> economicalBuildings; // AArrayList containing the economical building in the
-                                                           // city,READONLY
-  private ArrayList<MilitaryBuilding> militaryBuildings; // AArrayList containing the military building in the city,
-                                                         // READONLY
+  private ArrayList<EconomicBuilding> economicalBuildings; // ArrayList containing the economical building in the city,READ
+  private ArrayList<MilitaryBuilding> militaryBuildings; // ArrayList containing the military building in the city, READ
   private Army defendingArmy; // The defending army of the city
   private int turnsUnderSiege; // Number of turns the city has been siege
   private boolean underSiege = false; // Variable checking if the is under siege or not

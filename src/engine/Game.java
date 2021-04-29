@@ -77,51 +77,58 @@ public class Game {
       distances.add(new Distance(from, to, distance));
       cityTo = new City(to);
       cityFrom = new City(from);
-      if (!availableCities.contains(cityFrom)) {
-        availableCities.add(cityFrom);
-      }
-      if (!availableCities.contains(cityTo)) {
-        availableCities.add(cityTo);
+      addToSet(cityFrom);
+      addToSet(cityTo);
+    }
+  }
 
-      }
+  private void addToSet(City city) {
+    if (!availableCities.contains(city)) {
+      availableCities.add(city);
     }
   }
 
   public void loadArmy(String cityName, String path) throws IOException {
     ArrayList<Unit> unitList = new ArrayList<>();
     List<List<String>> data = ReadingCSVFile.readFile(path);
-    City currentCity = null;
-
-    for (City city : availableCities) {
-      if (cityName.equals(city.getName())) {
-        currentCity = city;
-        break;
-      }
-    }
+    City currentCity = searchForCity(cityName);
 
     for (List<String> line : data) {
       String unitName = line.get(0);
       int level = Integer.parseInt(line.get(1));
-
-      switch (unitName) {
-      case "Archer":
-        unitList.add(new Archer(level));
-        break;
-      case "Infantry":
-        unitList.add(new Infantry(level));
-        break;
-      case "Cavalry":
-        unitList.add(new Cavalry(level));
-        break;
-      default:
-        break;
-      }
+      setUnitType(unitList, unitName, level);
     }
+
     Army army = new Army(cityName);
     army.setUnits(unitList);
-    if (currentCity != null)
+    if (currentCity != null){
       currentCity.setDefendingArmy(army);
+    }
+  }
 
+  private City searchForCity(String cityName) {
+    for (City city : availableCities) {
+      if (cityName.equals(city.getName())) {
+        return city;
+      }
+    }
+    return null;
+  }
+
+  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level) {
+    switch (unitName) {
+    case "Archer":
+      unitList.add(new Archer(level));
+      break;
+    case "Infantry":
+      unitList.add(new Infantry(level));
+      break;
+    case "Cavalry":
+      unitList.add(new Cavalry(level));
+      break;
+    default:
+      break;
+    }
   }
 
 }

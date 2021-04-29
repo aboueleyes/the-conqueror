@@ -7,8 +7,8 @@ import units.Army;
 public class Player {
 
   private String name; // Variable representing the name of the player, READ ONLY
-  private ArrayList<City> controlledCities; // An ArrayList containing the player�s controlled cities, READ ONLY
-  private ArrayList<Army> controlledArmies; // An ArrayList containing the player�s controlled armies, READ ONLY
+  private ArrayList<City> controlledCities; // An ArrayList containing the players controlled cities, READ ONLY
+  private ArrayList<Army> controlledArmies; // An ArrayList containing the players controlled armies, READ ONLY
   private double treasury; // The amount of gold the player has
   private double food; // The amount of food the player has
 
