@@ -56,10 +56,11 @@ public class Game {
 
     for (City city : availableCities) {
       if (!city.getName().equals(cityName)) {
-        String path = city.getName().toLowerCase() + "_city.csv";
+        String path = city.getName().toLowerCase() + "_army.csv";
         loadArmy(city.getName(), path);
       } else {
         player.addControlCity(city);
+        city.setDefendingArmy(null);
       }
     }
   }
