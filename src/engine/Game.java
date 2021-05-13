@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.InvalidUnitException;
 import units.Archer;
 import units.Army;
 import units.Cavalry;
@@ -85,7 +86,7 @@ public class Game {
     }
   }
 
-  public void loadArmy(String cityName, String path) throws IOException {
+  public void loadArmy(String cityName, String path) throws IOException, InvalidUnitException {
     ArrayList<Unit> unitList = new ArrayList<>();
     List<List<String>> data = ReadingCSVFile.readFile(path);
     City currentCity = searchForCity(cityName);
@@ -98,7 +99,7 @@ public class Game {
 
     Army army = new Army(cityName);
     army.setUnits(unitList);
-    if (currentCity != null){
+    if (currentCity != null) {
       currentCity.setDefendingArmy(army);
     }
   }
@@ -112,19 +113,19 @@ public class Game {
     return null;
   }
 
-  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level) {
+  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level) throws InvalidUnitException {
     switch (unitName) {
-    case "Archer":
-      unitList.add(new Archer(level));
-      break;
-    case "Infantry":
-      unitList.add(new Infantry(level));
-      break;
-    case "Cavalry":
-      unitList.add(new Cavalry(level));
-      break;
-    default:
-      break;
+      case "Archer":
+        unitList.add(new Archer(level));
+        break;
+      case "Infantry":
+        unitList.add(new Infantry(level));
+        break;
+      case "Cavalry":
+        unitList.add(new Cavalry(level));
+        break;
+      default:
+        throw new InvalidUnitException();
     }
   }
 
