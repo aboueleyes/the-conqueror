@@ -9,27 +9,18 @@ import units.Unit;
 public class Stable extends MilitaryBuilding {
 
   private static final int STABLE_COST = 2500;
-  private static final int STABLE_UPGRADE_COST = 1500;
-  private static final int STABLE_RECRUITMENT_COST = 600;
+  private static final int[] STABLE_UPGRADE_COST = {1500, 200, 0};
+  private static final int[] STABLE_RECRUITMENT_COST = {600, 650, 700};
 
   public Stable() {
-    super(STABLE_COST, STABLE_UPGRADE_COST, STABLE_RECRUITMENT_COST);
+    super(STABLE_COST, STABLE_UPGRADE_COST[0], STABLE_RECRUITMENT_COST[0]);
   }
 
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
-    if(isCoolDown()) {
-       throw new BuildingInCoolDownException();
-     }
-
-    int stableLevel = getLevel();
-    switch(stableLevel){
-      case 1 : setLevel(2); setUpgradeCost(2000); setRecruitmentCost(650); break;
-      case 2 : setLevel(3); setRecruitmentCost(700); break;
-      default : throw new MaxLevelException();
-    }
-    setCoolDown(true);
-
+    super.upgrade();
+    setUpgradeCost(STABLE_UPGRADE_COST[getLevel()-1]);
+    setRecruitmentCost(STABLE_RECRUITMENT_COST[getLevel()-1]);
   }
 
   @Override
