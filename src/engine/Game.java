@@ -1,12 +1,16 @@
 package engine;
 
-import utlis.ReadingCSVFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.InvalidUnitException;
+import units.Archer;
 import units.Army;
+import units.Cavalry;
+import units.Infantry;
 import units.Unit;
+import utlis.ReadingCSVFile;
 
 public class Game {
 
@@ -45,19 +49,23 @@ public class Game {
     this.currentTurnCount = currentTurnCount;
   }
 
-  public Game(String playerName, String cityName) throws IOException {
+  public Game(String playerName, String cityName) throws IOException, InvalidUnitException {
     this.player = new Player(playerName);
     distances = new ArrayList<>();
     availableCities = new ArrayList<>();
-    // loadCitiesAndDistances();
-    //TODO
-    // for (City city : availableCities){
-    //   if (!city.getName().equals(cityName))
-    //     city.setDefendingArmy(new Army(cityName));
+    loadCitiesAndDistances();
+
+    for (City city : availableCities) {
+      if (!city.getName().equals(cityName)) {
+        String path = city.getName().toLowerCase() + "_army.csv";
+        loadArmy(city.getName(), path);
+      } else {
+        player.addControlCity(city);
+        city.setDefendingArmy(null);
+      }
+    }
   }
-  
-  // Load distances.csv file with format from,to,distance and initialise
-  // distances,availableCities attributes
+
   public void loadCitiesAndDistances() throws IOException {
     List<List<String>> data = ReadingCSVFile.readFile("distances.csv");
 
@@ -65,29 +73,60 @@ public class Game {
       String from = line.get(0);
       String to = line.get(1);
       int distance = Integer.parseInt(line.get(2));
-      distances.add(new Distance(from, to, distance));
-      if (!availableCities.contains(new City(from))) {
-        availableCities.add(new City(from));
-      }
-      if (!availableCities.contains(new City(to))) {
-        availableCities.add(new City(to));
 
-      }
+      distances.add(new Distance(from, to, distance));
+      addToSet(new City(to));
+      addToSet(new City(from));
     }
   }
-  public void loadArmy(String cityName, String path) throws IOException{
-    // TODO
-    // List<List<String>> data = ReadingCSVFile.readFile(path);
-    // ArrayList<Unit> uniArrayList = new ArrayList<>();
 
-    // for (List<String> line : data) {
-    //   String unitName = line.get(0);
-    //   int level = Integer.getInteger(line.get(1));
-    //   uniArrayList.add(new Unit())
-    //   City city = new City(cityName);
-    //   Army army = new Army(cityName);
-    //   city.setDefendingArmy(army);
-      
-    // }
+  private void addToSet(City city) {
+    if (!availableCities.contains(city)) {
+      availableCities.add(city);
+    }
   }
+
+  public void loadArmy(String cityName, String path) throws IOException, InvalidUnitException {
+    ArrayList<Unit> unitList = new ArrayList<>();
+    List<List<String>> data = ReadingCSVFile.readFile(path);
+    City currentCity = searchForCity(cityName);
+
+    for (List<String> line : data) {
+      String unitName = line.get(0);
+      int level = Integer.parseInt(line.get(1));
+      setUnitType(unitList, unitName, level);
+    }
+
+    Army army = new Army(cityName);
+    army.setUnits(unitList);
+    if (currentCity != null) {
+      currentCity.setDefendingArmy(army);
+    }
+  }
+
+  private City searchForCity(String cityName) {
+    for (City city : availableCities) {
+      if (cityName.equals(city.getName())) {
+        return city;
+      }
+    }
+    return null;
+  }
+
+  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level) throws InvalidUnitException {
+    switch (unitName) {
+      case "Archer":
+        unitList.add(new Archer(level));
+        break;
+      case "Infantry":
+        unitList.add(new Infantry(level));
+        break;
+      case "Cavalry":
+        unitList.add(new Cavalry(level));
+        break;
+      default:
+        throw new InvalidUnitException();
+    }
+  }
+
 }
