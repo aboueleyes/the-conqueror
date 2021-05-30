@@ -1,14 +1,21 @@
 package buildings;
 
+import exceptions.BuildingInCoolDownException;
+import exceptions.MaxLevelException;
+
 public abstract class Building {
 
   private int cost; // The cost for creating a building. READ ONLY
   private int level = 1; // The current level of the building.
   private int upgradeCost; // The cost for upgrading buildings level.
   private boolean coolDown = true; // variable stating if the building is cooling down.
-
+  private final int maxLevel = 3;
   public int getCost() {
     return cost;
+  }
+
+  public int getMaxLevel() {
+    return maxLevel;
   }
 
   public int getLevel() {
@@ -43,4 +50,6 @@ public abstract class Building {
     this.cost = cost;
     this.upgradeCost = upgradeCost;
   }
+  
+  public abstract void upgrade() throws BuildingInCoolDownException, MaxLevelException;
 }
