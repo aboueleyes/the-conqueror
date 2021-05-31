@@ -74,11 +74,8 @@ public abstract class Unit {
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
-      if (target.currentSoldierCount == 0) {
-        target.getParentArmy().getUnits().remove(target);
-        return;
-      }
       target.currentSoldierCount -= this.currentSoldierCount * this.unitFactor(target, level);
+      target.getParentArmy().handleAttackedUnit(target);
+      }
     }
   }
-}

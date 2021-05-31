@@ -6,7 +6,7 @@ import exceptions.MaxLevelException;
 public class Market extends EconomicBuilding {
 
   private static final int MARKET_COST = 1500;
-  private static final int[] MARKET_UPGRADE_COST = { 700, 100, 0 };
+  private static final int[] MARKET_UPGRADE_COST = { 700, 1000 };
   private static final int[] HARVEST_VALUES = { 1000, 1500, 2000 };
 
   public Market() {

@@ -62,31 +62,31 @@ public class Army {
     this.currentLocation = currentLocation;
     units = new ArrayList<>();
   }
-  
-  public void relocateUnit(Unit unit) throws MaxCapacityException{
-  	if(this.getUnits().size() == this.getMaxToHold())
-  		throw new MaxCapacityException();
-  	this.getUnits().add(unit);
-  	unit.getParentArmy().getUnits().remove(unit);
+
+  public void relocateUnit(Unit unit) throws MaxCapacityException {
+    if (this.getUnits().size() == this.getMaxToHold())
+      throw new MaxCapacityException();
+    this.getUnits().add(unit);
+    unit.getParentArmy().getUnits().remove(unit);
+    unit.setParentArmy(this);
   }
-  
+
   public void handleAttackedUnit(Unit u) {
-  	if(u.getCurrentSoldierCount() == 0)
-  		this.getUnits().remove(u);
+    if (u.getCurrentSoldierCount() == 0)
+      this.getUnits().remove(u);
   }
-  
+
   public double foodNeeded() {
-  	double foodNeeded = 0;
-  	for(Unit temp : this.getUnits()) {
-  		if(this.getCurrentStatus().equals(Status.IDLE))
-  			foodNeeded += temp.getCurrentSoldierCount()*temp.getIdleUpkeep();
-  		else {
-  			if(this.getCurrentStatus().equals(Status.BESIEGING))
-  				foodNeeded += temp.getCurrentSoldierCount()*temp.getSiegeUpkeep();
-  			else
-  				foodNeeded += temp.getCurrentSoldierCount()*temp.getMarchingUpkeep();
-  		}
-  	}
-  	return foodNeeded;
+    double foodNeeded = 0;
+    for (Unit unit : this.getUnits()) {
+      if (this.getCurrentStatus().equals(Status.IDLE)) {
+        foodNeeded += unit.getCurrentSoldierCount() * unit.getIdleUpkeep();
+      } else if (this.getCurrentStatus().equals(Status.BESIEGING)) {
+        foodNeeded += unit.getCurrentSoldierCount() * unit.getSiegeUpkeep();
+      } else {
+        foodNeeded += unit.getCurrentSoldierCount() * unit.getMarchingUpkeep();
+      }
+    }
+    return foodNeeded;
   }
 }

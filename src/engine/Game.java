@@ -61,7 +61,6 @@ public class Game {
         loadArmy(city.getName(), path);
       } else {
         player.addControlCity(city);
-        city.setDefendingArmy(null);
       }
     }
   }

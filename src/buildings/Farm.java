@@ -6,7 +6,7 @@ import exceptions.MaxLevelException;
 public class Farm extends EconomicBuilding {
 
   private static final int FARM_COST = 1000;
-  private static final int [] FARM_UPGRADE_COST = {500,700,0};
+  private static final int [] FARM_UPGRADE_COST = {500,700};
   private static final int[] HARVEST_VALUES = {500, 700, 1000};
 
   public Farm() {
