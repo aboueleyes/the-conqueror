@@ -35,6 +35,9 @@ public abstract class Unit {
   public void setCurrentSoldierCount(int currentSoldierCount) {
     this.currentSoldierCount = currentSoldierCount;
   }
+  public void decCurrentSoldierCount(){
+    currentSoldierCount -= currentSoldierCount * 0.1;
+  }
 
   public double getIdleUpkeep() {
     return idleUpkeep;

@@ -18,6 +18,7 @@ import exceptions.InvalidBuildingException;
 import exceptions.InvalidUnitException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
+import exceptions.NotEnoughFoodException;
 import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
 import units.Army;
@@ -58,6 +59,12 @@ public class Player {
 
   public void setFood(double food) {
     this.food = food;
+  }
+  public void decFood(double food) throws NotEnoughFoodException{
+    if (food > this.food){
+      throw new NotEnoughFoodException(); 
+    }
+    this.food -= food; 
   }
 
   public void addControlCity(City city) {

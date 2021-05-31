@@ -6,7 +6,10 @@ import java.util.List;
 
 import buildings.EconomicBuilding;
 import buildings.MilitaryBuilding;
+import exceptions.FriendlyFireException;
 import exceptions.InvalidUnitException;
+import exceptions.NotEnoughFoodException;
+import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
 import units.Archer;
 import units.Army;
@@ -105,7 +108,7 @@ public class Game {
     }
   }
 
-  public static City searchForCity(String cityName, ArrayList<City> availableCities) {
+  public static City searchForCity(String cityName, ArrayList<City> availableCities) throws NullPointerException {
     for (City city : availableCities) {
       if (cityName.equals(city.getName())) {
         return city;
@@ -156,11 +159,50 @@ public class Game {
     int distanceToY = searchForDistance(targetName, currentCity);
     int distance = distanceToX + distanceToY;
     army.setDistancetoTarget(distance);
+    army.setTarget(targetName);
   }
 
   public void endTurn() {
     currentTurnCount++;
 
+    clearBuildings();
+    feedArmy();
+    handleTarget();
+    updateSiege();
+  }
+
+  private void updateSiege() {
+    for (City city : availableCities) {
+      if (city.isUnderSiege()) {
+        city.incTurnsUnderSiege();
+        city.getDefendingArmy().killUnits();
+      }
+    }
+  }
+
+  private void handleTarget() {
+    for (Army army : player.getControlledArmies()) {
+      if (!army.getTarget().equals("")) {
+        army.decTargetDistance();
+        if (army.getDistancetoTarget() == 0) {
+          army.setCurrentLocation(army.getTarget());
+          army.setTarget("");
+        }
+      }
+    }
+  }
+
+  private void feedArmy() {
+    for (Army army : player.getControlledArmies()) {
+      try {
+        player.decFood(army.foodNeeded());
+      } catch (NotEnoughFoodException e) {
+        army.killUnits();
+      }
+    }
+  }
+
+  private void clearBuildings() {
     for (City city : availableCities) {
       for (MilitaryBuilding militaryBuilding : city.getMilitaryBuildings()) {
         militaryBuilding.setCoolDown(false);
@@ -172,4 +214,40 @@ public class Game {
       }
     }
   }
+
+  public void occupy(Army a, String cityName) throws NullPointerException {
+    City city = searchForCity(cityName, availableCities);
+    player.addControlCity(city);
+    city.setDefendingArmy(a);
+    city.setUnderSiege(false);
+    city.setTurnsUnderSiege(0);
+  }
+
+  public void autoResolve(Army attacker, Army defender) throws FriendlyFireException {
+    boolean attackerTurn = true;
+    while (attacker.getUnits().isEmpty() || defender.getUnits().isEmpty()) {
+      Unit attackerUnit = attacker.getRandomUnit();
+      Unit defenderUnit = defender.getRandomUnit();
+      if (attackerTurn) {
+        attackerUnit.attack(defenderUnit);
+      } else {
+        defenderUnit.attack(attackerUnit);
+      }
+      attackerTurn = !attackerTurn;
+    }
+    if (defender.getUnits().isEmpty()) {
+      occupy(attacker, defender.getCurrentLocation());
+    }
+  }
+
+  public boolean isGameOver() {
+    if (currentTurnCount > maxTurnCount) {
+      return true;
+    }
+    if (availableCities.size() == player.getControlledCities().size()) {
+      return true;
+    }
+    return false;
+  }
+
 }
