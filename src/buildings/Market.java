@@ -6,8 +6,9 @@ import exceptions.MaxLevelException;
 public class Market extends EconomicBuilding {
 
   private static final int MARKET_COST = 1500;
-  private static final int [] MARKET_UPGRADE_COST = {700, 100, 0};
-  private static final int[] HARVEST_VALUES = {1000, 1500, 2000};
+  private static final int[] MARKET_UPGRADE_COST = { 700, 100, 0 };
+  private static final int[] HARVEST_VALUES = { 1000, 1500, 2000 };
+
   public Market() {
     super(MARKET_COST, MARKET_UPGRADE_COST[0]);
   }
@@ -15,11 +16,11 @@ public class Market extends EconomicBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    setUpgradeCost(MARKET_UPGRADE_COST[getLevel()-1]);
+    setUpgradeCost(MARKET_UPGRADE_COST[getLevel() - 1]);
   }
 
-   @Override
+  @Override
   public int harvest() {
-    return HARVEST_VALUES[getLevel()-1];
+    return HARVEST_VALUES[getLevel() - 1];
   }
 }
