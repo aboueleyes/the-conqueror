@@ -58,7 +58,7 @@ public abstract class Unit {
   public Unit() {
 
   }
-  
+
   public Unit(int level, int maxSoldierCount, double idleUpkeep, double marchingUpkeep, double siegeUpkeep) {
     this.level = level;
     this.maxSoldierCount = maxSoldierCount;
@@ -71,9 +71,14 @@ public abstract class Unit {
   public abstract double unitFactor(Unit targrt, int level);
 
   public void attack(Unit target) throws FriendlyFireException {
-    target.currentSoldierCount -= this.currentSoldierCount * this.unitFactor(target, level);
-    if (target.currentSoldierCount == 0) {
-      target.getParentArmy().getUnits().remove(target);
+    if (this.getParentArmy().equals(target.getParentArmy())) {
+      throw new FriendlyFireException();
+    } else {
+      if (target.currentSoldierCount == 0) {
+        target.getParentArmy().getUnits().remove(target);
+        return;
+      }
+      target.currentSoldierCount -= this.currentSoldierCount * this.unitFactor(target, level);
     }
   }
 }
