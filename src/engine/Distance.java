@@ -23,5 +23,5 @@ public class Distance {
     this.to = to;
     this.distance = distance;
   }
-
+  
 }

@@ -1,6 +1,7 @@
 package units;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import exceptions.MaxCapacityException;
 
@@ -53,6 +54,10 @@ public class Army {
   public String getCurrentLocation() {
     return currentLocation;
   }
+  
+  public void decTargetDistance(){
+    distancetoTarget--;
+  } 
 
   public void setCurrentLocation(String currentLocation) {
     this.currentLocation = currentLocation;
@@ -88,5 +93,15 @@ public class Army {
       }
     }
     return foodNeeded;
+  }
+
+  public void killUnits() {
+    for (Unit unit : units) {
+      unit.decCurrentSoldierCount();
+    }
+  }
+  public  Unit getRandomUnit() {
+    /** source https://stackoverflow.com/a/35471979/9260982 */
+    return units.get(new Random().nextInt(units.size()));
   }
 }

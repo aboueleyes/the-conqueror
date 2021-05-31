@@ -4,7 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import buildings.EconomicBuilding;
+import buildings.MilitaryBuilding;
+import exceptions.FriendlyFireException;
 import exceptions.InvalidUnitException;
+import exceptions.NotEnoughFoodException;
+import exceptions.NotEnoughGoldException;
+import exceptions.TargetNotReachedException;
 import units.Archer;
 import units.Army;
 import units.Cavalry;
@@ -88,22 +94,21 @@ public class Game {
   public void loadArmy(String cityName, String path) throws IOException, InvalidUnitException {
     ArrayList<Unit> unitList = new ArrayList<>();
     List<List<String>> data = ReadingCSVFile.readFile(path);
-    City currentCity = searchForCity(cityName);
+    City currentCity = searchForCity(cityName, availableCities);
 
+    Army army = new Army(cityName);
     for (List<String> line : data) {
       String unitName = line.get(0);
       int level = Integer.parseInt(line.get(1));
-      setUnitType(unitList, unitName, level);
+      setUnitType(unitList, unitName, level, army);
     }
-
-    Army army = new Army(cityName);
     army.setUnits(unitList);
     if (currentCity != null) {
       currentCity.setDefendingArmy(army);
     }
   }
 
-  private City searchForCity(String cityName) {
+  public static City searchForCity(String cityName, ArrayList<City> availableCities) throws NullPointerException {
     for (City city : availableCities) {
       if (cityName.equals(city.getName())) {
         return city;
@@ -112,20 +117,137 @@ public class Game {
     return null;
   }
 
-  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level) throws InvalidUnitException {
+  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army)
+      throws InvalidUnitException {
     switch (unitName) {
       case "Archer":
-        unitList.add(new Archer(level));
+        Unit archer = new Archer(level);
+        archer.setParentArmy(army);
+        unitList.add(archer);
         break;
       case "Infantry":
-        unitList.add(new Infantry(level));
+        Unit infantry = new Infantry(level);
+        infantry.setParentArmy(army);
+        unitList.add(infantry);
         break;
       case "Cavalry":
-        unitList.add(new Cavalry(level));
+        Unit cavalry = new Cavalry(level);
+        cavalry.setParentArmy(army);
+        unitList.add(cavalry);
         break;
       default:
         throw new InvalidUnitException();
     }
+  }
+
+  public int searchForDistance(String x, String y) {
+    for (Distance distance : distances) {
+      if (distance.getFrom().equals(x) && distance.getTo().equals(y)) {
+        return distance.getDistance();
+      }
+    }
+    return 0;
+  }
+
+  public void targetCity(Army army, String targetName) {
+    // TODO update status , exception
+    String currentCity = army.getCurrentLocation();
+    if (army.getDistancetoTarget() > 0) {
+      return;
+    }
+    int distanceToX = searchForDistance(currentCity, targetName);
+    int distanceToY = searchForDistance(targetName, currentCity);
+    int distance = distanceToX + distanceToY;
+    army.setDistancetoTarget(distance);
+    army.setTarget(targetName);
+  }
+
+  public void endTurn() {
+    currentTurnCount++;
+
+    clearBuildings();
+    feedArmy();
+    handleTarget();
+    updateSiege();
+  }
+
+  private void updateSiege() {
+    for (City city : availableCities) {
+      if (city.isUnderSiege()) {
+        city.incTurnsUnderSiege();
+        city.getDefendingArmy().killUnits();
+      }
+    }
+  }
+
+  private void handleTarget() {
+    for (Army army : player.getControlledArmies()) {
+      if (!army.getTarget().equals("")) {
+        army.decTargetDistance();
+        if (army.getDistancetoTarget() == 0) {
+          army.setCurrentLocation(army.getTarget());
+          army.setTarget("");
+        }
+      }
+    }
+  }
+
+  private void feedArmy() {
+    for (Army army : player.getControlledArmies()) {
+      try {
+        player.decFood(army.foodNeeded());
+      } catch (NotEnoughFoodException e) {
+        army.killUnits();
+      }
+    }
+  }
+
+  private void clearBuildings() {
+    for (City city : availableCities) {
+      for (MilitaryBuilding militaryBuilding : city.getMilitaryBuildings()) {
+        militaryBuilding.setCoolDown(false);
+        militaryBuilding.setCurrentRecruit(0);
+      }
+      for (EconomicBuilding economicBuilding : city.getEconomicalBuildings()) {
+        economicBuilding.setCoolDown(false);
+        player.setFood(player.getFood() + economicBuilding.harvest());
+      }
+    }
+  }
+
+  public void occupy(Army a, String cityName) throws NullPointerException {
+    City city = searchForCity(cityName, availableCities);
+    player.addControlCity(city);
+    city.setDefendingArmy(a);
+    city.setUnderSiege(false);
+    city.setTurnsUnderSiege(0);
+  }
+
+  public void autoResolve(Army attacker, Army defender) throws FriendlyFireException {
+    boolean attackerTurn = true;
+    while (attacker.getUnits().isEmpty() || defender.getUnits().isEmpty()) {
+      Unit attackerUnit = attacker.getRandomUnit();
+      Unit defenderUnit = defender.getRandomUnit();
+      if (attackerTurn) {
+        attackerUnit.attack(defenderUnit);
+      } else {
+        defenderUnit.attack(attackerUnit);
+      }
+      attackerTurn = !attackerTurn;
+    }
+    if (defender.getUnits().isEmpty()) {
+      occupy(attacker, defender.getCurrentLocation());
+    }
+  }
+
+  public boolean isGameOver() {
+    if (currentTurnCount > maxTurnCount) {
+      return true;
+    }
+    if (availableCities.size() == player.getControlledCities().size()) {
+      return true;
+    }
+    return false;
   }
 
 }
