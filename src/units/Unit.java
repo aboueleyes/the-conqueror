@@ -1,5 +1,7 @@
 package units;
 
+import exceptions.FriendlyFireException;
+
 public abstract class Unit {
 
   private int level; // The current level of a unit. READ ONLY.
@@ -8,6 +10,15 @@ public abstract class Unit {
   private double idleUpkeep; // the amount of food a unit consume when being idle
   private double marchingUpkeep; // the amount of food a unit consume when marching to another city
   private double siegeUpkeep; // the amount of food a unit consume when laying siege
+  private Army parentArmy;
+
+  public Army getParentArmy() {
+    return parentArmy;
+  }
+
+  public void setParentArmy(Army parentArmy) {
+    this.parentArmy = parentArmy;
+  }
 
   public int getLevel() {
     return level;
@@ -54,5 +65,17 @@ public abstract class Unit {
     this.idleUpkeep = idleUpkeep;
     this.marchingUpkeep = marchingUpkeep;
     this.siegeUpkeep = siegeUpkeep;
+    this.currentSoldierCount = maxSoldierCount;
   }
-}
+
+  public abstract double unitFactor(Unit targrt, int level);
+
+  public void attack(Unit target) throws FriendlyFireException {
+    if (this.getParentArmy().equals(target.getParentArmy())) {
+      throw new FriendlyFireException();
+    } else {
+      target.currentSoldierCount -= this.currentSoldierCount * this.unitFactor(target, level);
+      target.getParentArmy().handleAttackedUnit(target);
+      }
+    }
+  }

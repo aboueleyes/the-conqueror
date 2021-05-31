@@ -49,7 +49,7 @@ public class Game {
     this.currentTurnCount = currentTurnCount;
   }
 
-  public Game(String playerName, String cityName) throws IOException {
+  public Game(String playerName, String cityName) throws IOException, InvalidUnitException {
     this.player = new Player(playerName);
     distances = new ArrayList<>();
     availableCities = new ArrayList<>();
@@ -61,7 +61,6 @@ public class Game {
         loadArmy(city.getName(), path);
       } else {
         player.addControlCity(city);
-        city.setDefendingArmy(null);
       }
     }
   }

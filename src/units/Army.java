@@ -2,6 +2,8 @@ package units;
 
 import java.util.ArrayList;
 
+import exceptions.MaxCapacityException;
+
 public class Army {
 
   private Status currentStatus = Status.IDLE; // the current status of an army initially being idle .READ ONLY
@@ -59,5 +61,32 @@ public class Army {
   public Army(String currentLocation) {
     this.currentLocation = currentLocation;
     units = new ArrayList<>();
+  }
+
+  public void relocateUnit(Unit unit) throws MaxCapacityException {
+    if (this.getUnits().size() == this.getMaxToHold())
+      throw new MaxCapacityException();
+    this.getUnits().add(unit);
+    unit.getParentArmy().getUnits().remove(unit);
+    unit.setParentArmy(this);
+  }
+
+  public void handleAttackedUnit(Unit u) {
+    if (u.getCurrentSoldierCount() == 0)
+      this.getUnits().remove(u);
+  }
+
+  public double foodNeeded() {
+    double foodNeeded = 0;
+    for (Unit unit : this.getUnits()) {
+      if (this.getCurrentStatus().equals(Status.IDLE)) {
+        foodNeeded += unit.getCurrentSoldierCount() * unit.getIdleUpkeep();
+      } else if (this.getCurrentStatus().equals(Status.BESIEGING)) {
+        foodNeeded += unit.getCurrentSoldierCount() * unit.getSiegeUpkeep();
+      } else {
+        foodNeeded += unit.getCurrentSoldierCount() * unit.getMarchingUpkeep();
+      }
+    }
+    return foodNeeded;
   }
 }
