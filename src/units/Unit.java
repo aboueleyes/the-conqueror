@@ -71,6 +71,7 @@ public abstract class Unit {
   public abstract double unitFactor(Unit targrt, int level);
 
   public void attack(Unit target) throws FriendlyFireException {
+    // TODO if two units from difrent armies but same player
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
