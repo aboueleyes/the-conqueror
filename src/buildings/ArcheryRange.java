@@ -9,8 +9,8 @@ import units.Unit;
 public class ArcheryRange extends MilitaryBuilding {
 
   private static final int ARCHERY_RANGE_COST = 1500;
-  private static final int[] ARCHERY_RANGE_UPGRADE_COST = {800, 700, 0};
-  private static final int[] ARCHERY_RANGE_RECRUITMENT_COST = {400, 450, 500};
+  private static final int[] ARCHERY_RANGE_UPGRADE_COST = { 800, 700, 0 };
+  private static final int[] ARCHERY_RANGE_RECRUITMENT_COST = { 400, 450, 500 };
 
   public ArcheryRange() {
     super(ARCHERY_RANGE_COST, ARCHERY_RANGE_UPGRADE_COST[0], ARCHERY_RANGE_RECRUITMENT_COST[0]);
@@ -19,21 +19,20 @@ public class ArcheryRange extends MilitaryBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    setUpgradeCost(ARCHERY_RANGE_UPGRADE_COST[getLevel()-1]);
-    setRecruitmentCost(ARCHERY_RANGE_RECRUITMENT_COST[getLevel()-1]);
+    setUpgradeCost(ARCHERY_RANGE_UPGRADE_COST[getLevel() - 1]);
+    setRecruitmentCost(ARCHERY_RANGE_RECRUITMENT_COST[getLevel() - 1]);
   }
 
   @Override
   public Unit recruit() throws BuildingInCoolDownException, MaxRecruitedException {
-    if(isCoolDown()){
+    if (isCoolDown()) {
       throw new BuildingInCoolDownException();
     }
 
-    else if(getCurrentRecruit()==getMaxRecruit()){
+    else if (getCurrentRecruit() == getMaxRecruit()) {
       throw new MaxRecruitedException();
-    }
-    else{
-      setCurrentRecruit(getCurrentRecruit()+1);
+    } else {
+      setCurrentRecruit(getCurrentRecruit() + 1);
       return new Archer(getLevel());
     }
   }

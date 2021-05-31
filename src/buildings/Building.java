@@ -10,6 +10,7 @@ public abstract class Building {
   private int upgradeCost; // The cost for upgrading buildings level.
   private boolean coolDown = false; // variable stating if the building is cooling down.
   private final int maxLevel = 3;
+
   public int getCost() {
     return cost;
   }
@@ -50,15 +51,15 @@ public abstract class Building {
     this.cost = cost;
     this.upgradeCost = upgradeCost;
   }
-  
-  public void upgrade() throws BuildingInCoolDownException, MaxLevelException{
-    if(isCoolDown()) {
+
+  public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
+    if (isCoolDown()) {
       throw new BuildingInCoolDownException();
     }
-    if(getLevel()==maxLevel){
+    if (getLevel() == maxLevel) {
       throw new MaxLevelException();
     }
-    setLevel(getLevel()+1);
+    setLevel(getLevel() + 1);
     setCoolDown(true);
   }
 }
