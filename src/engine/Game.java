@@ -4,17 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.plugins.bmp.BMPImageWriteParam;
+
 import buildings.EconomicBuilding;
+import buildings.Farm;
 import buildings.MilitaryBuilding;
 import exceptions.FriendlyFireException;
 import exceptions.InvalidUnitException;
 import exceptions.NotEnoughFoodException;
-import exceptions.NotEnoughGoldException;
-import exceptions.TargetNotReachedException;
 import units.Archer;
 import units.Army;
 import units.Cavalry;
 import units.Infantry;
+import units.Status;
 import units.Unit;
 import utlis.ReadingCSVFile;
 
@@ -140,9 +142,13 @@ public class Game {
     }
   }
 
+  public boolean pairEqual(String x, String y, Distance distance) {
+    return distance.getFrom().equals(x) && distance.getTo().equals(y);
+  }
+
   public int searchForDistance(String x, String y) {
     for (Distance distance : distances) {
-      if (distance.getFrom().equals(x) && distance.getTo().equals(y)) {
+      if (pairEqual(x, y, distance) || pairEqual(y, x, distance)) {
         return distance.getDistance();
       }
     }
@@ -155,11 +161,11 @@ public class Game {
     if (army.getDistancetoTarget() > 0) {
       return;
     }
-    int distanceToX = searchForDistance(currentCity, targetName);
-    int distanceToY = searchForDistance(targetName, currentCity);
-    int distance = distanceToX + distanceToY;
+    int distance = searchForDistance(currentCity, targetName);
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
+    army.setCurrentLocation("onRoad");
+    army.setCurrentStatus(Status.BESIEGING);
   }
 
   public void endTurn() {
@@ -181,6 +187,7 @@ public class Game {
   }
 
   private void handleTarget() {
+    //TODO status of army if it reached the target
     for (Army army : player.getControlledArmies()) {
       if (!army.getTarget().equals("")) {
         army.decTargetDistance();
@@ -210,7 +217,12 @@ public class Game {
       }
       for (EconomicBuilding economicBuilding : city.getEconomicalBuildings()) {
         economicBuilding.setCoolDown(false);
-        player.setFood(player.getFood() + economicBuilding.harvest());
+        if (economicBuilding instanceof Farm){
+          player.setFood(player.getFood() + economicBuilding.harvest());
+        }
+        else{
+          player.setTreasury(player.getTreasury() + economicBuilding.harvest());
+        }
       }
     }
   }
@@ -244,10 +256,7 @@ public class Game {
     if (currentTurnCount > maxTurnCount) {
       return true;
     }
-    if (availableCities.size() == player.getControlledCities().size()) {
-      return true;
-    }
-    return false;
+    return (availableCities.size() == player.getControlledCities().size());
   }
 
 }
