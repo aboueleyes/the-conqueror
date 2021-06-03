@@ -19,7 +19,8 @@ public class ArcheryRange extends MilitaryBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    setUpgradeCost(ARCHERY_RANGE_UPGRADE_COST[getLevel() - 1]);
+    if(this.getLevel() > 3)
+    	setUpgradeCost(ARCHERY_RANGE_UPGRADE_COST[getLevel() - 1]);
     setRecruitmentCost(ARCHERY_RANGE_RECRUITMENT_COST[getLevel() - 1]);
   }
 

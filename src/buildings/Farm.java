@@ -16,7 +16,8 @@ public class Farm extends EconomicBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    setUpgradeCost(FARM_UPGRADE_COST[getLevel()-1]);
+    if(this.getLevel() < 3)
+    	setUpgradeCost(FARM_UPGRADE_COST[getLevel()-1]);
   }   
   @Override
   public int harvest() {

@@ -90,6 +90,8 @@ public class Player {
   public void recruitUnit(String type, String cityName)
       throws BuildingInCoolDownException, MaxRecruitedException, NotEnoughGoldException, InvalidBuildingException {
     City playerCity = Game.searchForCity(cityName, controlledCities);
+    if(playerCity == null)
+    	return;
     MilitaryBuilding targetBuilding = searchForBuliding(type, playerCity.getMilitaryBuildings());
     if (targetBuilding.getRecruitmentCost() > treasury) {
       throw new NotEnoughGoldException();
@@ -124,6 +126,8 @@ public class Player {
     if (building.getCost() > treasury) {
       throw new NotEnoughGoldException();
     }
+    else
+    	treasury -= building.getCost();
     if (building instanceof MilitaryBuilding) {
       playerCity.getMilitaryBuildings().add((MilitaryBuilding) building);
     } else {
