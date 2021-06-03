@@ -62,4 +62,14 @@ public abstract class Building {
     setLevel(getLevel() + 1);
     setCoolDown(true);
   }
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Building)) {
+      return false;
+    }
+    return this.getClass().equals(o.getClass());
+  }
 }

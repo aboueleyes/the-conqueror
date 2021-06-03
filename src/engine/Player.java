@@ -57,11 +57,12 @@ public class Player {
   public void setFood(double food) {
     this.food = food;
   }
-  public void decFood(double food) throws NotEnoughFoodException{
-    if (food > this.food){
-      throw new NotEnoughFoodException(); 
+
+  public void decFood(double food) throws NotEnoughFoodException {
+    if (food > this.food) {
+      throw new NotEnoughFoodException();
     }
-    this.food -= food; 
+    this.food -= food;
   }
 
   public void addControlCity(City city) {
@@ -90,8 +91,8 @@ public class Player {
   public void recruitUnit(String type, String cityName)
       throws BuildingInCoolDownException, MaxRecruitedException, NotEnoughGoldException, InvalidBuildingException {
     City playerCity = Game.searchForCity(cityName, controlledCities);
-    if(playerCity == null)
-    	return;
+    if (playerCity == null)
+      return;
     MilitaryBuilding targetBuilding = searchForBuliding(type, playerCity.getMilitaryBuildings());
     if (targetBuilding.getRecruitmentCost() > treasury) {
       throw new NotEnoughGoldException();
@@ -123,17 +124,17 @@ public class Player {
         building = new ArcheryRange();
         break;
     }
-   
-    if (building instanceof MilitaryBuilding && playerCity.searchInMilitaryBuildings(type)){
+
+    if (playerCity.getEconomicalBuildings().contains(building)) {
       return;
     }
-    if(building instanceof EconomicBuilding && playerCity.searchInEconomicalBuildings(type)){
+    if (playerCity.getMilitaryBuildings().contains(building)) {
       return;
-    }  
-     if (building.getCost() > treasury) {
+    }
+    if (building.getCost() > treasury) {
       throw new NotEnoughGoldException();
     }
-    	treasury -= building.getCost();
+    treasury -= building.getCost();
     if (building instanceof MilitaryBuilding) {
       playerCity.getMilitaryBuildings().add((MilitaryBuilding) building);
     } else {
@@ -164,7 +165,7 @@ public class Player {
 
   public void laySiege(Army army, City city) throws TargetNotReachedException, FriendlyCityException {
 
-    if (controlledCities.contains(city)){
+    if (controlledCities.contains(city)) {
       throw new FriendlyCityException();
     }
     if (!army.getCurrentLocation().equals(city.getName())) {

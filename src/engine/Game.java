@@ -156,7 +156,6 @@ public class Game {
   }
 
   public void targetCity(Army army, String targetName) {
-    // TODO update status , exception
     String currentCity = army.getCurrentLocation();
     if (army.getDistancetoTarget() > 0) {
       return;
@@ -187,7 +186,6 @@ public class Game {
   }
 
   private void handleTarget() {
-    //TODO status of army if it reached the target
     for (Army army : player.getControlledArmies()) {
       if (!army.getTarget().equals("")) {
         army.decTargetDistance();
@@ -203,13 +201,13 @@ public class Game {
   private void feedArmy() {
     double foodNeeded = 0;
     for (Army army : player.getControlledArmies()) {
-       foodNeeded +=army.foodNeeded();
+      foodNeeded += army.foodNeeded();
     }
-    player.setFood(player.getFood()-foodNeeded);
+    player.setFood(player.getFood() - foodNeeded);
 
-    if(player.getFood()<=0){
+    if (player.getFood() <= 0) {
       player.setFood(0);
-      for (Army army : player.getControlledArmies()){
+      for (Army army : player.getControlledArmies()) {
         army.killUnits();
       }
     }
@@ -223,10 +221,9 @@ public class Game {
       }
       for (EconomicBuilding economicBuilding : city.getEconomicalBuildings()) {
         economicBuilding.setCoolDown(false);
-        if (economicBuilding instanceof Farm){
+        if (economicBuilding instanceof Farm) {
           player.setFood(player.getFood() + economicBuilding.harvest());
-        }
-        else{
+        } else {
           player.setTreasury(player.getTreasury() + economicBuilding.harvest());
         }
       }
