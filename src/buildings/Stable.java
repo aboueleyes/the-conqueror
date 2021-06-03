@@ -19,7 +19,8 @@ public class Stable extends MilitaryBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    setUpgradeCost(STABLE_UPGRADE_COST[getLevel() - 1]);
+    if(this.getLevel() < 3)
+    	setUpgradeCost(STABLE_UPGRADE_COST[getLevel() - 1]);
     setRecruitmentCost(STABLE_RECRUITMENT_COST[getLevel() - 1]);
   }
 
