@@ -253,6 +253,9 @@ public class Game {
     if (defender.getUnits().isEmpty()) {
       occupy(attacker, defender.getCurrentLocation());
     }
+    else {
+      player.getControlledArmies().remove(attacker);
+    }
   }
 
   public boolean isGameOver() {

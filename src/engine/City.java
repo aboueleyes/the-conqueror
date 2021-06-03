@@ -19,7 +19,7 @@ public class City {
                                                            // city,READ
   private ArrayList<MilitaryBuilding> militaryBuildings; // ArrayList containing the military building in the city, READ
   private Army defendingArmy; // The defending army of the city
-  private int turnsUnderSiege; // Number of turns the city has been siege
+  private int turnsUnderSiege = -1; // Number of turns the city has been siege
   private boolean underSiege = false; // Variable checking if the is under siege or not
 
   public String getName() {

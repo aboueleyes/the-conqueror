@@ -173,6 +173,7 @@ public class Player {
     }
     army.setCurrentStatus(Status.BESIEGING);
     city.setUnderSiege(true);
+    city.setTurnsUnderSiege(city.getTurnsUnderSiege()+1);
 
   }
 }

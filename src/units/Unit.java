@@ -78,7 +78,7 @@ public abstract class Unit {
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
-      target.currentSoldierCount -= (int)(this.currentSoldierCount * this.unitFactor(target, level));
+      target.currentSoldierCount -=(int) (this.currentSoldierCount * this.unitFactor(target, level));
       if (target.currentSoldierCount<0){
         target.currentSoldierCount = 0;
       }
