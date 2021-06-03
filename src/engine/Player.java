@@ -123,10 +123,16 @@ public class Player {
         building = new ArcheryRange();
         break;
     }
-    if (building.getCost() > treasury) {
+   
+    if (building instanceof MilitaryBuilding && playerCity.searchInMilitaryBuildings(type)){
+      return;
+    }
+    if(building instanceof EconomicBuilding && playerCity.searchInEconomicalBuildings(type)){
+      return;
+    }  
+     if (building.getCost() > treasury) {
       throw new NotEnoughGoldException();
     }
-    else
     	treasury -= building.getCost();
     if (building instanceof MilitaryBuilding) {
       playerCity.getMilitaryBuildings().add((MilitaryBuilding) building);
@@ -139,10 +145,10 @@ public class Player {
   public void upgradeBuilding(Building b)
       throws NotEnoughGoldException, BuildingInCoolDownException, MaxLevelException {
     int cost = b.getUpgradeCost();
-    b.upgrade();
     if (cost > treasury) {
       throw new NotEnoughGoldException();
     }
+    b.upgrade();
     treasury -= cost;
 
   }

@@ -194,23 +194,29 @@ public class Game {
         if (army.getDistancetoTarget() == 0) {
           army.setCurrentLocation(army.getTarget());
           army.setTarget("");
+          army.setCurrentStatus(Status.IDLE);
         }
       }
     }
   }
 
   private void feedArmy() {
+    double foodNeeded = 0;
     for (Army army : player.getControlledArmies()) {
-      try {
-        player.decFood(army.foodNeeded());
-      } catch (NotEnoughFoodException e) {
+       foodNeeded +=army.foodNeeded();
+    }
+    player.setFood(player.getFood()-foodNeeded);
+
+    if(player.getFood()<=0){
+      player.setFood(0);
+      for (Army army : player.getControlledArmies()){
         army.killUnits();
       }
     }
   }
 
   private void clearBuildings() {
-    for (City city : availableCities) {
+    for (City city : player.getControlledCities()) {
       for (MilitaryBuilding militaryBuilding : city.getMilitaryBuildings()) {
         militaryBuilding.setCoolDown(false);
         militaryBuilding.setCurrentRecruit(0);
@@ -232,12 +238,12 @@ public class Game {
     player.addControlCity(city);
     city.setDefendingArmy(a);
     city.setUnderSiege(false);
-    city.setTurnsUnderSiege(0);
+    city.setTurnsUnderSiege(-1);
   }
 
   public void autoResolve(Army attacker, Army defender) throws FriendlyFireException {
     boolean attackerTurn = true;
-    while (attacker.getUnits().isEmpty() || defender.getUnits().isEmpty()) {
+    while (!attacker.getUnits().isEmpty() && !defender.getUnits().isEmpty()) {
       Unit attackerUnit = attacker.getRandomUnit();
       Unit defenderUnit = defender.getRandomUnit();
       if (attackerTurn) {

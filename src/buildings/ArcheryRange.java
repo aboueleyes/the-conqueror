@@ -9,7 +9,7 @@ import units.Unit;
 public class ArcheryRange extends MilitaryBuilding {
 
   private static final int ARCHERY_RANGE_COST = 1500;
-  private static final int[] ARCHERY_RANGE_UPGRADE_COST = { 800, 700};
+  private static final int[] ARCHERY_RANGE_UPGRADE_COST = { 700, 800};
   private static final int[] ARCHERY_RANGE_RECRUITMENT_COST = { 400, 450, 500 };
 
   public ArcheryRange() {
