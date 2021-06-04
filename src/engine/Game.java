@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
-
 import buildings.EconomicBuilding;
 import buildings.Farm;
 import buildings.MilitaryBuilding;
 import exceptions.FriendlyFireException;
 import exceptions.InvalidUnitException;
-import exceptions.NotEnoughFoodException;
 import units.Archer;
 import units.Army;
 import units.Cavalry;
@@ -142,8 +139,8 @@ public class Game {
     }
   }
 
-  public boolean pairEqual(String x, String y, Distance distance) {
-    return distance.getFrom().equals(x) && distance.getTo().equals(y);
+  public boolean pairEqual(String firstCity, String secondCity, Distance distance) {
+    return distance.getFrom().equals(firstCity) && distance.getTo().equals(secondCity);
   }
 
   public int searchForDistance(String x, String y) {
@@ -230,17 +227,21 @@ public class Game {
     }
   }
 
-  public void occupy(Army a, String cityName) throws NullPointerException {
+  public void occupy(Army a, String cityName) {
     City city = searchForCity(cityName, availableCities);
     player.addControlCity(city);
+    if (city == null) {
+      return;
+    }
     city.setDefendingArmy(a);
     city.setUnderSiege(false);
     city.setTurnsUnderSiege(-1);
   }
 
   public void autoResolve(Army attacker, Army defender) throws FriendlyFireException {
-  	if(player.getControlledArmies().contains(attacker) && player.getControlledArmies().contains(defender))
-  		throw new FriendlyFireException();
+    if (player.getControlledArmies().contains(attacker) && player.getControlledArmies().contains(defender)) {
+      throw new FriendlyFireException();
+    }
     boolean attackerTurn = true;
     while (!attacker.getUnits().isEmpty() && !defender.getUnits().isEmpty()) {
       Unit attackerUnit = attacker.getRandomUnit();
@@ -254,8 +255,7 @@ public class Game {
     }
     if (defender.getUnits().isEmpty()) {
       occupy(attacker, defender.getCurrentLocation());
-    }
-    else {
+    } else {
       player.getControlledArmies().remove(attacker);
     }
   }

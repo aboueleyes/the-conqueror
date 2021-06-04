@@ -75,7 +75,7 @@ public class Player {
     controlledArmies = new ArrayList<>();
   }
 
-  public static MilitaryBuilding searchForBuliding(String type, ArrayList<MilitaryBuilding> militaryBuildings)
+  public static MilitaryBuilding searchForBuilding(String type, ArrayList<MilitaryBuilding> militaryBuildings)
       throws InvalidBuildingException {
     for (MilitaryBuilding militaryBuilding : militaryBuildings) {
       if (type.equals("Archer") && militaryBuilding instanceof ArcheryRange)
@@ -93,7 +93,7 @@ public class Player {
     City playerCity = Game.searchForCity(cityName, controlledCities);
     if (playerCity == null)
       return;
-    MilitaryBuilding targetBuilding = searchForBuliding(type, playerCity.getMilitaryBuildings());
+    MilitaryBuilding targetBuilding = searchForBuilding(type, playerCity.getMilitaryBuildings());
     if (targetBuilding.getRecruitmentCost() > treasury) {
       throw new NotEnoughGoldException();
     }
@@ -104,7 +104,6 @@ public class Player {
   }
 
   public void build(String type, String cityName) throws NotEnoughGoldException {
-    // TODO Exception if the bulding already exists
     City playerCity = Game.searchForCity(cityName, controlledCities);
     Building building = null;
     switch (type) {
@@ -173,7 +172,7 @@ public class Player {
     }
     army.setCurrentStatus(Status.BESIEGING);
     city.setUnderSiege(true);
-    city.setTurnsUnderSiege(city.getTurnsUnderSiege()+1);
+    city.setTurnsUnderSiege(city.getTurnsUnderSiege() + 1);
 
   }
 }

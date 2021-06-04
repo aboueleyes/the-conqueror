@@ -35,8 +35,9 @@ public abstract class Unit {
   public void setCurrentSoldierCount(int currentSoldierCount) {
     this.currentSoldierCount = currentSoldierCount;
   }
-  public void decCurrentSoldierCount(){
-    currentSoldierCount -= (int)(currentSoldierCount * 0.1);
+
+  public void decCurrentSoldierCount() {
+    currentSoldierCount -= (int) (currentSoldierCount * 0.1);
   }
 
   public double getIdleUpkeep() {
@@ -71,18 +72,17 @@ public abstract class Unit {
     this.currentSoldierCount = maxSoldierCount;
   }
 
-  public abstract double unitFactor(Unit targrt, int level);
+  public abstract double unitFactor(Unit target, int level);
 
   public void attack(Unit target) throws FriendlyFireException {
-    // TODO if two units from difrent armies but same player
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
-      target.currentSoldierCount -=(int) (this.currentSoldierCount * this.unitFactor(target, level));
-      if (target.currentSoldierCount<0){
+      target.currentSoldierCount -= (int) (this.currentSoldierCount * this.unitFactor(target, level));
+      if (target.currentSoldierCount < 0) {
         target.currentSoldierCount = 0;
       }
       target.getParentArmy().handleAttackedUnit(target);
-      }
     }
   }
+}

@@ -54,10 +54,10 @@ public class Army {
   public String getCurrentLocation() {
     return currentLocation;
   }
-  
-  public void decTargetDistance(){
+
+  public void decTargetDistance() {
     distancetoTarget--;
-  } 
+  }
 
   public void setCurrentLocation(String currentLocation) {
     this.currentLocation = currentLocation;
@@ -100,7 +100,8 @@ public class Army {
       unit.decCurrentSoldierCount();
     }
   }
-  public  Unit getRandomUnit() {
+
+  public Unit getRandomUnit() {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
