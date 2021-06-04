@@ -10,7 +10,7 @@ achieve this goal, the player have the option of building various types of build
 3. GUI 
 
 ## Authors 
-1. [Ibrahim Abou Elenein](https://github.com/aboueleyes)
-2. [Shimaa Ahmed](https://github.com/ShimaaBetah)
-3. [Ahmed Shaawray](https://github.com/shaarawy29)
+1. [Shimaa Ahmed](https://github.com/ShimaaBetah)
+2. [Ahmed Shaawray](https://github.com/shaarawy29)
+3. [Ibrahim Abou Elenein](https://github.com/aboueleyes)
 
