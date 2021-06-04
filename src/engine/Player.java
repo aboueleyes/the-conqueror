@@ -103,9 +103,30 @@ public class Player {
     recruitedUnit.setParentArmy(playerCity.getDefendingArmy());
   }
 
+  private boolean buildingExist(City city, Building building) {
+    return (city.getMilitaryBuildings().contains(building)) || (city.getEconomicalBuildings().contains(building));
+  }
+
   public void build(String type, String cityName) throws NotEnoughGoldException {
     City playerCity = Game.searchForCity(cityName, controlledCities);
-    Building building = null;
+    Building building = setBuildingType(type);
+    if (buildingExist(playerCity, building)) {
+      return;
+    }
+    if (building.getCost() > treasury) {
+      throw new NotEnoughGoldException();
+    }
+    treasury -= building.getCost();
+    if (building instanceof MilitaryBuilding) {
+      playerCity.getMilitaryBuildings().add((MilitaryBuilding) building);
+    } else {
+      playerCity.getEconomicalBuildings().add((EconomicBuilding) building);
+
+    }
+  }
+
+  private Building setBuildingType(String type) {
+    Building building;
     switch (type) {
       case "Farm":
         building = new Farm();
@@ -123,23 +144,7 @@ public class Player {
         building = new ArcheryRange();
         break;
     }
-
-    if (playerCity.getEconomicalBuildings().contains(building)) {
-      return;
-    }
-    if (playerCity.getMilitaryBuildings().contains(building)) {
-      return;
-    }
-    if (building.getCost() > treasury) {
-      throw new NotEnoughGoldException();
-    }
-    treasury -= building.getCost();
-    if (building instanceof MilitaryBuilding) {
-      playerCity.getMilitaryBuildings().add((MilitaryBuilding) building);
-    } else {
-      playerCity.getEconomicalBuildings().add((EconomicBuilding) building);
-
-    }
+    return building;
   }
 
   public void upgradeBuilding(Building b)
