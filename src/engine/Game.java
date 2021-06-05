@@ -154,7 +154,7 @@ public class Game {
 
   public void targetCity(Army army, String targetName) {
     String currentCity = army.getCurrentLocation();
-    if (army.getDistancetoTarget() > 0) {
+    if (!army.getTarget().equals("")) {
       return;
     }
     int distance = searchForDistance(currentCity, targetName);
@@ -176,12 +176,13 @@ public class Game {
   private void updateSiege() {
     for (City city : availableCities) {
       if (city.isUnderSiege()) {
-        city.incTurnsUnderSiege();
         if (city.getTurnsUnderSiege() == 3){
-          city.setTurnsUnderSiege(-1);
           city.setUnderSiege(false);
         }
-        city.getDefendingArmy().killUnits();
+        else{
+         city.getDefendingArmy().killUnits();
+         city.incTurnsUnderSiege();
+        } 
       }
     }
   }
