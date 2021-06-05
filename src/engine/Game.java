@@ -161,7 +161,7 @@ public class Game {
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
     army.setCurrentLocation("onRoad");
-    army.setCurrentStatus(Status.BESIEGING);
+    army.setCurrentStatus(Status.MARCHING);
   }
 
   public void endTurn() {
@@ -177,6 +177,10 @@ public class Game {
     for (City city : availableCities) {
       if (city.isUnderSiege()) {
         city.incTurnsUnderSiege();
+        if (city.getTurnsUnderSiege() == 3){
+          city.setTurnsUnderSiege(-1);
+          city.setUnderSiege(false);
+        }
         city.getDefendingArmy().killUnits();
       }
     }
@@ -236,6 +240,7 @@ public class Game {
     city.setDefendingArmy(a);
     city.setUnderSiege(false);
     city.setTurnsUnderSiege(-1);
+    a.setCurrentStatus(Status.IDLE);
   }
 
   public void autoResolve(Army attacker, Army defender) throws FriendlyFireException {
@@ -257,6 +262,9 @@ public class Game {
       occupy(attacker, defender.getCurrentLocation());
     } else {
       player.getControlledArmies().remove(attacker);
+      City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
+      currentCity.setTurnsUnderSiege(-1);
+      currentCity.setUnderSiege(false);
     }
   }
 
