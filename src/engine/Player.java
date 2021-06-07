@@ -93,8 +93,14 @@ public class Player {
     City playerCity = Game.searchForCity(cityName, controlledCities);
     if (playerCity == null)
       return;
-    MilitaryBuilding targetBuilding = searchForBuilding(type, playerCity.getMilitaryBuildings());
-    if (targetBuilding.getRecruitmentCost() > treasury) {
+    MilitaryBuilding targetBuilding;  
+    try{
+       targetBuilding = searchForBuilding(type, playerCity.getMilitaryBuildings());  
+    }
+    catch (InvalidBuildingException e){
+     return;
+    }
+      if (targetBuilding.getRecruitmentCost() > treasury) {
       throw new NotEnoughGoldException();
     }
     Unit recruitedUnit = targetBuilding.recruit();
@@ -102,6 +108,7 @@ public class Player {
     treasury -= targetBuilding.getRecruitmentCost();
     recruitedUnit.setParentArmy(playerCity.getDefendingArmy());
   }
+
 
   private boolean buildingExist(City city, Building building) {
     return (city.getMilitaryBuildings().contains(building)) || (city.getEconomicalBuildings().contains(building));
