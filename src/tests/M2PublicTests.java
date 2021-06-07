@@ -442,6 +442,7 @@ public class M2PublicTests {
 		assertEquals("The Distance to target of all armies shouldn't be change if the army doesn't have a target",10,army1.getDistancetoTarget());
 		army1.setTarget("Rome");
 		army1.setCurrentLocation("onRoad");
+		army1.setCurrentStatus(Status.MARCHING);
 		army1.setDistancetoTarget(10);
 		g.endTurn(); 
 		
@@ -593,7 +594,10 @@ public class M2PublicTests {
 		Method relocateUnit = Army.class.getDeclaredMethod("relocateUnit", Unit.class);
 
 		try {
-			relocateUnit.invoke(army, new Archer(2, 60, 0.4, 0.5, 0.6));
+			
+			Archer archerunit1 = new Archer(2, 60, 0.4, 0.5, 0.6);
+			archerunit1.setParentArmy(army);
+			relocateUnit.invoke(army,archerunit1 );
 			
 
 		} catch (InvocationTargetException ite) {
@@ -1016,7 +1020,7 @@ public class M2PublicTests {
 	"siegeUpkeep of archer is wrong, expected " + 0.6 + " but was " + archerLevel1.getSiegeUpkeep() + ".",
 	0.6 == archerLevel1.getSiegeUpkeep());
 	
-	assertFalse("Recruit unit should set the cool down value to true",archeryRange.isCoolDown());
+	assertFalse("Recruit unit shouldn't set the cool down value to true",archeryRange.isCoolDown());
 	assertEquals("Recruit unit should increment the current recruit variable correctly", 1, archeryRange.getCurrentRecruit());
 	archeryRange.setLevel(2);
 	archeryRange.setCoolDown(false);
@@ -1752,6 +1756,7 @@ public void testPlayerLaySiegeLogic1() throws Exception{
 	Army army = new Army("Cairo");
 	Player player =  new Player("player1");
 	army.setCurrentLocation("Rome");
+	army.setDistancetoTarget(0);
 	player.laySiege(army, city);
 	assertEquals("The current status of the given army should be changed to BESIEGING", Status.BESIEGING,army.getCurrentStatus());
 	}
@@ -1762,6 +1767,7 @@ public void testPlayerLaySiegeLogic3() throws Exception{
 	Army army = new Army("Cairo");
 	Player player =  new Player("player1");
 	army.setCurrentLocation("Rome");
+	army.setDistancetoTarget(0);
 	player.laySiege(army, city);
 	assertEquals("The turn under siege should be 0",0,city.getTurnsUnderSiege());
 }
