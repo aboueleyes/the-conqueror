@@ -9,7 +9,7 @@ import units.Unit;
 public class Barracks extends MilitaryBuilding {
 
   private static final int BARRACKS_COST = 2000;
-  private static final int[] BARRACKS_UPGRADE_COST = { 1000, 1500, 0 };
+  private static final int[] BARRACKS_UPGRADE_COST = { 1000, 1500};
   private static final int[] BARRACKS_RECRUITMENT_COST = { 500, 550, 600 };
 
   public Barracks() {

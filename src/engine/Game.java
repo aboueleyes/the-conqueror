@@ -166,7 +166,6 @@ public class Game {
 
   public void endTurn() {
     currentTurnCount++;
-
     clearBuildings();
     feedArmy();
     handleTarget();
@@ -176,13 +175,12 @@ public class Game {
   private void updateSiege() {
     for (City city : availableCities) {
       if (city.isUnderSiege()) {
-        if (city.getTurnsUnderSiege() == 3){
+        if (city.getTurnsUnderSiege() == 3) {
           city.setUnderSiege(false);
+        } else {
+          city.getDefendingArmy().killUnits();
+          city.incTurnsUnderSiege();
         }
-        else{
-         city.getDefendingArmy().killUnits();
-         city.incTurnsUnderSiege();
-        } 
       }
     }
   }
@@ -234,13 +232,12 @@ public class Game {
 
   public void occupy(Army a, String cityName) {
     City city = searchForCity(cityName, availableCities);
-    player.addControlCity(city);
     if (city == null) {
       return;
     }
+    player.addControlCity(city);
     city.setDefendingArmy(a);
-    city.setUnderSiege(false);
-    city.setTurnsUnderSiege(-1);
+    removeSieging(city);
     a.setCurrentStatus(Status.IDLE);
   }
 
@@ -264,9 +261,16 @@ public class Game {
     } else {
       player.getControlledArmies().remove(attacker);
       City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
-      currentCity.setTurnsUnderSiege(-1);
-      currentCity.setUnderSiege(false);
+      if (currentCity == null) {
+        return;
+      }
+      removeSieging(currentCity);
     }
+  }
+
+  private void removeSieging(City currentCity) {
+    currentCity.setTurnsUnderSiege(-1);
+    currentCity.setUnderSiege(false);
   }
 
   public boolean isGameOver() {
@@ -275,5 +279,4 @@ public class Game {
     }
     return (availableCities.size() == player.getControlledCities().size());
   }
-
 }
