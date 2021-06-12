@@ -40,7 +40,7 @@ public abstract class Unit {
   }
 
   public void decCurrentSoldierCount() {
-    setCurrentSoldierCount ((int)(currentSoldierCount-(currentSoldierCount * 0.1)));
+    setCurrentSoldierCount (currentSoldierCount-(int)(currentSoldierCount * 0.1));
   }
 
   public double getIdleUpkeep() {
@@ -81,7 +81,7 @@ public abstract class Unit {
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
-      target.setCurrentSoldierCount ((int)(target.currentSoldierCount- (this.currentSoldierCount * this.unitFactor(target, level))));
+      target.setCurrentSoldierCount (target.currentSoldierCount- (int)(this.currentSoldierCount * this.unitFactor(target, level)));
       target.getParentArmy().handleAttackedUnit(target);
     }
   }
