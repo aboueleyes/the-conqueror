@@ -205,8 +205,7 @@ public class Game {
     }
     player.setFood(player.getFood() - foodNeeded);
 
-    if (player.getFood() <= 0) {
-      player.setFood(0);
+    if (player.getFood() == 0) {
       for (Army army : player.getControlledArmies()) {
         army.killUnits();
       }

@@ -55,6 +55,9 @@ public class Player {
   }
 
   public void setFood(double food) {
+    if (food < 0){
+      food  = 0;
+    }
     this.food = food;
   }
 
