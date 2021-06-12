@@ -197,19 +197,15 @@ public class Game {
       }
     }
   }
-
-  private void feedArmy() {
-    double foodNeeded = 0;
-    for (Army army : player.getControlledArmies()) {
-      foodNeeded += army.foodNeeded();
-    }
-    player.setFood(player.getFood() - foodNeeded);
-
-    if (player.getFood() == 0) {
-      for (Army army : player.getControlledArmies()) {
-        army.killUnits();
-      }
-    }
+  
+  public void feedArmy() {
+  	double foodNeeded = 0;
+  	for(Army army : player.getControlledArmies()) {
+  		foodNeeded = army.foodNeeded();
+  		player.setFood(player.getFood() - foodNeeded);
+  		if(player.getFood() == 0)
+  			army.killUnits();
+  	}
   }
 
   private void clearBuildings() {
