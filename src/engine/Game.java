@@ -203,13 +203,12 @@ public class Game {
     for (Army army : player.getControlledArmies()) {
       foodNeeded += army.foodNeeded();
     }
-    player.setFood(player.getFood() - foodNeeded);
-
-    if (player.getFood() == 0) {
-      for (Army army : player.getControlledArmies()) {
-        army.killUnits();
-      }
+    if(foodNeeded > player.getFood()) {
+        for (Army army : player.getControlledArmies()) {
+          army.killUnits();
+        }
     }
+    player.setFood(player.getFood() - foodNeeded);
   }
 
   private void clearBuildings() {
