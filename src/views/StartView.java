@@ -10,7 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import controllers.Controller;
 import engine.Game;
@@ -22,12 +22,12 @@ import exceptions.InvalidUnitException;
 public class StartView extends JFrame {
     private JLabel label1 ;
     private JLabel label2;
-    private JTextArea nameOfPlayer;
+    private JTextField nameOfPlayer;
     private JComboBox cityOfPlayer;
     private JButton start;
     private ImagePanel panel;
     private Game game;
-    private static final String  [] citiesname = {"Cairo","Rome","Sparta"};
+    private static final String  [] citiesName = {"Cairo","Rome","Sparta"};
     public StartView (ActionListener a){
         setSize(500,500);
         setComponent();
@@ -49,9 +49,9 @@ public class StartView extends JFrame {
     }
     private void setComponent() {
       setLabel1(new JLabel("Enter your name"));
-        setNameOfPlayer(new JTextArea());
+        setNameOfPlayer(new JTextField());
         setLabel2(new JLabel("Choose yourCity"));
-        setCityOfPlayer(new JComboBox(citiesname));
+        setCityOfPlayer(new JComboBox(citiesName));
         setStart(new JButton("Start"));
         panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
@@ -94,11 +94,11 @@ public class StartView extends JFrame {
         this.cityOfPlayer = cityOfPlayer;
     }
 
-    public JTextArea getNameOfPlayer() {
+    public JTextField getNameOfPlayer() {
         return nameOfPlayer;
     }
 
-    public void setNameOfPlayer(JTextArea nameOfPlayer) {
+    public void setNameOfPlayer(JTextField nameOfPlayer) {
         this.nameOfPlayer = nameOfPlayer;
     }
 
