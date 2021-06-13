@@ -25,7 +25,7 @@ public class Game {
   private ArrayList<Distance> distances; // An ArrayList containing the distances between the cities, READ ONLY
   private final int maxTurnCount = 30; // Maximum number of turns in the Game
   private int currentTurnCount = 1; // Current number of turns, READ ONLY
-
+  private static final double   INITIAL_TREASURY = 5000;
   public Player getPlayer() {
     return player;
   }
@@ -56,6 +56,8 @@ public class Game {
 
   public Game(String playerName, String cityName) throws IOException, InvalidUnitException {
     this.player = new Player(playerName);
+    player.setTreasury(INITIAL_TREASURY);
+    setCurrentTurnCount(1);
     distances = new ArrayList<>();
     availableCities = new ArrayList<>();
     loadCitiesAndDistances();
@@ -154,21 +156,22 @@ public class Game {
 
   public void targetCity(Army army, String targetName) {
     String currentCity = army.getCurrentLocation();
-    if (!army.getTarget().equals("")) {
-      return;
+    if (army.getCurrentLocation().equals("onRoad")) {
+      currentCity = army.getTarget();
     }
     int distance = searchForDistance(currentCity, targetName);
+    if(army.getCurrentLocation().equals("onRoad")){
+      distance += army.getDistancetoTarget();
+    }
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
-    army.setCurrentLocation("onRoad");
-    army.setCurrentStatus(Status.MARCHING);
   }
 
   public void endTurn() {
     currentTurnCount++;
     clearBuildings();
-    feedArmy();
     handleTarget();
+    feedArmy();
     updateSiege();
   }
 
@@ -187,6 +190,10 @@ public class Game {
 
   private void handleTarget() {
     for (Army army : player.getControlledArmies()) {
+      if (!army.getTarget() .equals("") && army.getCurrentStatus() == Status.IDLE) {
+        army.setCurrentStatus(Status.MARCHING);
+        army.setCurrentLocation("onRoad");
+      }  
       if (!army.getTarget().equals("")) {
         army.decTargetDistance();
         if (army.getDistancetoTarget() == 0) {
@@ -203,9 +210,15 @@ public class Game {
     for (Army army : player.getControlledArmies()) {
       foodNeeded += army.foodNeeded();
     }
+    for (City city : player.getControlledCities()){
+      foodNeeded += city.getDefendingArmy().foodNeeded();
+    }
     if(foodNeeded > player.getFood()) {
         for (Army army : player.getControlledArmies()) {
           army.killUnits();
+        }
+        for (City city : player.getControlledCities()){
+          city.getDefendingArmy().killUnits();;
         }
     }
     player.setFood(player.getFood() - foodNeeded);
@@ -233,6 +246,7 @@ public class Game {
     if (city == null) {
       return;
     }
+    player.getControlledArmies().remove(a);
     player.addControlCity(city);
     city.setDefendingArmy(a);
     removeSieging(city);
