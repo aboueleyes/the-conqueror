@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.awt.*;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,7 +25,7 @@ public class StartView extends JFrame {
     private JTextArea nameOfPlayer;
     private JComboBox cityOfPlayer;
     private JButton start;
-    private JPanel panel;
+    private ImagePanel panel;
     private Game game;
     private static final String  [] citiesname = {"Cairo","Rome","Sparta"};
     public StartView (ActionListener a){
@@ -38,11 +39,11 @@ public class StartView extends JFrame {
       
       setTitle("TheConqueror");
       start.addActionListener(a);
-    
+      
   
       setDefaultCloseOperation(EXIT_ON_CLOSE);
       setVisible(true);
-
+      setResizable(false);
 
 
     }
@@ -52,7 +53,7 @@ public class StartView extends JFrame {
         setLabel2(new JLabel("Choose yourCity"));
         setCityOfPlayer(new JComboBox(citiesname));
         setStart(new JButton("Start"));
-        panel = new JPanel();
+        panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
     private void addComponents() {
       panel.add(label1);
@@ -63,10 +64,17 @@ public class StartView extends JFrame {
         getContentPane().add(panel,BorderLayout.CENTER);
     }
     private void sizeComponents() {
+      Font font1 = new Font(Font.SERIF,Font.ITALIC|Font.BOLD,16);
+      Font font2 = new Font(Font.SERIF,Font.ITALIC,14);
       label1.setBounds(50,50, 400, 20);
-      nameOfPlayer.setBounds(50, 100, 400, 20);
+      label1.setFont(font1);
+      nameOfPlayer.setBounds(50, 75, 400, 20);
+      nameOfPlayer.setFont(font2);
+      label2.setFont(font1);
       label2.setBounds(50,200,400,20);
       cityOfPlayer.setBounds(50, 250, 400, 20);
+      cityOfPlayer.setFont(font2);
+      cityOfPlayer.setSelectedIndex(-1);
       start.setBounds(200, 350, 100, 20);
     }
 
@@ -110,7 +118,9 @@ public class StartView extends JFrame {
         this.label1 = label1;
     }
 
-   
+   public static void main(String[] args) {
+    
+   }
    
 
 }
