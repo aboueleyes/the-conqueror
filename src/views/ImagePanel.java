@@ -1,6 +1,5 @@
 package views;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.*;
@@ -23,13 +22,9 @@ class ImagePanel extends JPanel {
       setLayout(null);
     }
   
+    @Override
     public void paintComponent(Graphics g) {
       g.drawImage(img, 0, 0, null);
     }
-  public static void main(String[] args) {
-   
-
-
-  }
   }
   
