@@ -12,10 +12,10 @@ public class WorldMapView  extends JFrame{
 
   public WorldMapView(){
     setExtendedState(JFrame.MAXIMIZED_BOTH);
-    //setVisible(false);
-    //setTitle("The Conqueror");
-    //playerPanel.setBounds(0, 0, getWidth()/4, getHeight());
-    //add(playerPanel);
-    //playerPanel.setBackground(Color.BLUE);
+    setVisible(false);
+    setTitle("The Conqueror");
+    playerPanel.setBounds(0, 0, getWidth()/4, getHeight());
+    add(playerPanel);
+    playerPanel.setBackground(Color.BLUE);
   }
 }
