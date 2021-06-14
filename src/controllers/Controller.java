@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import static javax.swing.JOptionPane.showMessageDialog;
-
+import javax.swing.InputVerifier;
 import engine.Game;
 import exceptions.InvalidUnitException;
 import views.StartView;
@@ -20,7 +20,9 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {
+			System.out.println(startView.getNameOfPlayer().getInputVerifier());
 			String playerName = startView.getNameOfPlayer().getText();
+			System.out.println(playerName);
 			String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
 			try {
 				game = new Game(playerName, cityName);
