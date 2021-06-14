@@ -48,12 +48,12 @@ public class StartView extends JFrame {
     }
 
     private void setComponent() {
-        setLabel1(new JLabel("Enter your name"));
+        setLabel1(new StyledLabel("Enter your name",16,true));
         setNameOfPlayer(new JTextField());
+        setLabel2(new StyledLabel("Choose yourCity",16,true));
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
-        setLabel2(new JLabel("Choose yourCity"));
         setCityOfPlayer(new JComboBox<>(citiesName));
-        setStart(new JButton("Start"));
+        setStart(new StyledButton("Start"));
         panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
 
@@ -70,26 +70,21 @@ public class StartView extends JFrame {
         Font font1 = new Font(Font.SERIF, Font.ITALIC | Font.BOLD, 16);
         Font font2 = new Font(Font.SERIF, Font.ITALIC, 14);
         label1.setBounds(50, 50, 400, 20);
-        label1.setFont(font1);
         nameOfPlayer.setBounds(50, 75, 400, 20);
         nameOfPlayer.setFont(font2);
-        label2.setFont(font1);
         label2.setBounds(50, 200, 400, 20);
         cityOfPlayer.setBounds(50, 250, 400, 20);
         cityOfPlayer.setFont(font2);
         cityOfPlayer.setSelectedIndex(-1);
         start.setBounds(200, 350, 100, 20);
-        Color color = new Color(153, 102, 0);
-        start.setFont(font2);
-        start.setForeground(Color.WHITE);
-        start.setBackground(color);
+        
     }
 
     public JButton getStart() {
         return start;
     }
 
-    public void setStart(JButton start) {
+    public void setStart(StyledButton start) {
         this.start = start;
     }
 

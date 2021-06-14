@@ -8,13 +8,15 @@ import javax.swing.InputVerifier;
 import engine.Game;
 import exceptions.InvalidUnitException;
 import views.StartView;
+import views.WorldMapView;
 
 public class Controller implements ActionListener {
 	Game game;
 	StartView startView;
-
+    WorldMapView worldMapView;
 	public Controller() {
 		startView = new StartView(this);
+		worldMapView = new WorldMapView();
 	}
 	
 	@Override
@@ -29,6 +31,9 @@ public class Controller implements ActionListener {
 				System.out.println(cityName);
 				// System.out.println(game.getPlayer().getControlledCities().get(0).getName());
 				System.out.println("Game Started");
+				startView.dispose();
+				worldMapView.setVisible(true);
+
 			} catch (IOException | InvalidUnitException e1) {
 				showMessageDialog(null, "Error in csv files Existing!!");
 				System.err.println("Error in csv");
