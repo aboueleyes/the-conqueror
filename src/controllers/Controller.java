@@ -16,7 +16,7 @@ public class Controller implements ActionListener {
 	public Controller() {
 		startView = new StartView(this);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {

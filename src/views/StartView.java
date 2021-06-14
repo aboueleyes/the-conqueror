@@ -43,6 +43,7 @@ public class StartView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+        setLocationRelativeTo(null);
 
     }
 
@@ -78,6 +79,10 @@ public class StartView extends JFrame {
         cityOfPlayer.setFont(font2);
         cityOfPlayer.setSelectedIndex(-1);
         start.setBounds(200, 350, 100, 20);
+        Color color = new Color(153, 102, 0);
+        start.setFont(font2);
+        start.setForeground(Color.WHITE);
+        start.setBackground(color);
     }
 
     public JButton getStart() {
