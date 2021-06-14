@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controllers.Controller;
+import controllers.MyInputVerifier;
 import engine.Game;
 import exceptions.InvalidUnitException;
 
@@ -50,13 +51,13 @@ public class StartView extends JFrame {
         setLabel1(new StyledLabel("Enter your name",16,true));
         setNameOfPlayer(new JTextField());
         setLabel2(new StyledLabel("Choose yourCity",16,true));
+        nameOfPlayer.setInputVerifier(new MyInputVerifier());
         setCityOfPlayer(new JComboBox<>(citiesName));
         setStart(new StyledButton("Start"));
         panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
 
     private void addComponents() {
-
         panel.add(label1);
         panel.add(nameOfPlayer);
         panel.add(label2);
@@ -119,8 +120,5 @@ public class StartView extends JFrame {
         this.label1 = label1;
     }
 
-    public static void main(String[] args) {
-
-    }
 
 }
