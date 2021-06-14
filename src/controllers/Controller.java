@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Controller implements ActionListener {
 	Game game;
 	StartView startView;
     WorldMapView worldMapView;
-	public Controller() {
+	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
 		worldMapView = new WorldMapView();
 	}
@@ -33,6 +34,7 @@ public class Controller implements ActionListener {
 				System.out.println("Game Started");
 				startView.dispose();
 				worldMapView.setVisible(true);
+				setPlayer();
 
 			} catch (IOException | InvalidUnitException e1) {
 				showMessageDialog(null, "Error in csv files Existing!!");
@@ -41,9 +43,12 @@ public class Controller implements ActionListener {
 
 			}
 		}
+		
 	}
-
-	public static void main(String[] args) {
+    public void setPlayer(){
+		worldMapView.getPlayerName().setText(game.getPlayer().getName());
+	}  
+	public static void main(String[] args) throws FontFormatException, IOException {
 		new Controller();
 	}
 

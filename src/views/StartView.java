@@ -28,7 +28,7 @@ public class StartView extends JFrame {
     private Game game;
     private static final String[] citiesName = { "Cairo", "Rome", "Sparta" };
 
-    public StartView(ActionListener a) {
+    public StartView(ActionListener a) throws FontFormatException, IOException {
         setSize(500, 500);
         setComponent();
         addComponents();
@@ -47,10 +47,10 @@ public class StartView extends JFrame {
 
     }
 
-    private void setComponent() {
-        setLabel1(new StyledLabel("Enter your name",16,true));
+    private void setComponent() throws FontFormatException, IOException {
+        setLabel1(new StyledLabel("Enter your name",20,true));
         setNameOfPlayer(new JTextField());
-        setLabel2(new StyledLabel("Choose yourCity",16,true));
+        setLabel2(new StyledLabel("Choose yourCity",20,true));
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
         setCityOfPlayer(new JComboBox<>(citiesName));
         setStart(new StyledButton("Start"));
