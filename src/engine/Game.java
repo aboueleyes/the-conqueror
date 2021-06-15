@@ -25,7 +25,8 @@ public class Game {
   private ArrayList<Distance> distances; // An ArrayList containing the distances between the cities, READ ONLY
   private final int maxTurnCount = 30; // Maximum number of turns in the Game
   private int currentTurnCount = 1; // Current number of turns, READ ONLY
-  private static final double   INITIAL_TREASURY = 5000;
+  private static final double INITIAL_TREASURY = 5000;
+
   public Player getPlayer() {
     return player;
   }
@@ -71,6 +72,7 @@ public class Game {
       }
     }
   }
+
 
   public void loadCitiesAndDistances() throws IOException {
     List<List<String>> data = ReadingCSVFile.readFile("distances.csv");
@@ -160,7 +162,7 @@ public class Game {
       currentCity = army.getTarget();
     }
     int distance = searchForDistance(currentCity, targetName);
-    if(army.getCurrentLocation().equals("onRoad")){
+    if (army.getCurrentLocation().equals("onRoad")) {
       distance += army.getDistancetoTarget();
     }
     army.setDistancetoTarget(distance);
@@ -190,10 +192,10 @@ public class Game {
 
   private void handleTarget() {
     for (Army army : player.getControlledArmies()) {
-      if (!army.getTarget() .equals("") && army.getCurrentStatus() == Status.IDLE) {
+      if (!army.getTarget().equals("") && army.getCurrentStatus() == Status.IDLE) {
         army.setCurrentStatus(Status.MARCHING);
         army.setCurrentLocation("onRoad");
-      }  
+      }
       if (!army.getTarget().equals("")) {
         army.decTargetDistance();
         if (army.getDistancetoTarget() == 0) {
@@ -210,16 +212,17 @@ public class Game {
     for (Army army : player.getControlledArmies()) {
       foodNeeded += army.foodNeeded();
     }
-    for (City city : player.getControlledCities()){
+    for (City city : player.getControlledCities()) {
       foodNeeded += city.getDefendingArmy().foodNeeded();
     }
-    if(foodNeeded > player.getFood()) {
-        for (Army army : player.getControlledArmies()) {
-          army.killUnits();
-        }
-        for (City city : player.getControlledCities()){
-          city.getDefendingArmy().killUnits();;
-        }
+    if (foodNeeded > player.getFood()) {
+      for (Army army : player.getControlledArmies()) {
+        army.killUnits();
+      }
+      for (City city : player.getControlledCities()) {
+        city.getDefendingArmy().killUnits();
+        ;
+      }
     }
     player.setFood(player.getFood() - foodNeeded);
   }
