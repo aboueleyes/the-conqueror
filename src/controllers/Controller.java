@@ -47,6 +47,8 @@ public class Controller implements ActionListener {
 	}
     public void setPlayer(){
 		worldMapView.getPlayerName().setText(game.getPlayer().getName());
+		worldMapView.getPlayerGold().setText(Double.toString(game.getPlayer().getTreasury()));
+		worldMapView.getPlayerFood().setText(Double.toString(game.getPlayer().getFood()));
 	}  
 	public static void main(String[] args) throws FontFormatException, IOException {
 		new Controller();

@@ -80,7 +80,7 @@ public class StartView extends JFrame {
         setLabel2(new StyledLabel("Choose yourCity", 20, true));
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
         setCityOfPlayer(new JComboBox<>(getStringArray(citiesName)));
-        setStart(new StyledButton("Start"));
+        setStart(new StyledButton("Start",16));
         panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
 
