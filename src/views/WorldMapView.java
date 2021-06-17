@@ -16,6 +16,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
 
 public class WorldMapView  extends JFrame{
+  private static final int PLAYER_PANEL_HEIGHT = 55;
+  private static final int PLAYER_LABEL_SIZE = 20;
+  private static final String COLOR_BEIGE = "#C8AE81";
   private JPanel armyPanel = new JPanel();
   private JPanel citiesPanel = new JPanel();
   private JPanel playerPanel = new JPanel();
@@ -85,7 +88,7 @@ public class WorldMapView  extends JFrame{
   public JPanel getPlayerPanel() {
     return playerPanel;
   }
-  public void setPlayerPanel(JPanel palyerPanel) {
+  public void setPlayerPanel(JPanel playerPanel) {
     this.playerPanel = playerPanel;
   }
   public JPanel getArmyPanel() {
@@ -96,27 +99,27 @@ public class WorldMapView  extends JFrame{
   }
   public void addPlayerPane() throws FontFormatException, IOException{
     playerPanel.setLayout(new BoxLayout(playerPanel,BoxLayout.X_AXIS));
-    playerPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 100));
-    playerPanel.setBackground(Color.decode("#C8AE81"));
-    StyledLabel name = new StyledLabel("Player Name :",25,true);
-    playerName = new StyledLabel("",25,false);
+    playerPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, PLAYER_PANEL_HEIGHT));
+    // playerPanel.setBackground(Color.decode(COLOR_BEIGE));
+    StyledLabel name = new StyledLabel("Player Name :",PLAYER_LABEL_SIZE,true);
+    playerName = new StyledLabel("",PLAYER_LABEL_SIZE,false);
     playerPanel.add(name);
     playerPanel.add(playerName);
     name.setBorder(new EmptyBorder(10,10,10,10));
     playerName.setBorder(new EmptyBorder(10,10,10,50));
-    StyledLabel gold = new StyledLabel("Gold :",25,true);
-    playerGold = new StyledLabel("",25,true);
-    StyledLabel food = new StyledLabel("Food :" ,25,true);
-    StyledLabel turns = new StyledLabel("Current Turn :" ,25,true);
-    playerFood = new StyledLabel("",25,true);
+    StyledLabel gold = new StyledLabel("Gold :",PLAYER_LABEL_SIZE,true);
+    playerGold = new StyledLabel("",PLAYER_LABEL_SIZE,true);
+    StyledLabel food = new StyledLabel("Food :" ,PLAYER_LABEL_SIZE,true);
+    StyledLabel turns = new StyledLabel("Current Turn :" ,PLAYER_LABEL_SIZE,true);
+    playerFood = new StyledLabel("",PLAYER_LABEL_SIZE,true);
     gold.setBorder(new EmptyBorder(10,10,10,10));
     playerGold.setBorder(new EmptyBorder(10,10,10,50));
     food.setBorder(new EmptyBorder(10,10,10,10));
     playerFood.setBorder(new EmptyBorder(10,10,10,50));
     turns.setBorder(new EmptyBorder(10,10,10,10));
-    numOfTurns = new StyledLabel("",25,true);
+    numOfTurns = new StyledLabel("",PLAYER_LABEL_SIZE,true);
     numOfTurns.setBorder(new EmptyBorder(10,10,10,800));
-    endTurn = new StyledButton("End Turn",25);
+    endTurn = new StyledButton("End Turn",PLAYER_LABEL_SIZE);
   
 
     playerPanel.add(gold);
@@ -132,11 +135,11 @@ public class WorldMapView  extends JFrame{
   public void addArmyPane() throws FontFormatException, IOException{
     armyPanel.setLayout(new BoxLayout(armyPanel,BoxLayout.Y_AXIS));
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
-    armyPanel.setBackground(Color.decode("#C8AE81"));
+    armyPanel.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(new StyledLabel("Controled Armies",25,true));
     armies.setLayout(new BoxLayout(armies,BoxLayout.X_AXIS));
     JScrollPane scroller = new JScrollPane(armies,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    armies.setBackground(Color.decode("#C8AE81"));
+    armies.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(scroller);
 
     
