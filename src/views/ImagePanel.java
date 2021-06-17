@@ -19,7 +19,7 @@ class ImagePanel extends JPanel {
       setMinimumSize(size);
       setMaximumSize(size);
       setSize(size);
-      setLayout(null);
+      //setLayout(null);
     }
   
     @Override

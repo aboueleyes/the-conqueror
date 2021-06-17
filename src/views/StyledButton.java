@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class StyledButton  extends JButton{
-
+  public StyledButton(){
+    
+  }
   public StyledButton(String s, int size) throws FontFormatException, IOException{
     super(s);
     File fontFile = new File("src/fonts/DeanMartinRegular-4Llx.ttf");

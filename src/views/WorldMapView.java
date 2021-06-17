@@ -4,16 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.awt.event.*;
 
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
 public class WorldMapView  extends JFrame{
   private static final int PLAYER_PANEL_HEIGHT = 55;
@@ -21,61 +26,49 @@ public class WorldMapView  extends JFrame{
   private static final String COLOR_BEIGE = "#C8AE81";
   private JPanel armyPanel = new JPanel();
   private JPanel citiesPanel = new JPanel();
-  private JPanel playerPanel = new JPanel();
-  private StyledLabel playerName;
-  private StyledLabel playerGold;
-  private StyledLabel playerFood;
-  private StyledLabel numOfTurns;
-  private StyledButton endTurn;
+  private PlayerPanel playerPanel;
   private JPanel armies = new JPanel();
-  public StyledButton getEndTurn() {
-    return endTurn;
-  }
+  private CityButton cairoButton;
+  private CityButton romeButton;
+  private CityButton spartaButton;
+  
   public JPanel getArmies() {
     return armies;
   }
+  public CityButton getSpartaButton() {
+    return spartaButton;
+  }
+  public void setSpartaButton(CityButton spartaButton) {
+    this.spartaButton = spartaButton;
+  }
+  public CityButton getRomeButton() {
+    return romeButton;
+  }
+  public void setRomeButton(CityButton romeButton) {
+    this.romeButton = romeButton;
+  }
+  public CityButton getCairoButton() {
+    return cairoButton;
+  }
+  public void setCairoButton(CityButton cairoButton) {
+    this.cairoButton = cairoButton;
+  }
+  
   public void setArmies(JPanel armies) {
     this.armies = armies;
   }
-  public StyledLabel getNumOfTurns() {
-    return numOfTurns;
-  }
-  public void setNumOfTurns(StyledLabel numOfTurns) {
-    this.numOfTurns = numOfTurns;
-  }
-  public void setEndTurn(StyledButton endTurn) {
-    this.endTurn = endTurn;
-  }
-  public StyledLabel getPlayerGold() {
-    return playerGold;
-  }
-  public void setPlayerGold(StyledLabel playerGold) {
-    this.playerGold = playerGold;
-  }
-  public StyledLabel getPlayerFood() {
-    return playerFood;
-  }
-  public void setPlayerFood(StyledLabel playerFood) {
-    this.playerFood = playerFood;
-  }
-  public StyledLabel getPlayerName() {
-    return playerName;
-  }
-  public void setPlayerName(StyledLabel playerName) {
-    this.playerName = playerName;
-  }
-  public WorldMapView() throws FontFormatException, IOException{
+  
+  public WorldMapView(ActionListener a, PlayerPanel playerpanel) throws FontFormatException, IOException{
+    this.playerPanel = playerpanel;
     setExtendedState(JFrame.MAXIMIZED_BOTH);
     setVisible(false);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("The Conqueror"); pack();
     getContentPane().add(playerPanel,BorderLayout.PAGE_START);
-    addPlayerPane();
     getContentPane().add(armyPanel,BorderLayout.PAGE_END);
     addArmyPane();
     getContentPane().add(citiesPanel,BorderLayout.CENTER);
     addCitiesPane();
-   
     
    
   }
@@ -85,10 +78,10 @@ public class WorldMapView  extends JFrame{
   public void setCitiesPanel(JPanel citiesPanel) {
     this.citiesPanel = citiesPanel;
   }
-  public JPanel getPlayerPanel() {
+  public PlayerPanel getPlayerPanel() {
     return playerPanel;
   }
-  public void setPlayerPanel(JPanel playerPanel) {
+  public void setPlayerPanel(PlayerPanel playerPanel) {
     this.playerPanel = playerPanel;
   }
   public JPanel getArmyPanel() {
@@ -97,40 +90,7 @@ public class WorldMapView  extends JFrame{
   public void setArmyPanel(JPanel armyPanel) {
     this.armyPanel = armyPanel;
   }
-  public void addPlayerPane() throws FontFormatException, IOException{
-    playerPanel.setLayout(new BoxLayout(playerPanel,BoxLayout.X_AXIS));
-    playerPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, PLAYER_PANEL_HEIGHT));
-    // playerPanel.setBackground(Color.decode(COLOR_BEIGE));
-    StyledLabel name = new StyledLabel("Player Name :",PLAYER_LABEL_SIZE,true);
-    playerName = new StyledLabel("",PLAYER_LABEL_SIZE,false);
-    playerPanel.add(name);
-    playerPanel.add(playerName);
-    name.setBorder(new EmptyBorder(10,10,10,10));
-    playerName.setBorder(new EmptyBorder(10,10,10,50));
-    StyledLabel gold = new StyledLabel("Gold :",PLAYER_LABEL_SIZE,true);
-    playerGold = new StyledLabel("",PLAYER_LABEL_SIZE,true);
-    StyledLabel food = new StyledLabel("Food :" ,PLAYER_LABEL_SIZE,true);
-    StyledLabel turns = new StyledLabel("Current Turn :" ,PLAYER_LABEL_SIZE,true);
-    playerFood = new StyledLabel("",PLAYER_LABEL_SIZE,true);
-    gold.setBorder(new EmptyBorder(10,10,10,10));
-    playerGold.setBorder(new EmptyBorder(10,10,10,50));
-    food.setBorder(new EmptyBorder(10,10,10,10));
-    playerFood.setBorder(new EmptyBorder(10,10,10,50));
-    turns.setBorder(new EmptyBorder(10,10,10,10));
-    numOfTurns = new StyledLabel("",PLAYER_LABEL_SIZE,true);
-    numOfTurns.setBorder(new EmptyBorder(10,10,10,800));
-    endTurn = new StyledButton("End Turn",PLAYER_LABEL_SIZE);
-  
 
-    playerPanel.add(gold);
-    playerPanel.add(playerGold);
-    playerPanel.add(food);
-    playerPanel.add(playerFood);
-    playerPanel.add(turns);
-    playerPanel.add(numOfTurns);
-    playerPanel.add(endTurn);
-
-  } 
 
   public void addArmyPane() throws FontFormatException, IOException{
     armyPanel.setLayout(new BoxLayout(armyPanel,BoxLayout.Y_AXIS));
@@ -145,14 +105,44 @@ public class WorldMapView  extends JFrame{
     
   }
 
-  public void addCitiesPane(){
+  public void addCitiesPane() throws FontFormatException, IOException{
     citiesPanel.setLayout(new BorderLayout());
     ImagePanel cairoPanel =new ImagePanel(new ImageIcon("src/images/maxresdefault.jpg").getImage());
-    ImagePanel romePanel =new ImagePanel(new ImageIcon("src/images/maxresdefault-1.jpg").getImage());
+    ImagePanel romePanel =new ImagePanel(new ImageIcon("src/images/rome.jpg").getImage());
     ImagePanel spartaPanel =new ImagePanel(new ImageIcon("src/images/gdfg.jpg").getImage());
-    cairoPanel.add(new JLabel("bfksdbfksa"));
-    cairoPanel.setBounds(0,0,500,500);
-  
+    
+    cairoPanel.setLayout(new BorderLayout());
+    cairoPanel.add(new StyledLabel("Cairo",70,true),BorderLayout.LINE_START);
+    cairoButton = new CityButton("view",20);
+    JPanel buttonArea = new JPanel();
+    buttonArea.setLayout(new BorderLayout());
+    buttonArea.add(cairoButton,BorderLayout.EAST);
+    buttonArea.setOpaque(false);
+    cairoPanel.add(buttonArea,BorderLayout.SOUTH);
+
+    spartaPanel.setLayout(new BorderLayout());
+    StyledLabel spartaName = new StyledLabel("Sparta",70,true);
+    spartaName.setForeground(Color.WHITE);
+    spartaButton = new CityButton("view",20);
+    JPanel buttonArea2 = new JPanel();
+    buttonArea2.setLayout(new BorderLayout());
+    buttonArea2.add(spartaButton,BorderLayout.EAST);
+    buttonArea2.setOpaque(false);
+    spartaPanel.add(buttonArea2,BorderLayout.SOUTH);
+
+    spartaPanel.add(spartaName,BorderLayout.LINE_START);
+    
+    romePanel.setLayout(new BorderLayout());
+    StyledLabel romeName = new StyledLabel("Rome",70,true);
+    romeName.setForeground(Color.WHITE);
+    romePanel.add(romeName,BorderLayout.LINE_START);
+    romeButton = new CityButton("view",20);
+    JPanel buttonArea3 = new JPanel();
+    buttonArea3.setLayout(new BorderLayout());
+    buttonArea3.add(romeButton,BorderLayout.EAST);
+    buttonArea3.setOpaque(false);
+    romePanel.add(buttonArea3,BorderLayout.SOUTH); 
+
     romePanel.setPreferredSize(new DimensionUIResource(600,JFrame.HEIGHT));
     spartaPanel.setPreferredSize(new DimensionUIResource(600,JFrame.HEIGHT));
     citiesPanel.add(romePanel,BorderLayout.WEST);
@@ -160,9 +150,10 @@ public class WorldMapView  extends JFrame{
     citiesPanel.add(spartaPanel,BorderLayout.EAST);
   }
   public static void main(String[] args) throws FontFormatException, IOException {
-   WorldMapView w = new WorldMapView();
+  
+  // WorldMapView w = new WorldMapView();
    w.setVisible(true);
-   w.playerName.setText("text");
+   //w.playerName.setText("text");
    System.out.println(w.getWidth());
     
     

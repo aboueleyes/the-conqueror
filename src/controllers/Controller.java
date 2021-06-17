@@ -7,7 +7,9 @@ import java.io.IOException;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.InputVerifier;
 import engine.Game;
+import engine.Player;
 import exceptions.InvalidUnitException;
+import views.PlayerPanel;
 import views.StartView;
 import views.WorldMapView;
 
@@ -15,9 +17,11 @@ public class Controller implements ActionListener {
 	Game game;
 	StartView startView;
     WorldMapView worldMapView;
+	PlayerPanel playerPanel;
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
-		worldMapView = new WorldMapView();
+		playerPanel = new PlayerPanel(this);
+		worldMapView = new WorldMapView(this,playerPanel);
 	}
 	
 	@Override
@@ -30,6 +34,7 @@ public class Controller implements ActionListener {
 			try {
 				game = new Game(playerName, cityName);
 				System.out.println(cityName);
+				cityUnderControl(cityName);
 				// System.out.println(game.getPlayer().getControlledCities().get(0).getName());
 				System.out.println("Game Started");
 				startView.dispose();
@@ -43,14 +48,29 @@ public class Controller implements ActionListener {
 
 			}
 		}
+		if (e.getActionCommand().equals("End Turn")){
+			game.setCurrentTurnCount(game.getCurrentTurnCount()+1);
+			playerPanel.getNumOfTurns().setText(""+game.getCurrentTurnCount());
+		}
 		
 	}
     public void setPlayer(){
-		worldMapView.getPlayerName().setText(game.getPlayer().getName());
-		worldMapView.getPlayerGold().setText(Double.toString(game.getPlayer().getTreasury()));
-		worldMapView.getPlayerFood().setText(Double.toString(game.getPlayer().getFood()));
-		worldMapView.getNumOfTurns().setText(Integer.toString(game.getCurrentTurnCount()));
+		playerPanel.getPlayerName().setText(game.getPlayer().getName());
+		playerPanel.getPlayerGold().setText(Double.toString(game.getPlayer().getTreasury()));
+		playerPanel.getPlayerFood().setText(Double.toString(game.getPlayer().getFood()));
+		playerPanel.getNumOfTurns().setText(Integer.toString(game.getCurrentTurnCount()));
 	}  
+	public void cityUnderControl(String cityName){
+		if (cityName.equals("Cairo")){
+			worldMapView.getCairoButton().setEnabled(true);
+		}
+		else if(cityName.equals("Rome")){
+			worldMapView.getRomeButton().setEnabled(true);
+		}
+		else{
+			worldMapView.getSpartaButton().setEnabled(true);
+		}
+	}
 	public static void main(String[] args) throws FontFormatException, IOException {
 		new Controller();
 	}
