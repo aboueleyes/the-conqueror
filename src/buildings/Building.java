@@ -77,8 +77,7 @@ public abstract class Building {
   public String toString() {
   	return ("cost : " + this.getCost() + "\n" + 
   					"level : " + this.getLevel() + "\n" +
-  					"upgrade Cost : " + this.getUpgradeCost() + "\n" + 
-  					"is Cool Down : " + this.isCoolDown() + "\n" );
+  					"upgrade Cost : " + this.getUpgradeCost() + "\n" );
   			
   }
 }
