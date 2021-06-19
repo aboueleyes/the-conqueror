@@ -11,13 +11,24 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.plaf.DimensionUIResource;
 
+import engine.City;
+
 public class CityView extends JFrame {
   private PlayerPanel playerPanel;
   private JPanel buildingsPanel = new JPanel();
   private JPanel armyPanel = new JPanel();
+  private City city;
 
   public JPanel getBuildingPanel() {
     return buildingsPanel;
+  }
+
+  public City getCity() {
+    return city;
+  }
+
+  public void setCity(City city) {
+    this.city = city;
   }
 
   public void setBuildingPanel(JPanel buildingPanel) {
