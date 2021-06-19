@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import engine.Game;
 import exceptions.InvalidUnitException;
@@ -61,7 +62,11 @@ public class BattleView  extends JFrame{
 	}
 	
 	public void handleBattlelog(JPanel battleLog) {
-		
+		battleLog.setLayout(new BorderLayout());
+		JLabel head = new JLabel("Battle Log");
+		battleLog.add(head, BorderLayout.PAGE_START);
+	  JTextArea log = new JTextArea("xxxxxxxxxxxxxxxxx");
+	  battleLog.add(log,BorderLayout.CENTER);
 	}
 	
 	public void handleAttackerPanel(ArmyPanel attackerPanel){
