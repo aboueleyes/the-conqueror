@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.plaf.DimensionUIResource;
 
 import engine.Game;
 import exceptions.InvalidUnitException;
@@ -17,15 +18,15 @@ import units.Archer;
 import units.Army;
 import units.Cavalry;
 import units.Unit;
-import views.panel.ArmyPanel;
+import views.panel.Cards;
 import views.panel.PlayerPanel;
 
 public class BattleView  extends JFrame{
 	
 	private PlayerPanel playerPanle;
 	private JPanel battleLog;
-	private ArmyPanel attackerPanel;
-	private ArmyPanel defenderPanel;
+	private Cards attackerPanel;
+	private Cards defenderPanel;
 	private JPanel centre;
 	private Army attackerArmy;
 	private Army defenderArmy;
@@ -33,8 +34,8 @@ public class BattleView  extends JFrame{
 	public BattleView(ActionListener a, PlayerPanel playerPanel, Army attackerArmy, Army defenderArmy) {
 		super();
 		this.playerPanle = playerPanel;
-		this.attackerPanel = new ArmyPanel();
-		this.defenderPanel = new ArmyPanel();
+		this.attackerPanel = new Cards();
+		this.defenderPanel = new Cards();
 		this.centre = new JPanel();
 		this.attackerArmy = attackerArmy;
 		this.defenderArmy = defenderArmy;
@@ -65,16 +66,17 @@ public class BattleView  extends JFrame{
 		battleLog.add(head, BorderLayout.PAGE_START);
 	  JTextArea log = new JTextArea("xxxxxxxxxxxxxxxxx");
 	  battleLog.add(log,BorderLayout.CENTER);
+	  battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
 	}
 	
-	public void handleAttackerPanel(ArmyPanel attackerPanel){
+	public void handleAttackerPanel(Cards attackerPanel){
 		for(Unit unit : attackerArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			attackerPanel.addCard(info);
 		}
 	}
 	
-	public void handleDefenderPanel(ArmyPanel defenderPanel) {
+	public void handleDefenderPanel(Cards defenderPanel) {
 		for(Unit unit : attackerArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			defenderPanel.addCard(info);
