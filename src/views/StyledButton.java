@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class StyledButton  extends JButton{
+  
   public StyledButton(String string){
     
   }
@@ -23,7 +24,6 @@ public class StyledButton  extends JButton{
     setBorder(new EmptyBorder(10,10,10,10));
     setBorderPainted(false);
     setFocusPainted(false);
-    //setContentAreaFilled(false);
   }
     
 }

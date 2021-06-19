@@ -2,8 +2,14 @@ package engine;
 
 import java.util.ArrayList;
 
+import buildings.ArcheryRange;
+import buildings.Barracks;
+import buildings.Building;
 import buildings.EconomicBuilding;
+import buildings.Farm;
+import buildings.Market;
 import buildings.MilitaryBuilding;
+import buildings.Stable;
 import units.*;
 
 public class City {
@@ -61,6 +67,29 @@ public class City {
     economicalBuildings = new ArrayList<>();
     militaryBuildings = new ArrayList<>();
     defendingArmy = new Army(name);
+  }
+
+  public Building searchForBuilding(String type) {
+    for (EconomicBuilding economicBuilding : economicalBuildings) {
+      if (type.equals("Farm") && economicBuilding instanceof Farm) {
+        return economicBuilding;
+      }
+      if (type.equals("Market") && economicBuilding instanceof Market) {
+        return economicBuilding;
+      }
+    }
+    for (MilitaryBuilding militaryBuilding : militaryBuildings) {
+      if (type.equals("Stable") && militaryBuilding instanceof Stable) {
+        return militaryBuilding;
+      }
+      if (type.equals("Barracks") && militaryBuilding instanceof Barracks) {
+        return militaryBuilding;
+      }
+      if (type.equals("ArcheryRange") && militaryBuilding instanceof ArcheryRange) {
+        return militaryBuilding;
+      }
+    }
+    return null;
   }
 
   @Override

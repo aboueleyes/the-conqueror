@@ -16,6 +16,16 @@ public class Army {
   private final int maxToHold = 10; // maximum number of units an army could hold (should better declared as static
                                     // final)
 
+  public ArmyListener getArmyListener() {
+    return armyListener;
+  }
+
+  public void setArmyListener(ArmyListener armyListener) {
+    this.armyListener = armyListener;
+  }
+
+  private ArmyListener armyListener;
+
   public int getMaxToHold() {
     return maxToHold;
   }
@@ -99,6 +109,9 @@ public class Army {
   public void killUnits() {
     for (Unit unit : units) {
       unit.decCurrentSoldierCount();
+    }
+    if (armyListener != null) {
+      armyListener.onKill(this);
     }
   }
 

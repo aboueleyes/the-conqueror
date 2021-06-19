@@ -2,8 +2,12 @@ package views;
 
 import javax.swing.Action;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import engine.City;
+
 import java.awt.*;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -20,17 +24,37 @@ import java.io.IOException;
 
 public class BuildingPanel extends JPanel {
   private boolean built = false;
-  private StyledButton build;
+  private CityButton upgrade;
   private StyledLabel buildingName;
+  private JTextArea info;
+  private City city;
 
-  public BuildingPanel(ActionListener a, String name) throws FontFormatException, IOException {
-    setLayout(new BorderLayout());
-    setBuild(new StyledButton("build", 30));
-    setBuildingName(new StyledLabel(name, 25, false));
-    add(new JLabel("<html><h1><strong><i>" + name + "</i></strong></h1><hr></html>"), BorderLayout.CENTER);
-    add(build, BorderLayout.SOUTH);
-    // add(buildingName, BorderLayout.CENTER);
+  public BuildingPanel(ActionListener a, String name, City city) throws FontFormatException, IOException {
+    this.city = city;
+  }
 
+  public City getCity() {
+    return city;
+  }
+
+  public void setCity(City city) {
+    this.city = city;
+  }
+
+  public JTextArea getInfo() {
+    return info;
+  }
+
+  public void setInfo(JTextArea info) {
+    this.info = info;
+  }
+
+  public CityButton getUpgrade() {
+    return upgrade;
+  }
+
+  public void setUpgrade(CityButton upgrade) {
+    this.upgrade = upgrade;
   }
 
   public StyledLabel getBuildingName() {
@@ -47,14 +71,6 @@ public class BuildingPanel extends JPanel {
 
   public void setBuilt(boolean built) {
     this.built = built;
-  }
-
-  public StyledButton getBuild() {
-    return build;
-  }
-
-  public void setBuild(StyledButton build) {
-    this.build = build;
   }
 
 }
