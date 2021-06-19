@@ -29,9 +29,18 @@ public class Player {
   private ArrayList<Army> controlledArmies; // An ArrayList containing the players controlled armies, READ ONLY
   private double treasury; // The amount of gold the player has
   private double food; // The amount of food the player has
+  private PlayerListener playerListener;
 
   public String getName() {
     return this.name;
+  }
+
+  public PlayerListener getPlayerListener() {
+    return playerListener;
+  }
+
+  public void setPlayerListener(PlayerListener playerListener) {
+    this.playerListener = playerListener;
   }
 
   public ArrayList<City> getControlledCities() {
@@ -55,8 +64,8 @@ public class Player {
   }
 
   public void setFood(double food) {
-    if (food < 0){
-      food  = 0;
+    if (food < 0) {
+      food = 0;
     }
     this.food = food;
   }
@@ -109,6 +118,10 @@ public class Player {
     playerCity.getDefendingArmy().getUnits().add(recruitedUnit);
     treasury -= targetBuilding.getRecruitmentCost();
     recruitedUnit.setParentArmy(playerCity.getDefendingArmy());
+    if (playerListener != null) {
+      playerListener.unitRecruited(recruitedUnit, playerCity);
+      playerListener.onTreasuryUpdate();
+    }
   }
 
   private boolean buildingExist(City city, Building building) {
@@ -134,6 +147,10 @@ public class Player {
       playerCity.getEconomicalBuildings().add((EconomicBuilding) building);
 
     }
+    if (playerListener != null) {
+      playerListener.onBuild(building, playerCity, type);
+      playerListener.onTreasuryUpdate();
+    }
   }
 
   private Building setBuildingType(String type) {
@@ -158,7 +175,7 @@ public class Player {
     return building;
   }
 
-  public void upgradeBuilding(Building b)
+  public void upgradeBuilding(Building b, City city)
       throws NotEnoughGoldException, BuildingInCoolDownException, MaxLevelException {
     int cost = b.getUpgradeCost();
     if (cost > treasury) {
@@ -166,6 +183,9 @@ public class Player {
     }
     b.upgrade();
     treasury -= cost;
+    if (playerListener != null) {
+      playerListener.buildingUpgraded(b, city);
+    }
 
   }
 
@@ -175,7 +195,9 @@ public class Player {
     attackingArmy.getUnits().add(unit);
     unit.setParentArmy(attackingArmy);
     getControlledArmies().add(attackingArmy);
-
+    if (playerListener != null) {
+      playerListener.onInitiated(city, unit);
+    }
   }
 
   public void laySiege(Army army, City city) throws TargetNotReachedException, FriendlyCityException {
@@ -190,5 +212,8 @@ public class Player {
     city.setUnderSiege(true);
     city.setTurnsUnderSiege(city.getTurnsUnderSiege() + 1);
 
+    if (playerListener != null) {
+      playerListener.onSiegeing(army, city);
+    }
   }
 }

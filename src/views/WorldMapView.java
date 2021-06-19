@@ -110,8 +110,7 @@ public class WorldMapView extends JFrame {
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(new StyledLabel("Controled Armies", 25, true));
     armies.setLayout(new BoxLayout(armies, BoxLayout.X_AXIS));
-    JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER,
-        HORIZONTAL_SCROLLBAR_ALWAYS);
+    JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
     armies.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(scroller);
 
@@ -137,12 +136,13 @@ public class WorldMapView extends JFrame {
     StyledLabel spartaName = new StyledLabel("Sparta", 70, true);
     spartaName.setForeground(Color.WHITE);
     spartaButton = new CityButton("view", 20);
+    spartaButton.setActionCommand("sparta");
+    spartaButton.addActionListener(a);
     JPanel buttonArea2 = new JPanel();
     buttonArea2.setLayout(new BorderLayout());
     buttonArea2.add(spartaButton, BorderLayout.EAST);
     buttonArea2.setOpaque(false);
     spartaPanel.add(buttonArea2, BorderLayout.SOUTH);
-
     spartaPanel.add(spartaName, BorderLayout.LINE_START);
 
     romePanel.setLayout(new BorderLayout());
@@ -155,12 +155,17 @@ public class WorldMapView extends JFrame {
     buttonArea3.add(romeButton, BorderLayout.EAST);
     buttonArea3.setOpaque(false);
     romePanel.add(buttonArea3, BorderLayout.SOUTH);
+    romeButton.addActionListener(a);
 
     romePanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
     spartaPanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
     citiesPanel.add(romePanel, BorderLayout.WEST);
     citiesPanel.add(cairoPanel, BorderLayout.CENTER);
     citiesPanel.add(spartaPanel, BorderLayout.EAST);
+
+    cairoButton.setActionCommand("cairo");
+    spartaButton.setActionCommand("sparta");
+    romeButton.setActionCommand("rome");
   }
 
   public static void main(String[] args) throws FontFormatException, IOException {
