@@ -61,7 +61,7 @@ public class CityView extends JFrame {
     buildingsPanel.setLayout(gridLayout);
     buildingsPanel.add(new BuildingPanel(a, "Market"));
     buildingsPanel.add(new BuildingPanel(a, "Barracks"));
-    buildingsPanel.add(new BuildingPanel(a, "Farm"));
+    buildingsPanel.add(new EconomicalBuilding(a, "Farm"));
     buildingsPanel.add(new BuildingPanel(a, "Archery Range"));
     buildingsPanel.add(new MilitaryBuildingPanel(a, "Stable"));
 
