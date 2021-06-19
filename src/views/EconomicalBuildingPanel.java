@@ -22,13 +22,13 @@ import java.awt.FontFormatException;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class EconomicalBuilding extends JPanel {
+public class EconomicalBuildingPanel extends JPanel {
   private boolean built = false;
   private StyledButton upgrade;
   private StyledLabel buildingName;
   private JTextArea info;
 
-  public EconomicalBuilding(ActionListener a, String name) throws FontFormatException, IOException {
+  public EconomicalBuildingPanel(ActionListener a, String name) throws FontFormatException, IOException {
     setLayout(new GridLayout(2, 2));
     setUpgrade(new StyledButton("Upgrade", 30));
     setInfo(new JTextArea("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n xxxxxxxxxxxxxxxxxx"));

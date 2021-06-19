@@ -26,9 +26,19 @@ public class Game {
   private final int maxTurnCount = 30; // Maximum number of turns in the Game
   private int currentTurnCount = 1; // Current number of turns, READ ONLY
   private static final double INITIAL_TREASURY = 5000;
+  private static final String ON_ROAD = "OnRoad";
+  private GameListener gameListener;
 
   public Player getPlayer() {
     return player;
+  }
+
+  public GameListener getGameListener() {
+    return gameListener;
+  }
+
+  public void setGameListener(GameListener gameListener) {
+    this.gameListener = gameListener;
   }
 
   public void setPlayer(Player player) {
@@ -73,7 +83,6 @@ public class Game {
     }
   }
 
-
   public void loadCitiesAndDistances() throws IOException {
     List<List<String>> data = ReadingCSVFile.readFile("distances.csv");
 
@@ -109,6 +118,15 @@ public class Game {
     if (currentCity != null) {
       currentCity.setDefendingArmy(army);
     }
+  }
+
+  public static Army searchForArmy(String cityName, ArrayList<Army> armies) {
+    for (Army army : armies) {
+      if (army.getCurrentLocation().equals(cityName)) {
+        return army;
+      }
+    }
+    return null;
   }
 
   public static City searchForCity(String cityName, ArrayList<City> availableCities) throws NullPointerException {
@@ -158,15 +176,19 @@ public class Game {
 
   public void targetCity(Army army, String targetName) {
     String currentCity = army.getCurrentLocation();
-    if (army.getCurrentLocation().equals("onRoad")) {
+    if (army.getCurrentLocation().equals(ON_ROAD)) {
       currentCity = army.getTarget();
     }
     int distance = searchForDistance(currentCity, targetName);
-    if (army.getCurrentLocation().equals("onRoad")) {
+    if (army.getCurrentLocation().equals(ON_ROAD)) {
       distance += army.getDistancetoTarget();
     }
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
+    City city = searchForCity(targetName, availableCities);
+    if (gameListener != null) {
+      gameListener.onTargetCity(army, city);
+    }
   }
 
   public void endTurn() {
@@ -184,7 +206,11 @@ public class Game {
           city.setUnderSiege(false);
         } else {
           city.getDefendingArmy().killUnits();
+          Army army = searchForArmy(city.getName(), player.getControlledArmies());
           city.incTurnsUnderSiege();
+          if (gameListener != null) {
+            gameListener.onSiegeUpdate(city, army);
+          }
         }
       }
     }
@@ -194,7 +220,7 @@ public class Game {
     for (Army army : player.getControlledArmies()) {
       if (!army.getTarget().equals("") && army.getCurrentStatus() == Status.IDLE) {
         army.setCurrentStatus(Status.MARCHING);
-        army.setCurrentLocation("onRoad");
+        army.setCurrentLocation(ON_ROAD);
       }
       if (!army.getTarget().equals("")) {
         army.decTargetDistance();
@@ -293,5 +319,11 @@ public class Game {
       return true;
     }
     return (availableCities.size() == player.getControlledCities().size());
+  }
+
+  public static void main(String[] args) throws IOException, InvalidUnitException {
+    Game game = new Game("I", "Cairo");
+    game.player.getControlledArmies().add(new Army("Cairo"));
+    System.out.println(searchForArmy("Cairo", game.getPlayer().getControlledArmies()));
   }
 }

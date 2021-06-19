@@ -7,14 +7,16 @@ import java.io.IOException;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.InputVerifier;
 import engine.Game;
+import engine.GameListener;
 import engine.Player;
+import engine.PlayerListener;
 import exceptions.InvalidUnitException;
 import views.CityView;
 import views.PlayerPanel;
 import views.StartView;
 import views.WorldMapView;
 
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, GameListener, PlayerListener {
 	Game game;
 	StartView startView;
 	WorldMapView worldMapView;
