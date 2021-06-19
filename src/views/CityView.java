@@ -19,7 +19,7 @@ public class CityView extends JFrame {
   private JPanel armyPanel = new JPanel();
   private City city;
   private BuildingPanel[] buildlingsSlavePanels = new BuildingPanel[5];
-  public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "Archery Range" };
+  public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "ArcheryRange" };
 
   public JPanel getBuildingsPanel() {
     return buildingsPanel;

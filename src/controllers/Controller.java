@@ -14,7 +14,9 @@ import engine.Game;
 import engine.GameListener;
 import engine.Player;
 import engine.PlayerListener;
+import exceptions.BuildingInCoolDownException;
 import exceptions.InvalidUnitException;
+import exceptions.MaxLevelException;
 import exceptions.NotEnoughGoldException;
 import units.Army;
 import units.ArmyListener;
@@ -35,16 +37,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
-		playerPanels[0] = new PlayerPanel(this);
-		playerPanels[1] = new PlayerPanel(this);
-		playerPanels[2] = new PlayerPanel(this);
-		playerPanels[3] = new PlayerPanel(this);
-		playerPanels[4] = new PlayerPanel(this);
+		for (int i = 0; i < playerPanels.length; i++) {
+			playerPanels[i] = new PlayerPanel(this);
+		}
 		worldMapView = new WorldMapView(this, playerPanels[0]);
-		// cityViews[0].setCity(Game.searchForCity("Cairo", game.getAvailableCities()));
-		// cityViews[1].setCity(Game.searchForCity("Rome", game.getAvailableCities()));
-		// cityViews[2].setCity(Game.searchForCity("Sparta",
-		// game.getAvailableCities()));
 	}
 
 	@Override
@@ -53,64 +49,45 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			try {
 				startGame();
 			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (FontFormatException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
-		// if (e.getActionCommand().equals("End Turn")) {
-		// game.setCurrentTurnCount(game.getCurrentTurnCount() + 1);
-		// playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
-		// }
+		if (e.getActionCommand().equals("End Turn")) {
+			game.endTurn();
+			for (PlayerPanel playerPanel : playerPanels) {
+				playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
+			}
+
+		}
 		viewButtonsAction(e);
 		setBuildButtonsAction(e);
 
 	}
 
 	private void setBuildButtonsAction(ActionEvent e) {
-		if (e.getActionCommand().equals(BUILDING_NAMES[0])) {
-			CityButton button = (CityButton) e.getSource();
-			try {
-				game.getPlayer().build(BUILDING_NAMES[0], button.getCity().getName());
-			} catch (NotEnoughGoldException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getActionCommand().equals(BUILDING_NAMES[1])) {
-			CityButton button = (CityButton) e.getSource();
-			try {
-				game.getPlayer().build(BUILDING_NAMES[1], button.getCity().getName());
-			} catch (NotEnoughGoldException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getActionCommand().equals(BUILDING_NAMES[2])) {
-			CityButton button = (CityButton) e.getSource();
-			try {
-				game.getPlayer().build(BUILDING_NAMES[2], button.getCity().getName());
-			} catch (NotEnoughGoldException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getActionCommand().equals(BUILDING_NAMES[3])) {
-			CityButton button = (CityButton) e.getSource();
-			try {
-				game.getPlayer().build(BUILDING_NAMES[3], button.getCity().getName());
-			} catch (NotEnoughGoldException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getActionCommand().equals(BUILDING_NAMES[4])) {
-			CityButton button = (CityButton) e.getSource();
-			try {
-				game.getPlayer().build(BUILDING_NAMES[4], button.getCity().getName());
-			} catch (NotEnoughGoldException e1) {
-				e1.printStackTrace();
+		for (int i = 0; i < BUILDING_NAMES.length; i++) {
+			if (e.getActionCommand().equals(BUILDING_NAMES[i])) {
+				CityButton button = (CityButton) e.getSource();
+				if (!button.isBuilt()) {
+					try {
+						game.getPlayer().build(BUILDING_NAMES[i], button.getCity().getName());
+						button.setText("Upgrade");
+						button.setBuilt(true);
+					} catch (NotEnoughGoldException e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					Building building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
+					try {
+						game.getPlayer().upgradeBuilding(building, button.getCity());
+					} catch (NotEnoughGoldException | BuildingInCoolDownException | MaxLevelException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 	}
@@ -193,15 +170,24 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void onBuild(Building building, City city, String type) {
 		if (city.getName().equals("Cairo")) {
-			// cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo()
+			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
 		}
-
+		if (city.getName().equals("Rome")) {
+			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		}
+		if (city.getName().equals("Sparta")) {
+			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		}
 	}
 
 	@Override
 	public void onTreasuryUpdate() {
-		// TODO Auto-generated method stub
-
+		for (PlayerPanel playerPanel : playerPanels) {
+			playerPanel.getPlayerGold().setText("" + game.getPlayer().getTreasury());
+		}
 	}
 
 	@Override
@@ -212,8 +198,19 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void buildingUpgraded(Building building, City city) {
-		// TODO Auto-generated method stub
-
+		String type = building.getType();
+		if (city.getName().equals("Cairo")) {
+			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		}
+		if (city.getName().equals("Rome")) {
+			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		}
+		if (city.getName().equals("Sparta")) {
+			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		}
 	}
 
 	@Override
@@ -243,7 +240,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void attackY3am(City city, Army army) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -260,8 +256,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onFeedUpdated() {
-		// TODO Auto-generated method stub
-
+		for (PlayerPanel playerPanel : playerPanels) {
+			playerPanel.getPlayerFood().setText("" + game.getPlayer().getFood());
+		}
 	}
 
 	@Override

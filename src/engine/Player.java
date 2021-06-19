@@ -186,7 +186,6 @@ public class Player {
     if (playerListener != null) {
       playerListener.buildingUpgraded(b, city);
     }
-
   }
 
   public void initiateArmy(City city, Unit unit) {
