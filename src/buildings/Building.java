@@ -73,4 +73,12 @@ public abstract class Building {
     }
     return this.getClass().equals(o.getClass());
   }
+   
+  public String toString() {
+  	return ("cost : " + this.getCost() + "\n" + 
+  					"level : " + this.getLevel() + "\n" +
+  					"upgrade Cost : " + this.getUpgradeCost() + "\n" + 
+  					"is Cool Down : " + this.isCoolDown() + "\n" );
+  			
+  }
 }
