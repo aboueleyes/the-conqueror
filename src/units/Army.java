@@ -3,6 +3,7 @@ package units;
 import java.util.ArrayList;
 import java.util.Random;
 
+import engine.Game;
 import exceptions.MaxCapacityException;
 
 public class Army {
@@ -118,4 +119,5 @@ public class Army {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
+  
 }

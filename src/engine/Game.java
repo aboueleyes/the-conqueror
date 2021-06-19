@@ -334,3 +334,17 @@ public class Game {
     return (availableCities.size() == player.getControlledCities().size());
   }
 }
+  
+  public String toString(Army army) {
+  	String r =  "current location : " + army.getCurrentLocation() + "\n" + 
+  					"currnt status : " + army.getCurrentStatus() + "\n" ;
+  	if(army.getCurrentStatus().equals(Status.MARCHING)) 
+  		r += "target : " + army.getTarget() + "\n" + 
+  				"no of turns till reach : " + army.getDistancetoTarget() + "\n";
+  	if(army.getCurrentStatus().equals(Status.BESIEGING))
+  		r += "besiged city : " + army.getCurrentLocation() + "\n" + 
+  				"turns under siege : " + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n" ;
+  	return r;
+  }
+  
+}

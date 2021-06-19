@@ -57,9 +57,8 @@ public abstract class Unit {
 
   @Override
   public String toString() {
-    return "Unit [currentSoldierCount=" + currentSoldierCount + ", idleUpkeep=" + idleUpkeep + ", level=" + level
-        + ", marchingUpkeep=" + marchingUpkeep + ", maxSoldierCount=" + maxSoldierCount + ", siegeUpkeep=" + siegeUpkeep
-        + "]";
+    return ("level : " + this.getLevel() + "\n" +
+    		"current Soldier Count : " + this.getCurrentSoldierCount() + "\n");
   }
 
   public Unit() {
