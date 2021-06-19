@@ -108,7 +108,7 @@ public class WorldMapView extends JFrame {
     armyPanel.setLayout(new BoxLayout(armyPanel, BoxLayout.Y_AXIS));
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    armyPanel.add(new StyledLabel("Controled Armies", 25, true));
+    armyPanel.add(new StyledLabel("Controlled Armies", 25, true));
     armies.setLayout(new BoxLayout(armies, BoxLayout.X_AXIS));
     JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
     armies.setBackground(Color.decode(COLOR_BEIGE));
@@ -163,17 +163,8 @@ public class WorldMapView extends JFrame {
     citiesPanel.add(cairoPanel, BorderLayout.CENTER);
     citiesPanel.add(spartaPanel, BorderLayout.EAST);
 
-    cairoButton.setActionCommand("cairo");
-    spartaButton.setActionCommand("sparta");
-    romeButton.setActionCommand("rome");
-  }
-
-  public static void main(String[] args) throws FontFormatException, IOException {
-
-    // WorldMapView w = new WorldMapView();
-    // w.setVisible(true);
-    // w.playerName.setText("text");
-    // System.out.println(w.getWidth());
-
+    cairoButton.setActionCommand("Cairo");
+    spartaButton.setActionCommand("Sparta");
+    romeButton.setActionCommand("Rome");
   }
 }
