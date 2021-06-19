@@ -105,4 +105,9 @@ public class Army {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
+  
+  public String toString() {
+  	return "current location : " + this.getCurrentLocation() + "\n" + 
+  					"currnt status : " + this.getCurrentStatus() + "\n" ;
+  }
 }
