@@ -1,26 +1,13 @@
-package views;
+package views.panel;
 
-import javax.swing.Action;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 import engine.City;
-
-import java.awt.*;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.Color;
-import java.awt.FontFormatException;
-import java.awt.event.*;
-import java.io.IOException;
+import views.button.CityButton;
+import views.view.StyledLabel;
 
 public class BuildingPanel extends JPanel {
   private boolean built = false;
@@ -29,7 +16,7 @@ public class BuildingPanel extends JPanel {
   private JTextArea info;
   private City city;
 
-  public BuildingPanel(ActionListener a, String name, City city) throws FontFormatException, IOException {
+  public BuildingPanel(ActionListener a, String name, City city){
     this.city = city;
   }
 

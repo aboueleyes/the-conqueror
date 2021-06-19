@@ -1,4 +1,4 @@
-package views;
+package views.button;
 
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;

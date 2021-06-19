@@ -1,14 +1,14 @@
-package views;
+package views.view;
 
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.awt.*;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,9 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import controllers.MyInputVerifier;
+import views.MyInputVerifier;
 import engine.Game;
 import utlis.ReadingCSVFile;
+import views.button.StyledButton;
+import views.panel.ImagePanel;
 
 public class StartView extends JFrame {
     private JLabel label1;
@@ -80,7 +82,7 @@ public class StartView extends JFrame {
         setLabel2(new StyledLabel("Choose yourCity", 20, true));
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
         setCityOfPlayer(new JComboBox<>(getStringArray(citiesName)));
-        setStart(new StyledButton("Start",16));
+        setStart(new StyledButton("Start", 16));
         panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
 

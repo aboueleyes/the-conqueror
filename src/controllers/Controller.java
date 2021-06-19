@@ -1,18 +1,17 @@
 package controllers;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+import static views.view.CityView.BUILDING_NAMES;
+
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import static javax.swing.JOptionPane.showMessageDialog;
-import javax.swing.InputVerifier;
 
-import static views.CityView.BUILDING_NAMES;
 import buildings.Building;
 import engine.City;
 import engine.Game;
 import engine.GameListener;
-import engine.Player;
 import engine.PlayerListener;
 import exceptions.BuildingInCoolDownException;
 import exceptions.InvalidUnitException;
@@ -21,13 +20,12 @@ import exceptions.NotEnoughGoldException;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
-import views.CityButton;
-import views.CityView;
-import views.MilitaryBuildingPanel;
-import views.PlayerPanel;
-import views.StartView;
-import views.StyledButton;
-import views.WorldMapView;
+import views.button.CityButton;
+import views.panel.MilitaryBuildingPanel;
+import views.panel.PlayerPanel;
+import views.view.CityView;
+import views.view.StartView;
+import views.view.WorldMapView;
 
 public class Controller implements ActionListener, GameListener, PlayerListener, ArmyListener {
 	Game game;
@@ -35,7 +33,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	WorldMapView worldMapView;
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
-	private final String[] citiesNames = { "Cairo", "Rome", "Sparta" };
+	private static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
 
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
@@ -46,8 +44,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	}
 
 	public int getIndexOfCity(String name) {
-		for (int i = 0; i < citiesNames.length; i++) {
-			if (citiesNames[i].equals(name)) {
+		for (int i = 0; i < CITIES_NAMES.length; i++) {
+			if (CITIES_NAMES[i].equals(name)) {
 				return i;
 			}
 		}
@@ -59,11 +57,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Start")) {
 			try {
 				startGame();
-			} catch (NullPointerException e1) {
-				e1.printStackTrace();
-			} catch (FontFormatException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
+			} catch (NullPointerException | FontFormatException | IOException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -83,13 +77,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 				CityButton button = (CityButton) e.getSource();
 				if (!button.isBuilt()) {
 					try {
-						game.getPlayer().build(BUILDING_NAMES[i], button.getCity().getName());
-						button.setText("Upgrade");
-						button.setBuilt(true);
+						buildUpgrade(i, button);
 						if (i >= 2) {
-							int index = getIndexOfCity(button.getCity().getName());
-							MilitaryBuildingPanel panel = (MilitaryBuildingPanel) cityViews[index].getBuildlingsSlavePanels()[i];
-							panel.setRecruitEnabled();
+							enableRecuritButton(i, button);
 						}
 					} catch (NotEnoughGoldException e1) {
 						e1.printStackTrace();
@@ -106,18 +96,24 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 	}
 
+	private void buildUpgrade(int i, CityButton button) throws NotEnoughGoldException {
+		game.getPlayer().build(BUILDING_NAMES[i], button.getCity().getName());
+		button.setText("Upgrade");
+		button.setBuilt(true);
+	}
+
+	private void enableRecuritButton(int i, CityButton button) {
+		int index = getIndexOfCity(button.getCity().getName());
+		MilitaryBuildingPanel panel = (MilitaryBuildingPanel) cityViews[index].getBuildlingsSlavePanels()[i];
+		panel.setRecruitEnabled();
+	}
+
 	private void viewButtonsAction(ActionEvent e) {
-		if (e.getActionCommand().equals("rome")) {
-			worldMapView.setVisible(false);
-			cityViews[1].setVisible(true);
-		}
-		if (e.getActionCommand().equals("cairo")) {
-			worldMapView.setVisible(false);
-			cityViews[0].setVisible(true);
-		}
-		if (e.getActionCommand().equals("sparta")) {
-			worldMapView.setVisible(false);
-			cityViews[2].setVisible(true);
+		for (int i = 0; i < CITIES_NAMES.length; i++) {
+			if (e.getActionCommand().equals(CITIES_NAMES[i])) {
+				worldMapView.setVisible(false);
+				cityViews[i].setVisible(true);
+			}
 		}
 	}
 
@@ -126,7 +122,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
 		try {
 			game = new Game(playerName, cityName);
-
 		} catch (IOException | InvalidUnitException e1) {
 			showMessageDialog(null, "Error in csv files Existing!!");
 			System.exit(1);
@@ -137,9 +132,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		startView.dispose();
 		worldMapView.setVisible(true);
 		setPlayer();
-		cityViews[0] = new CityView(this, playerPanels[1], Game.searchForCity("Cairo", game.getAvailableCities()));
-		cityViews[1] = new CityView(this, playerPanels[2], Game.searchForCity("Rome", game.getAvailableCities()));
-		cityViews[2] = new CityView(this, playerPanels[3], Game.searchForCity("Sparta", game.getAvailableCities()));
+		for (int i = 0; i < CITIES_NAMES.length; i++) {
+			cityViews[i] = new CityView(this, playerPanels[i + 1],
+					Game.searchForCity(CITIES_NAMES[i], game.getAvailableCities()));
+		}
 	}
 
 	public void setPlayer() {
@@ -182,17 +178,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onBuild(Building building, City city, String type) {
-		if (city.getName().equals("Cairo")) {
-			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
-		}
-		if (city.getName().equals("Rome")) {
-			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
-		}
-		if (city.getName().equals("Sparta")) {
-			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		for (int i = 0; i < CITIES_NAMES.length; i++) {
+			if (city.getName().equals(CITIES_NAMES[i])) {
+				cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+				cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+			}
 		}
 	}
 
@@ -212,17 +202,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void buildingUpgraded(Building building, City city) {
 		String type = building.getType();
-		if (city.getName().equals("Cairo")) {
-			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-			cityViews[0].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
-		}
-		if (city.getName().equals("Rome")) {
-			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-			cityViews[1].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
-		}
-		if (city.getName().equals("Sparta")) {
-			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-			cityViews[2].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+		for (int i = 0; i < CITIES_NAMES.length; i++) {
+			if (city.getName().equals(CITIES_NAMES[i])) {
+				cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
+				cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+			}
 		}
 	}
 

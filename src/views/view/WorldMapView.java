@@ -1,4 +1,4 @@
-package views;
+package views.view;
 
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER;
@@ -6,22 +6,19 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FontFormatException;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.awt.event.*;
 
-import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
-import javax.swing.text.AttributeSet.ColorAttribute;
+
+import views.button.CityButton;
+import views.panel.ImagePanel;
+import views.panel.PlayerPanel;
 
 public class WorldMapView extends JFrame {
   private static final String COLOR_BEIGE = "#C8AE81";
@@ -108,7 +105,7 @@ public class WorldMapView extends JFrame {
     armyPanel.setLayout(new BoxLayout(armyPanel, BoxLayout.Y_AXIS));
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    armyPanel.add(new StyledLabel("Controled Armies", 25, true));
+    armyPanel.add(new StyledLabel("Controlled Armies", 25, true));
     armies.setLayout(new BoxLayout(armies, BoxLayout.X_AXIS));
     JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
     armies.setBackground(Color.decode(COLOR_BEIGE));
@@ -163,17 +160,8 @@ public class WorldMapView extends JFrame {
     citiesPanel.add(cairoPanel, BorderLayout.CENTER);
     citiesPanel.add(spartaPanel, BorderLayout.EAST);
 
-    cairoButton.setActionCommand("cairo");
-    spartaButton.setActionCommand("sparta");
-    romeButton.setActionCommand("rome");
-  }
-
-  public static void main(String[] args) throws FontFormatException, IOException {
-
-    // WorldMapView w = new WorldMapView();
-    // w.setVisible(true);
-    // w.playerName.setText("text");
-    // System.out.println(w.getWidth());
-
+    cairoButton.setActionCommand("Cairo");
+    spartaButton.setActionCommand("Sparta");
+    romeButton.setActionCommand("Rome");
   }
 }

@@ -295,7 +295,6 @@ public class Game {
   }
 
   public void autoResolve(Army attacker, Army defender) throws FriendlyFireException {
-    // TODO
     if (player.getControlledArmies().contains(attacker) && player.getControlledArmies().contains(defender)) {
       throw new FriendlyFireException();
     }
@@ -333,18 +332,16 @@ public class Game {
     }
     return (availableCities.size() == player.getControlledCities().size());
   }
-}
-  
+
   public String toString(Army army) {
-  	String r =  "current location : " + army.getCurrentLocation() + "\n" + 
-  					"currnt status : " + army.getCurrentStatus() + "\n" ;
-  	if(army.getCurrentStatus().equals(Status.MARCHING)) 
-  		r += "target : " + army.getTarget() + "\n" + 
-  				"no of turns till reach : " + army.getDistancetoTarget() + "\n";
-  	if(army.getCurrentStatus().equals(Status.BESIEGING))
-  		r += "besiged city : " + army.getCurrentLocation() + "\n" + 
-  				"turns under siege : " + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n" ;
-  	return r;
+    String r = "current location : " + army.getCurrentLocation() + "\n" + "current status : " + army.getCurrentStatus()
+        + "\n";
+    if (army.getCurrentStatus().equals(Status.MARCHING))
+      r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() + "\n";
+    if (army.getCurrentStatus().equals(Status.BESIEGING))
+      r += "besieged city : " + army.getCurrentLocation() + "\n" + "turns under siege : "
+          + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n";
+    return r;
   }
-  
+
 }
