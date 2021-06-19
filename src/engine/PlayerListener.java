@@ -5,7 +5,7 @@ import units.Army;
 import units.Unit;
 
 public interface PlayerListener {
-  public void onBuild(Building building, City city);
+  public void onBuild(Building building, City city, String type);
 
   public void onTreasuryUpdate();
 

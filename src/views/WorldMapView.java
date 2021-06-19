@@ -143,9 +143,6 @@ public class WorldMapView extends JFrame {
     buttonArea2.add(spartaButton, BorderLayout.EAST);
     buttonArea2.setOpaque(false);
     spartaPanel.add(buttonArea2, BorderLayout.SOUTH);
-    cairoButton.setActionCommand("cairo");
-    spartaButton.setActionCommand("sparta");
-    romeButton.setActionCommand("rome");
     spartaPanel.add(spartaName, BorderLayout.LINE_START);
 
     romePanel.setLayout(new BorderLayout());
@@ -158,12 +155,17 @@ public class WorldMapView extends JFrame {
     buttonArea3.add(romeButton, BorderLayout.EAST);
     buttonArea3.setOpaque(false);
     romePanel.add(buttonArea3, BorderLayout.SOUTH);
+    romeButton.addActionListener(a);
 
     romePanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
     spartaPanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
     citiesPanel.add(romePanel, BorderLayout.WEST);
     citiesPanel.add(cairoPanel, BorderLayout.CENTER);
     citiesPanel.add(spartaPanel, BorderLayout.EAST);
+
+    cairoButton.setActionCommand("cairo");
+    spartaButton.setActionCommand("sparta");
+    romeButton.setActionCommand("rome");
   }
 
   public static void main(String[] args) throws FontFormatException, IOException {

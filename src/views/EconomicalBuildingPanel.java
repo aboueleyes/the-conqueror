@@ -8,6 +8,9 @@ import javax.swing.Action;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import engine.City;
+
 import java.awt.*;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -22,53 +25,22 @@ import java.awt.FontFormatException;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class EconomicalBuildingPanel extends JPanel {
-  private boolean built = false;
-  private StyledButton upgrade;
-  private StyledLabel buildingName;
-  private JTextArea info;
+public class EconomicalBuildingPanel extends BuildingPanel {
 
-  public EconomicalBuildingPanel(ActionListener a, String name) throws FontFormatException, IOException {
+  public EconomicalBuildingPanel(ActionListener a, String name, City city) throws FontFormatException, IOException {
+    super(a, name, city);
     setLayout(new GridLayout(2, 2));
-    setUpgrade(new StyledButton("Upgrade", 30));
+    setUpgrade(new CityButton("Build", 30));
+    getUpgrade().setEnabled(true);
+    getUpgrade().addActionListener(a);
+    getUpgrade().setCity(city);
     setInfo(new JTextArea("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n xxxxxxxxxxxxxxxxxx"));
-    info.setEditable(false);
+    getInfo().setEditable(false);
+    getInfo().setVisible(false);
     add(new JLabel("<html><h1><strong><i>" + name + "</i></strong></h1><hr></html>"));
     add(new JLabel(""));
-    add(upgrade);
-    add(info);
-  }
-
-  public boolean isBuilt() {
-    return built;
-  }
-
-  public void setBuilt(boolean built) {
-    this.built = built;
-  }
-
-  public StyledButton getUpgrade() {
-    return upgrade;
-  }
-
-  public void setUpgrade(StyledButton upgrade) {
-    this.upgrade = upgrade;
-  }
-
-  public StyledLabel getBuildingName() {
-    return buildingName;
-  }
-
-  public void setBuildingName(StyledLabel buildingName) {
-    this.buildingName = buildingName;
-  }
-
-  public JTextArea getInfo() {
-    return info;
-  }
-
-  public void setInfo(JTextArea info) {
-    this.info = info;
+    add(getUpgrade());
+    add(getInfo());
   }
 
 }

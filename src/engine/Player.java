@@ -148,7 +148,7 @@ public class Player {
 
     }
     if (playerListener != null) {
-      playerListener.onBuild(building, playerCity);
+      playerListener.onBuild(building, playerCity, type);
       playerListener.onTreasuryUpdate();
     }
   }

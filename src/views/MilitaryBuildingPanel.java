@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import engine.City;
+
 import java.awt.*;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -22,47 +25,25 @@ import java.awt.FontFormatException;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class MilitaryBuildingPanel extends JPanel {
-  private boolean built = false;
-  private StyledButton upgrade;
+public class MilitaryBuildingPanel extends BuildingPanel {
   private StyledButton recruit;
-  private StyledLabel buildingName;
-  private JTextArea info;
 
-  public MilitaryBuildingPanel(ActionListener a, String name) throws FontFormatException, IOException {
+  public MilitaryBuildingPanel(ActionListener a, String name, City city) throws FontFormatException, IOException {
+    super(a, name, city);
     setLayout(new GridLayout(2, 2));
-    setUpgrade(new StyledButton("Upgrade", 30));
+    setUpgrade(new CityButton("Build", 30));
+    getUpgrade().setEnabled(true);
+    getUpgrade().addActionListener(a);
+    getUpgrade().setCity(city);
     setInfo(new JTextArea("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n xxxxxxxxxxxxxxxxxx"));
-    info.setEditable(false);
+    getInfo().setEditable(false);
+    getInfo().setVisible(false);
     setRecruit(new StyledButton("Recruit", 30));
+    recruit.setEnabled(false);
     add(new JLabel("<html><h1><strong><i>" + name + "</i></strong></h1><hr></html>"));
-    add(upgrade);
-    add(info);
+    add(getUpgrade());
+    add(getInfo());
     add(recruit);
-  }
-
-  public boolean isBuilt() {
-    return built;
-  }
-
-  public void setBuilt(boolean built) {
-    this.built = built;
-  }
-
-  public StyledLabel getBuildingName() {
-    return buildingName;
-  }
-
-  public void setBuildingName(StyledLabel buildingName) {
-    this.buildingName = buildingName;
-  }
-
-  public StyledButton getUpgrade() {
-    return upgrade;
-  }
-
-  public void setUpgrade(StyledButton upgrade) {
-    this.upgrade = upgrade;
   }
 
   public StyledButton getRecruit() {
@@ -71,14 +52,6 @@ public class MilitaryBuildingPanel extends JPanel {
 
   public void setRecruit(StyledButton recruit) {
     this.recruit = recruit;
-  }
-
-  public JTextArea getInfo() {
-    return info;
-  }
-
-  public void setInfo(JTextArea info) {
-    this.info = info;
   }
 
 }
