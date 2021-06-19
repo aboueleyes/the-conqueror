@@ -3,6 +3,7 @@ package units;
 import java.util.ArrayList;
 import java.util.Random;
 
+import engine.Game;
 import exceptions.MaxCapacityException;
 
 public class Army {
@@ -14,6 +15,16 @@ public class Army {
   private String currentLocation; // the current location of the army either in a city or road to another
   private final int maxToHold = 10; // maximum number of units an army could hold (should better declared as static
                                     // final)
+
+  public ArmyListener getArmyListener() {
+    return armyListener;
+  }
+
+  public void setArmyListener(ArmyListener armyListener) {
+    this.armyListener = armyListener;
+  }
+
+  private ArmyListener armyListener;
 
   public int getMaxToHold() {
     return maxToHold;
@@ -99,10 +110,14 @@ public class Army {
     for (Unit unit : units) {
       unit.decCurrentSoldierCount();
     }
+    if (armyListener != null) {
+      armyListener.onKill(this);
+    }
   }
 
   public Unit getRandomUnit() {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
+  
 }
