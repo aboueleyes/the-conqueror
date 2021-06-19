@@ -6,17 +6,23 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.InputVerifier;
+
+import buildings.Building;
+import engine.City;
 import engine.Game;
 import engine.GameListener;
 import engine.Player;
 import engine.PlayerListener;
 import exceptions.InvalidUnitException;
+import units.Army;
+import units.ArmyListener;
+import units.Unit;
 import views.CityView;
 import views.PlayerPanel;
 import views.StartView;
 import views.WorldMapView;
 
-public class Controller implements ActionListener, GameListener, PlayerListener {
+public class Controller implements ActionListener, GameListener, PlayerListener, ArmyListener {
 	Game game;
 	StartView startView;
 	WorldMapView worldMapView;
@@ -35,36 +41,28 @@ public class Controller implements ActionListener, GameListener, PlayerListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {
-			System.out.println(startView.getNameOfPlayer().getInputVerifier());
 			String playerName = startView.getNameOfPlayer().getText();
-			System.out.println(playerName);
 			String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
 			try {
 				game = new Game(playerName, cityName);
-				System.out.println(cityName);
 				cityUnderControl(cityName);
-				// System.out.println(game.getPlayer().getControlledCities().get(0).getName());
-				System.out.println("Game Started");
 				startView.dispose();
 				worldMapView.setVisible(true);
 				setPlayer();
 
 			} catch (IOException | InvalidUnitException e1) {
 				showMessageDialog(null, "Error in csv files Existing!!");
-				System.err.println("Error in csv");
 				System.exit(1);
 
 			}
 		}
 		if (e.getActionCommand().equals("End Turn")) {
-			System.out.println("Hello");
 			game.setCurrentTurnCount(game.getCurrentTurnCount() + 1);
 			playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
 		}
-		if (e.getActionCommand().equals("view")) {
-			worldMapView.dispose();
+		if (e.getActionCommand().equals("sparta")) {
+			worldMapView.setVisible(false);
 			cityView.setVisible(true);
-
 		}
 
 	}
@@ -88,6 +86,90 @@ public class Controller implements ActionListener, GameListener, PlayerListener 
 
 	public static void main(String[] args) throws FontFormatException, IOException {
 		new Controller();
+	}
+
+	@Override
+	public void onKill(Army army) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onBuild(Building building, City city) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTreasuryUpdate() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unitRecruited(Unit unit, City city) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void buildingUpgraded(Building building, City city) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onInitiated(City city, Unit unit) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSiegeing(Army army, City city) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTargetCity(Army army, City city) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSiegeUpdate(City city, Army army) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void attackY3am(City city, Army army) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void armyArrived(Army army) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDistanceUpdated(Army army) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onFeedUpdated() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onOccupy(City city, Army army) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

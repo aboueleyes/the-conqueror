@@ -110,8 +110,7 @@ public class WorldMapView extends JFrame {
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(new StyledLabel("Controled Armies", 25, true));
     armies.setLayout(new BoxLayout(armies, BoxLayout.X_AXIS));
-    JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER,
-        HORIZONTAL_SCROLLBAR_ALWAYS);
+    JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
     armies.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(scroller);
 
@@ -137,6 +136,8 @@ public class WorldMapView extends JFrame {
     StyledLabel spartaName = new StyledLabel("Sparta", 70, true);
     spartaName.setForeground(Color.WHITE);
     spartaButton = new CityButton("view", 20);
+    spartaButton.setActionCommand("sparta");
+    spartaButton.addActionListener(a);
     JPanel buttonArea2 = new JPanel();
     buttonArea2.setLayout(new BorderLayout());
     buttonArea2.add(spartaButton, BorderLayout.EAST);

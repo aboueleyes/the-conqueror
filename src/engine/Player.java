@@ -140,7 +140,7 @@ public class Player {
     if (building.getCost() > treasury) {
       throw new NotEnoughGoldException();
     }
-    treasury -= building.getCost()
+    treasury -= building.getCost();
     if (building instanceof MilitaryBuilding) {
       playerCity.getMilitaryBuildings().add((MilitaryBuilding) building);
     } else {
