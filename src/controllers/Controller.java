@@ -26,16 +26,19 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	Game game;
 	StartView startView;
 	WorldMapView worldMapView;
-	PlayerPanel playerPanel;
-	PlayerPanel playerPanel2;
-	CityView cityView;
+	// PlayerPanel playerPanel;
+	// PlayerPanel playerPanel2;
+	PlayerPanel[] playerPanels = new PlayerPanel[5];
+	CityView[] cityViews = new CityView[3];
 
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
-		playerPanel = new PlayerPanel(this);
-		playerPanel2 = new PlayerPanel(this);
-		worldMapView = new WorldMapView(this, playerPanel);
-		cityView = new CityView(this, playerPanel2);
+		playerPanels[0] = new PlayerPanel(this);
+		playerPanels[1] = new PlayerPanel(this);
+		worldMapView = new WorldMapView(this, playerPanels[0]);
+		cityViews[0] = new CityView(this, playerPanels[1]);
+		cityViews[1] = new CityView(this, playerPanels[2]);
+		cityViews[2] = new CityView(this, playerPanels[3]);
 	}
 
 	@Override
@@ -56,22 +59,24 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 			}
 		}
-		if (e.getActionCommand().equals("End Turn")) {
-			game.setCurrentTurnCount(game.getCurrentTurnCount() + 1);
-			playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
-		}
-		if (e.getActionCommand().equals("sparta")) {
-			worldMapView.setVisible(false);
-			cityView.setVisible(true);
-		}
+		// if (e.getActionCommand().equals("End Turn")) {
+		// 	game.setCurrentTurnCount(game.getCurrentTurnCount() + 1);
+		// 	playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
+		// }
+		// if (e.getActionCommand().equals("sparta")) {
+		// 	worldMapView.setVisible(false);
+		// 	cityView.setVisible(true);
+		// }
 
 	}
 
 	public void setPlayer() {
-		playerPanel.getPlayerName().setText(game.getPlayer().getName());
-		playerPanel.getPlayerGold().setText(Double.toString(game.getPlayer().getTreasury()));
-		playerPanel.getPlayerFood().setText(Double.toString(game.getPlayer().getFood()));
-		playerPanel.getNumOfTurns().setText(Integer.toString(game.getCurrentTurnCount()));
+		for (PlayerPanel playerPanel : playerPanels) {
+			playerPanel.getPlayerName().setText(game.getPlayer().getName());
+			playerPanel.getPlayerGold().setText(Double.toString(game.getPlayer().getTreasury()));
+			playerPanel.getPlayerFood().setText(Double.toString(game.getPlayer().getFood()));
+			playerPanel.getNumOfTurns().setText(Integer.toString(game.getCurrentTurnCount()));
+		}
 	}
 
 	public void cityUnderControl(String cityName) {

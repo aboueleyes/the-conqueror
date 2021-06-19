@@ -143,7 +143,9 @@ public class WorldMapView extends JFrame {
     buttonArea2.add(spartaButton, BorderLayout.EAST);
     buttonArea2.setOpaque(false);
     spartaPanel.add(buttonArea2, BorderLayout.SOUTH);
-
+    cairoButton.setActionCommand("cairo");
+    spartaButton.setActionCommand("sparta");
+    romeButton.setActionCommand("rome");
     spartaPanel.add(spartaName, BorderLayout.LINE_START);
 
     romePanel.setLayout(new BorderLayout());
