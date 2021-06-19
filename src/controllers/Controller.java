@@ -1,7 +1,7 @@
 package controllers;
 
 import static javax.swing.JOptionPane.showMessageDialog;
-import static views.CityView.BUILDING_NAMES;
+import static views.view.CityView.BUILDING_NAMES;
 
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
@@ -20,12 +20,12 @@ import exceptions.NotEnoughGoldException;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
-import views.CityButton;
-import views.CityView;
-import views.MilitaryBuildingPanel;
-import views.PlayerPanel;
-import views.StartView;
-import views.WorldMapView;
+import views.button.CityButton;
+import views.panel.MilitaryBuildingPanel;
+import views.panel.PlayerPanel;
+import views.view.CityView;
+import views.view.StartView;
+import views.view.WorldMapView;
 
 public class Controller implements ActionListener, GameListener, PlayerListener, ArmyListener {
 	Game game;
@@ -33,7 +33,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	WorldMapView worldMapView;
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
-	private final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
+	private static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
 
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);

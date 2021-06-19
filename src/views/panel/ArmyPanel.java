@@ -1,4 +1,4 @@
-package views;
+package views.panel;
 
 //source ---> https://harmash.com/swing/swing-cardlayout/example-3.php
 

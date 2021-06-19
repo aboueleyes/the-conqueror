@@ -1,17 +1,22 @@
-package views;
+package views.view;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FontFormatException;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.plaf.DimensionUIResource;
 
 import engine.City;
+import views.panel.BuildingPanel;
+import views.panel.EconomicalBuildingPanel;
+import views.panel.MilitaryBuildingPanel;
+import views.panel.PlayerPanel;
 
 public class CityView extends JFrame {
   private PlayerPanel playerPanel;

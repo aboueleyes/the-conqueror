@@ -1,10 +1,13 @@
-package views;
+package views.panel;
 
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
+
+import views.button.StyledButton;
+import views.view.StyledLabel;
 
 import java.awt.event.*;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package views;
+package views.button;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
