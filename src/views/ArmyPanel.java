@@ -23,6 +23,7 @@ public class ArmyPanel extends JPanel implements ActionListener{
 	JButton previous;
 	JButton first;
 	JButton last;
+	JButton attack;
 	CardLayout card;
 	
 	public ArmyPanel() {
@@ -39,18 +40,20 @@ public class ArmyPanel extends JPanel implements ActionListener{
     add(panel_L, gbc);
     gbc.weightx = 10;
     add(panel_R, gbc);
-    panel_L.setLayout(new GridLayout(4, 1));
+    panel_L.setLayout(new GridLayout(5, 1));
     
     
     next = new JButton("Next");
     previous = new JButton("Previous");
     first = new JButton("First");
     last = new JButton("Last");
+    attack = new JButton("attack");
     
     panel_L.add(next);
     panel_L.add(previous);
     panel_L.add(first);
     panel_L.add(last);
+    panel_L.add(attack);
     
     card = new CardLayout();
     panel_R.setLayout(card);
@@ -80,6 +83,9 @@ public class ArmyPanel extends JPanel implements ActionListener{
 				else
 					card.last(panel_R);
 			}
+		}
+		if(e.getSource().equals(attack)) {
+			//TODO make the current unit attack random unit from the defending army
 		}
 	}
 	
