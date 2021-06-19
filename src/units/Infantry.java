@@ -27,4 +27,8 @@ public class Infantry extends Unit {
     }
     return CAVALRY_TARGET_FACTORS[level - 1];
   }
+  
+  public String toString() {
+  	return "type : Infantry" + "\n" + super.toString();
+  }
 }
