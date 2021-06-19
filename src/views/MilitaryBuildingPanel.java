@@ -54,4 +54,8 @@ public class MilitaryBuildingPanel extends BuildingPanel {
     this.recruit = recruit;
   }
 
+  public void setRecruitEnabled() {
+    this.recruit.setEnabled(true);
+  }
+
 }

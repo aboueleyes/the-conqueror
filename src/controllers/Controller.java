@@ -23,6 +23,7 @@ import units.ArmyListener;
 import units.Unit;
 import views.CityButton;
 import views.CityView;
+import views.MilitaryBuildingPanel;
 import views.PlayerPanel;
 import views.StartView;
 import views.StyledButton;
@@ -34,6 +35,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	WorldMapView worldMapView;
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
+	private final String[] citiesNames = { "Cairo", "Rome", "Sparta" };
 
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
@@ -41,6 +43,15 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			playerPanels[i] = new PlayerPanel(this);
 		}
 		worldMapView = new WorldMapView(this, playerPanels[0]);
+	}
+
+	public int getIndexOfCity(String name) {
+		for (int i = 0; i < citiesNames.length; i++) {
+			if (citiesNames[i].equals(name)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Override
@@ -61,11 +72,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			for (PlayerPanel playerPanel : playerPanels) {
 				playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
 			}
-
 		}
 		viewButtonsAction(e);
 		setBuildButtonsAction(e);
-
 	}
 
 	private void setBuildButtonsAction(ActionEvent e) {
@@ -77,6 +86,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 						game.getPlayer().build(BUILDING_NAMES[i], button.getCity().getName());
 						button.setText("Upgrade");
 						button.setBuilt(true);
+						if (i >= 2) {
+							int index = getIndexOfCity(button.getCity().getName());
+							MilitaryBuildingPanel panel = (MilitaryBuildingPanel) cityViews[index].getBuildlingsSlavePanels()[i];
+							panel.setRecruitEnabled();
+						}
 					} catch (NotEnoughGoldException e1) {
 						e1.printStackTrace();
 					}
@@ -93,7 +107,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	}
 
 	private void viewButtonsAction(ActionEvent e) {
-		System.out.println("");
 		if (e.getActionCommand().equals("rome")) {
 			worldMapView.setVisible(false);
 			cityViews[1].setVisible(true);

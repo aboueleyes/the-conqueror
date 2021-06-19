@@ -82,22 +82,16 @@ public class CityView extends JFrame {
     setBackground(Color.decode("#C8AE81"));
     buildingsPanel.setLayout(gridLayout);
     setBuildingPanels(a);
-
     setActionBuildingsButtons();
-
     for (BuildingPanel jPanel : buildlingsSlavePanels) {
       buildingsPanel.add(jPanel);
     }
   }
 
   private void setActionBuildingsButtons() {
-    System.out.println("PLZ RUN");
-    buildlingsSlavePanels[0].getUpgrade().setActionCommand(BUILDING_NAMES[0]);
-    System.out.println(buildlingsSlavePanels[0].getUpgrade().getActionCommand());
-    buildlingsSlavePanels[1].getUpgrade().setActionCommand(BUILDING_NAMES[1]);
-    buildlingsSlavePanels[2].getUpgrade().setActionCommand(BUILDING_NAMES[2]);
-    buildlingsSlavePanels[3].getUpgrade().setActionCommand(BUILDING_NAMES[3]);
-    buildlingsSlavePanels[4].getUpgrade().setActionCommand(BUILDING_NAMES[4]);
+    for (int i = 0; i < BUILDING_NAMES.length; i++) {
+      buildlingsSlavePanels[i].getUpgrade().setActionCommand(BUILDING_NAMES[i]);
+    }
   }
 
   private void setBuildingPanels(ActionListener a) throws FontFormatException, IOException {
