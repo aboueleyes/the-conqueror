@@ -1,19 +1,12 @@
 package views.view;
 
-import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
-import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FontFormatException;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.plaf.DimensionUIResource;
 
 import units.Army;

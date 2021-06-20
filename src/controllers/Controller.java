@@ -3,15 +3,11 @@ package controllers;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static views.view.CityView.BUILDING_NAMES;
 
-import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.Action;
-
 import buildings.Building;
-import buildings.MilitaryBuilding;
 import engine.City;
 import engine.Game;
 import engine.GameListener;
@@ -141,6 +137,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	private void viewButtonsAction(ActionEvent e) {
 		for (int i = 0; i < CITIES_NAMES.length; i++) {
 			if (e.getActionCommand().equals(CITIES_NAMES[i])) {
+				System.out.println("leko");
 				worldMapView.setVisible(false);
 				cityViews[i].setVisible(true);
 			}
