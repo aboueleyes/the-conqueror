@@ -19,7 +19,7 @@ import javax.swing.plaf.DimensionUIResource;
 import units.Army;
 import views.button.CityButton;
 import views.panel.ArmyPanel;
-import views.panel.Cards;
+import views.panel.CardsPanel;
 import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 
@@ -32,12 +32,12 @@ public class WorldMapView extends JFrame {
   private CityButton cairoButton;
   private CityButton romeButton;
   private CityButton spartaButton;
-  private Cards armyCards;
-  public Cards getArmyCards() {
+  private CardsPanel armyCards;
+  public CardsPanel getArmyCards() {
     return armyCards;
   }
 
-  public void setArmyCards(Cards armyCards) {
+  public void setArmyCards(CardsPanel armyCards) {
     this.armyCards = armyCards;
   }
 
@@ -117,7 +117,7 @@ public class WorldMapView extends JFrame {
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(new StyledLabel("Controlled Armies", 25, true),BorderLayout.PAGE_START);
-    armyCards = new Cards();
+    armyCards = new CardsPanel();
     Army army = new Army("Cairo");
     armyCards.addCard(new ArmyPanel(null, army));
     armyPanel.add(armyCards,BorderLayout.CENTER);

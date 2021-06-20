@@ -12,9 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.DimensionUIResource;
 
+import buildings.MilitaryBuilding;
 import engine.City;
 import views.panel.BuildingPanel;
-import views.panel.Cards;
+import views.panel.CardsPanel;
 import views.panel.EconomicalBuildingPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
@@ -23,8 +24,8 @@ public class CityView extends JFrame {
   private PlayerPanel playerPanel;
   private JPanel buildingsPanel = new JPanel();
   private JPanel armyPanel = new JPanel();
-  private Cards unitsCards;
-  private Cards armyCards;
+  private CardsPanel unitsCards;
+  private CardsPanel armyCards;
   private City city;
   private BuildingPanel[] buildlingsSlavePanels = new BuildingPanel[5];
   public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "ArcheryRange" };
@@ -33,19 +34,19 @@ public class CityView extends JFrame {
     return buildingsPanel;
   }
 
-  public Cards getArmyCards() {
+  public CardsPanel getArmyCards() {
     return armyCards;
   }
 
-  public void setArmyCards(Cards armyCards) {
+  public void setArmyCards(CardsPanel armyCards) {
     this.armyCards = armyCards;
   }
 
-  public Cards getUnitsCards() {
+  public CardsPanel getUnitsCards() {
     return unitsCards;
   }
 
-  public void setUnitsCards(Cards unitsCards) {
+  public void setUnitsCards(CardsPanel unitsCards) {
     this.unitsCards = unitsCards;
   }
 
@@ -96,11 +97,11 @@ public class CityView extends JFrame {
   public void addArmyPane() throws FontFormatException, IOException {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
-    unitsCards = new Cards();
-    armyCards = new Cards();
-    armyPanel.add(unitsCards,BorderLayout.WEST);
-    armyPanel.add(armyCards,BorderLayout.EAST);
-    
+    unitsCards = new CardsPanel();
+    armyCards = new CardsPanel();
+    armyPanel.add(unitsCards, BorderLayout.WEST);
+    armyPanel.add(armyCards, BorderLayout.EAST);
+
   }
 
   public void addBuildingsPanel(ActionListener a) throws FontFormatException, IOException {
@@ -110,6 +111,7 @@ public class CityView extends JFrame {
     buildingsPanel.setLayout(gridLayout);
     setBuildingPanels(a);
     setActionBuildingsButtons();
+    setActionBuildingsRecruitButtons();
     for (BuildingPanel jPanel : buildlingsSlavePanels) {
       buildingsPanel.add(jPanel);
     }
@@ -118,6 +120,13 @@ public class CityView extends JFrame {
   private void setActionBuildingsButtons() {
     for (int i = 0; i < BUILDING_NAMES.length; i++) {
       buildlingsSlavePanels[i].getUpgrade().setActionCommand(BUILDING_NAMES[i]);
+    }
+  }
+
+  private void setActionBuildingsRecruitButtons() {
+    for (int i = 2; i < BUILDING_NAMES.length; i++) {
+      MilitaryBuildingPanel panel = (MilitaryBuildingPanel) buildlingsSlavePanels[i];
+      panel.getRecruit().setActionCommand("r" + BUILDING_NAMES[i]);
     }
   }
 

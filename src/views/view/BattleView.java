@@ -18,15 +18,15 @@ import units.Archer;
 import units.Army;
 import units.Cavalry;
 import units.Unit;
-import views.panel.Cards;
+import views.panel.CardsPanel;
 import views.panel.PlayerPanel;
 
 public class BattleView  extends JFrame{
 	
 	private PlayerPanel playerPanle;
 	private JPanel battleLog;
-	private Cards attackerPanel;
-	private Cards defenderPanel;
+	private CardsPanel attackerPanel;
+	private CardsPanel defenderPanel;
 	private JPanel centre;
 	private Army attackerArmy;
 	private Army defenderArmy;
@@ -34,8 +34,8 @@ public class BattleView  extends JFrame{
 	public BattleView(ActionListener a, PlayerPanel playerPanel, Army attackerArmy, Army defenderArmy) {
 		super();
 		this.playerPanle = playerPanel;
-		this.attackerPanel = new Cards();
-		this.defenderPanel = new Cards();
+		this.attackerPanel = new CardsPanel();
+		this.defenderPanel = new CardsPanel();
 		this.centre = new JPanel();
 		this.attackerArmy = attackerArmy;
 		this.defenderArmy = defenderArmy;
@@ -69,14 +69,14 @@ public class BattleView  extends JFrame{
 	  battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
 	}
 	
-	public void handleAttackerPanel(Cards attackerPanel){
+	public void handleAttackerPanel(CardsPanel attackerPanel){
 		for(Unit unit : attackerArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			attackerPanel.addCard(info);
 		}
 	}
 	
-	public void handleDefenderPanel(Cards defenderPanel) {
+	public void handleDefenderPanel(CardsPanel defenderPanel) {
 		for(Unit unit : attackerArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			defenderPanel.addCard(info);

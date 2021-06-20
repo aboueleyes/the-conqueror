@@ -195,7 +195,7 @@ public class Player {
     unit.setParentArmy(attackingArmy);
     getControlledArmies().add(attackingArmy);
     if (playerListener != null) {
-      playerListener.onInitiated(city, unit);
+      playerListener.onInitiated(city, unit, attackingArmy);
     }
   }
 

@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Cards extends JPanel implements ActionListener{
+public class CardsPanel extends JPanel implements ActionListener{
 	
 	JPanel panel_L;
 	JPanel panel_R;
@@ -25,7 +25,7 @@ public class Cards extends JPanel implements ActionListener{
 	JButton last;
 	CardLayout card;
 	
-	public Cards() {
+	public CardsPanel() {
 		super();
 		this.setLayout(new GridLayout());
 		this.setVisible(true);
@@ -88,7 +88,7 @@ public class Cards extends JPanel implements ActionListener{
 	public static void main(String[] args) {
 		JFrame test = new JFrame();
 		test.setVisible(true);
-		Cards test2 = new Cards();
+		CardsPanel test2 = new CardsPanel();
 		JPanel p = new JPanel();
 		p.add(new JLabel("test"));
 		JPanel p2 = new JPanel();

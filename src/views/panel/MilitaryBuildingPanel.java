@@ -13,7 +13,7 @@ import views.button.CityButton;
 import views.button.StyledButton;
 
 public class MilitaryBuildingPanel extends BuildingPanel {
-  private StyledButton recruit;
+  private CityButton recruit;
 
   public MilitaryBuildingPanel(ActionListener a, String name, City city) throws FontFormatException, IOException {
     super(a, name, city);
@@ -25,19 +25,21 @@ public class MilitaryBuildingPanel extends BuildingPanel {
     setInfo(new JTextArea("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n xxxxxxxxxxxxxxxxxx"));
     getInfo().setEditable(false);
     getInfo().setVisible(false);
-    setRecruit(new StyledButton("Recruit", 30));
+    setRecruit(new CityButton("Recruit", 30));
     recruit.setEnabled(false);
     add(new JLabel("<html><h1><strong><i>" + name + "</i></strong></h1><hr></html>"));
     add(getUpgrade());
     add(getInfo());
     add(recruit);
+    recruit.setCity(city);
+    getRecruit().addActionListener(a);
   }
 
-  public StyledButton getRecruit() {
+  public CityButton getRecruit() {
     return recruit;
   }
 
-  public void setRecruit(StyledButton recruit) {
+  public void setRecruit(CityButton recruit) {
     this.recruit = recruit;
   }
 
