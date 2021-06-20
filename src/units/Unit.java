@@ -1,6 +1,7 @@
 package units;
 
 import exceptions.FriendlyFireException;
+import views.panel.UnitPanel;
 
 public abstract class Unit {
 
@@ -11,9 +12,18 @@ public abstract class Unit {
   private double marchingUpkeep; // the amount of food a unit consume when marching to another city
   private double siegeUpkeep; // the amount of food a unit consume when laying siege
   private Army parentArmy;
+  private UnitPanel unitPanel;
 
   public Army getParentArmy() {
     return parentArmy;
+  }
+
+  public UnitPanel getUnitPanel() {
+    return unitPanel;
+  }
+
+  public void setUnitPanel(UnitPanel unitPanel) {
+    this.unitPanel = unitPanel;
   }
 
   public void setParentArmy(Army parentArmy) {
@@ -33,14 +43,14 @@ public abstract class Unit {
   }
 
   public void setCurrentSoldierCount(int currentSoldierCount) {
-    if (currentSoldierCount <0){
+    if (currentSoldierCount < 0) {
       currentSoldierCount = 0;
     }
     this.currentSoldierCount = currentSoldierCount;
   }
 
   public void decCurrentSoldierCount() {
-    setCurrentSoldierCount (currentSoldierCount-(int)(currentSoldierCount * 0.1));
+    setCurrentSoldierCount(currentSoldierCount - (int) (currentSoldierCount * 0.1));
   }
 
   public double getIdleUpkeep() {
@@ -57,8 +67,7 @@ public abstract class Unit {
 
   @Override
   public String toString() {
-    return ("level : " + this.getLevel() + "\n" +
-    		"current Soldier Count : " + this.getCurrentSoldierCount() + "\n");
+    return ("level : " + this.getLevel() + "\n" + "current Soldier Count : " + this.getCurrentSoldierCount() + "\n");
   }
 
   public Unit() {
@@ -80,7 +89,8 @@ public abstract class Unit {
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
-      target.setCurrentSoldierCount (target.currentSoldierCount- (int)(this.currentSoldierCount * this.unitFactor(target, level)));
+      target.setCurrentSoldierCount(
+          target.currentSoldierCount - (int) (this.currentSoldierCount * this.unitFactor(target, level)));
       target.getParentArmy().handleAttackedUnit(target);
     }
   }

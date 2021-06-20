@@ -16,7 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.DimensionUIResource;
 
+import units.Army;
 import views.button.CityButton;
+import views.panel.ArmyPanel;
+import views.panel.CardsPanel;
 import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 
@@ -29,6 +32,14 @@ public class WorldMapView extends JFrame {
   private CityButton cairoButton;
   private CityButton romeButton;
   private CityButton spartaButton;
+  private CardsPanel armyCards;
+  public CardsPanel getArmyCards() {
+    return armyCards;
+  }
+
+  public void setArmyCards(CardsPanel armyCards) {
+    this.armyCards = armyCards;
+  }
 
   public JPanel getArmies() {
     return armies;
@@ -102,14 +113,15 @@ public class WorldMapView extends JFrame {
   }
 
   public void addArmyPane() throws FontFormatException, IOException {
-    armyPanel.setLayout(new BoxLayout(armyPanel, BoxLayout.Y_AXIS));
+    armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    armyPanel.add(new StyledLabel("Controlled Armies", 25, true));
-    armies.setLayout(new BoxLayout(armies, BoxLayout.X_AXIS));
-    JScrollPane scroller = new JScrollPane(armies, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
-    armies.setBackground(Color.decode(COLOR_BEIGE));
-    armyPanel.add(scroller);
+    armyPanel.add(new StyledLabel("Controlled Armies", 25, true),BorderLayout.PAGE_START);
+    armyCards = new CardsPanel();
+    Army army = new Army("Cairo");
+    armyCards.addCard(new ArmyPanel(null, army));
+    armyPanel.add(armyCards,BorderLayout.CENTER);
+    
 
   }
 

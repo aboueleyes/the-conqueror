@@ -13,7 +13,7 @@ public interface PlayerListener {
 
   public void buildingUpgraded(Building building, City city);
 
-  public void onInitiated(City city, Unit unit);
+  public void onInitiated(City city, Unit unit, Army army);
 
   public void onSiegeing(Army army, City city);
 }

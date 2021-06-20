@@ -1,106 +1,83 @@
 package views.panel;
 
-//source ---> https://harmash.com/swing/swing-cardlayout/example-3.php
-
-import java.awt.CardLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
-public class ArmyPanel extends JPanel implements ActionListener{
-	
-	JPanel panel_L;
-	JPanel panel_R;
-	JButton next;
-	JButton previous;
-	JButton first;
-	JButton last;
-	JButton attack;
-	CardLayout card;
-	
-	public ArmyPanel() {
-		super();
-		this.setLayout(new GridLayout());
-		this.setVisible(true);
-		panel_L = new JPanel();
-	  panel_R = new JPanel();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-    gbc.weighty = 1;
-    
-    add(panel_L, gbc);
-    gbc.weightx = 10;
-    add(panel_R, gbc);
-    panel_L.setLayout(new GridLayout(5, 1));
-    
-    
-    next = new JButton("Next");
-    previous = new JButton("Previous");
-    first = new JButton("First");
-    last = new JButton("Last");
-    attack = new JButton("attack");
-    
-    panel_L.add(next);
-    panel_L.add(previous);
-    panel_L.add(first);
-    panel_L.add(last);
-    panel_L.add(attack);
-    
-    card = new CardLayout();
-    panel_R.setLayout(card);
-    
-    next.addActionListener(this);
-    previous.addActionListener(this);
-    first.addActionListener(this);
-    last.addActionListener(this);
+import engine.City;
+import units.Army;
+import views.button.ArmyButton;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.awt.BorderLayout;
+import java.awt.FontFormatException;
+public class ArmyPanel extends JPanel{
+  private Army army;
+  private JTextArea info = new JTextArea();
+  private ArmyButton action1;
+  private ArmyButton action2;
+  private City city;
+  private JComboBox cities = new JComboBox<>(citiesNames);
+  private static final String [] citiesNames = {"Cairo","Rome","Sparta"};
+  
+  public ArmyPanel (ActionListener a ,Army army) throws FontFormatException, IOException{
+    this.army = army;
+    setLayout(new BorderLayout());
+    action1 = new ArmyButton("TargetCity", 20);
+    action1.setArmy(army);
+    action2 = new ArmyButton("SiegeCity", 20);
+    action2.setArmy(army);
+    JPanel buttonPanel = new JPanel();
+    JPanel panel1 = new JPanel();
+    panel1.setLayout(new BorderLayout());
+    panel1.add(cities,BorderLayout.NORTH);
 
+    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+    buttonPanel.add(action1);
+    buttonPanel.add(action2);
+    panel1.add(buttonPanel,BorderLayout.SOUTH);
+    add(panel1,BorderLayout.PAGE_END);
+    info.setText("arg0");
+    add(info);
+    action1.addActionListener(a);
+    action2.addActionListener(a);
+  }
+
+  public City getCity() {
+    return city;
+  }
+
+  public void setCity(City city) {
+    this.city = city;
+  }
+
+  public ArmyButton getAction2() {
+    return action2;
+  }
+
+  public void setAction2(ArmyButton action2) {
+    this.action2 = action2;
+  }
+
+  public Army getArmy() {
+    return army;
+  }
+  public ArmyButton getAction1() {
+    return action1;
+  }
+  public void setAction(ArmyButton action) {
+    this.action1 = action;
+  }
+  public JTextArea getInfo() {
+    return info;
+  }
+  public void setInfo(JTextArea info) {
+    this.info = info;
+  }
+  public void setArmy(Army army) {
+    this.army = army;
+  }
+  
     
-	}
-	
-	 public void addCard(JPanel unit) {
-   	panel_R.add(unit);
-   }
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(next))
-			card.next(panel_R);
-		else {
-			if(e.getSource().equals(previous))
-				card.previous(panel_R);
-			else {
-				if(e.getActionCommand().equals("first"))
-					card.first(panel_R);
-				else
-					card.last(panel_R);
-			}
-		}
-		if(e.getSource().equals(attack)) {
-			//TODO make the current unit attack random unit from the defending army
-		}
-	}
-	
-	public static void main(String[] args) {
-		JFrame test = new JFrame();
-		test.setVisible(true);
-		ArmyPanel test2 = new ArmyPanel();
-		JPanel p = new JPanel();
-		p.add(new JLabel("test"));
-		JPanel p2 = new JPanel();
-		p2.add(new JLabel("test2"));
-		test2.addCard(p);
-		test2.addCard(p2);
-		test.add(test2);
-
-	}
-
 }

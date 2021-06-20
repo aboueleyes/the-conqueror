@@ -8,21 +8,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.Action;
+
 import buildings.Building;
+import buildings.MilitaryBuilding;
 import engine.City;
 import engine.Game;
 import engine.GameListener;
 import engine.PlayerListener;
 import exceptions.BuildingInCoolDownException;
+import exceptions.InvalidBuildingException;
 import exceptions.InvalidUnitException;
 import exceptions.MaxLevelException;
+import exceptions.MaxRecruitedException;
 import exceptions.NotEnoughGoldException;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
 import views.button.CityButton;
+import views.button.UnitButton;
+import views.panel.ArmyPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
+import views.panel.UnitPanel;
 import views.view.CityView;
 import views.view.StartView;
 import views.view.WorldMapView;
@@ -34,6 +42,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
 	private static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
+	public static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
 	public Controller() throws FontFormatException, IOException {
 		startView = new StartView(this);
@@ -69,6 +78,31 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 		viewButtonsAction(e);
 		setBuildButtonsAction(e);
+		setRecruitButtonsAction(e);
+	}
+
+	private void setInitaiteButtonAction(ActionEvent e) {
+		if (e.getActionCommand().equals("Initiate Army")) {
+			UnitButton unitButton = (UnitButton) e.getSource();
+			Unit unit = unitButton.getUnit();
+			City city = Game.searchForCity(unit.getParentArmy().getCurrentLocation(), game.getAvailableCities());
+			game.getPlayer().initiateArmy(city, unit);
+		}
+	}
+
+	private void setRecruitButtonsAction(ActionEvent e) {
+		for (int i = 2; i < BUILDING_NAMES.length; i++) {
+			if (e.getActionCommand().equals("r" + BUILDING_NAMES[i])) {
+				CityButton button = (CityButton) e.getSource();
+				String unitType = UNITS_NAMES[i - 2];
+				try {
+					game.getPlayer().recruitUnit(unitType, button.getCity().getName());
+				} catch (BuildingInCoolDownException | MaxRecruitedException | NotEnoughGoldException
+						| InvalidBuildingException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void setBuildButtonsAction(ActionEvent e) {
@@ -195,8 +229,18 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void unitRecruited(Unit unit, City city) {
-		// TODO Auto-generated method stub
+		UnitPanel unitPanel = null;
+		try {
+			unitPanel = new UnitPanel(this, unit);
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
+		unit.setUnitPanel(unitPanel);
+		getCityView(city).getUnitsCards().addCard(unitPanel);
+	}
 
+	private CityView getCityView(City city) {
+		return cityViews[getIndexOfCity(city.getName())];
 	}
 
 	@Override
@@ -211,9 +255,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	}
 
 	@Override
-	public void onInitiated(City city, Unit unit) {
-		// TODO Auto-generated method stub
-
+	public void onInitiated(City city, Unit unit, Army army) {
+		ArmyPanel armyPanel = null;
+		try {
+			armyPanel = new ArmyPanel(this, army);
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
+		getCityView(city).getArmyCards().addCard(armyPanel);
 	}
 
 	@Override

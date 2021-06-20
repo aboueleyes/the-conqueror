@@ -276,6 +276,7 @@ public class Game {
     }
     if (gameListener != null) {
       gameListener.onFeedUpdated();
+      gameListener.onTreasuryUpdate();
     }
   }
 
