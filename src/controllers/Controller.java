@@ -60,17 +60,18 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {
-			startGame();
-			if (e.getActionCommand().equals("End Turn")) {
-				game.endTurn();
-				for (PlayerPanel playerPanel : playerPanels) {
+			startGame();}
+		if (e.getActionCommand().equals("End Turn")) {
+			game.endTurn();
+			for (PlayerPanel playerPanel : playerPanels) {
 					playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
 				}
 			}
-		}
+		
 		viewButtonsAction(e);
 		setBuildButtonsAction(e);
 		setRecruitButtonsAction(e);
+		setInitaiteButtonAction(e);
 	}
 
 	private void setInitaiteButtonAction(ActionEvent e) {
@@ -244,8 +245,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onInitiated(City city, Unit unit, Army army) {
+		//TODO add stationary 
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
 		getCityView(city).getArmyCards().addCard(armyPanel);
+		//worldMapView.getArmyCards().add(armyPanel);
+		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
+		armyPanel.getInfo().setText(game.toString(army));
+
 	}
 
 	@Override

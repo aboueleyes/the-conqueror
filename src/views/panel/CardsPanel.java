@@ -65,6 +65,9 @@ public class CardsPanel extends JPanel implements ActionListener{
 	 public void addCard(JPanel unit) {
    	panel_R.add(unit);
    }
+    public void removeCard(JPanel unit){
+		panel_R.remove(unit);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
