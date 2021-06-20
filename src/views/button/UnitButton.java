@@ -1,12 +1,6 @@
 package views.button;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
-
 import engine.City;
-
-import java.awt.BorderLayout;
-import units.Army;
 import units.Unit;
 
 public class UnitButton extends StyledButton {

@@ -3,8 +3,6 @@ package views.panel;
 //source ---> https://harmash.com/swing/swing-cardlayout/example-3.php
 
 import java.awt.CardLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

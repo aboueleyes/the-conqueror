@@ -1,6 +1,8 @@
 package views.panel;
 
-import javax.swing.Action;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -8,12 +10,6 @@ import javax.swing.plaf.DimensionUIResource;
 
 import views.button.StyledButton;
 import views.view.StyledLabel;
-
-import java.awt.event.*;
-import java.io.IOException;
-import java.awt.Color;
-import java.awt.FontFormatException;
-import java.awt.Color.*;
 
 public class PlayerPanel extends JPanel {
     private StyledLabel playerName;

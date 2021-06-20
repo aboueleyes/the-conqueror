@@ -1,8 +1,5 @@
 package views.button;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
-
 import engine.City;
 
 public class CityButton extends StyledButton {

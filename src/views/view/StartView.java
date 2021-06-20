@@ -2,12 +2,7 @@ package views.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,11 +10,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import controllers.*;
 
-import views.MyInputVerifier;
+import controllers.Controller;
 import engine.Game;
-import utlis.ReadingCSVFile;
+import views.MyInputVerifier;
 import views.button.StyledButton;
 import views.panel.ImagePanel;
 

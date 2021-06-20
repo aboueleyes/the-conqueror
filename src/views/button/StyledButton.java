@@ -1,11 +1,10 @@
 package views.button;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class StyledButton extends JButton {
 

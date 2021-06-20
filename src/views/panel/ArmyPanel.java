@@ -1,5 +1,8 @@
 package views.panel;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -8,10 +11,6 @@ import javax.swing.JTextArea;
 import engine.City;
 import units.Army;
 import views.button.ArmyButton;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.awt.BorderLayout;
-import java.awt.FontFormatException;
 
 public class ArmyPanel extends JPanel {
   private Army army;

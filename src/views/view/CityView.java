@@ -2,17 +2,13 @@ package views.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.DimensionUIResource;
 
-import buildings.MilitaryBuilding;
 import engine.City;
 import views.panel.BuildingPanel;
 import views.panel.CardsPanel;

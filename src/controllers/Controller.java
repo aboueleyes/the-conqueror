@@ -67,10 +67,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 					playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
 				}
 			}
-			viewButtonsAction(e);
-			setBuildButtonsAction(e);
-			setRecruitButtonsAction(e);
 		}
+		viewButtonsAction(e);
+		setBuildButtonsAction(e);
+		setRecruitButtonsAction(e);
 	}
 
 	private void setInitaiteButtonAction(ActionEvent e) {

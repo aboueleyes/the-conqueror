@@ -1,7 +1,6 @@
 package views.view;
 
 import java.awt.BorderLayout;
-import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -99,7 +98,7 @@ public class BattleView extends JFrame {
 		return info;
 	}
 
-	public static void main(String[] args) throws IOException, FontFormatException, InvalidUnitException {
+	public static void main(String[] args) throws IOException, InvalidUnitException {
 		Game test = new Game("ahmed", "cairo");
 		Army test1 = test.getAvailableCities().get(0).getDefendingArmy();
 		new BattleView(null, new PlayerPanel(null), test1, test1).setVisible(true);

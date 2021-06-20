@@ -1,9 +1,7 @@
 package views.panel;
 
-import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextArea;

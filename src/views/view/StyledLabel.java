@@ -1,8 +1,8 @@
 package views.view;
 
-import javax.swing.JFrame;
+import java.awt.Font;
+
 import javax.swing.JLabel;
-import java.awt.*;
 
 public class StyledLabel extends JLabel {
   public StyledLabel(String s, int fontsize, boolean bold) {
