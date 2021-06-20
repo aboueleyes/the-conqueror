@@ -24,7 +24,7 @@ public class PlayerPanel extends JPanel {
     private static final int PLAYER_PANEL_HEIGHT = 55;
     private static final int PLAYER_LABEL_SIZE = 20;
 
-    public PlayerPanel(ActionListener a) throws FontFormatException, IOException {
+    public PlayerPanel(ActionListener a) {
 
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setPreferredSize(new DimensionUIResource(7, PLAYER_PANEL_HEIGHT));

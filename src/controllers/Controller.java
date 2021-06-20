@@ -41,10 +41,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	WorldMapView worldMapView;
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
-	private static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
-	public static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
+	public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
+	protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
-	public Controller() throws FontFormatException, IOException {
+	public Controller() {
 		startView = new StartView(this);
 		for (int i = 0; i < playerPanels.length; i++) {
 			playerPanels[i] = new PlayerPanel(this);
@@ -64,21 +64,17 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {
-			try {
-				startGame();
-			} catch (NullPointerException | FontFormatException | IOException e1) {
-				e1.printStackTrace();
+			startGame();
+			if (e.getActionCommand().equals("End Turn")) {
+				game.endTurn();
+				for (PlayerPanel playerPanel : playerPanels) {
+					playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
+				}
 			}
+			viewButtonsAction(e);
+			setBuildButtonsAction(e);
+			setRecruitButtonsAction(e);
 		}
-		if (e.getActionCommand().equals("End Turn")) {
-			game.endTurn();
-			for (PlayerPanel playerPanel : playerPanels) {
-				playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
-			}
-		}
-		viewButtonsAction(e);
-		setBuildButtonsAction(e);
-		setRecruitButtonsAction(e);
 	}
 
 	private void setInitaiteButtonAction(ActionEvent e) {
@@ -151,7 +147,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 	}
 
-	private void startGame() throws NullPointerException, FontFormatException, IOException {
+	private void startGame() throws NullPointerException {
 		String playerName = startView.getNameOfPlayer().getText();
 		String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
 		try {
@@ -191,7 +187,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 	}
 
-	public static void main(String[] args) throws FontFormatException, IOException {
+	public static void main(String[] args) {
 		new Controller();
 	}
 
@@ -229,12 +225,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void unitRecruited(Unit unit, City city) {
-		UnitPanel unitPanel = null;
-		try {
-			unitPanel = new UnitPanel(this, unit);
-		} catch (FontFormatException | IOException e) {
-			e.printStackTrace();
-		}
+		UnitPanel unitPanel = new UnitPanel(this, unit);
 		unit.setUnitPanel(unitPanel);
 		getCityView(city).getUnitsCards().addCard(unitPanel);
 	}
@@ -256,12 +247,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onInitiated(City city, Unit unit, Army army) {
-		ArmyPanel armyPanel = null;
-		try {
-			armyPanel = new ArmyPanel(this, army);
-		} catch (FontFormatException | IOException e) {
-			e.printStackTrace();
-		}
+		ArmyPanel armyPanel = new ArmyPanel(this, army);
 		getCityView(city).getArmyCards().addCard(armyPanel);
 	}
 

@@ -10,7 +10,7 @@ public class CityButton extends StyledButton {
     private City city;
     private boolean built = false;
 
-    public CityButton(String s, int size) throws FontFormatException, IOException {
+    public CityButton(String s, int size) {
         super(s, size);
         setEnabled(false);
     }

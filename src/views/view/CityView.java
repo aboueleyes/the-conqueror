@@ -78,7 +78,7 @@ public class CityView extends JFrame {
     this.playerPanel = playerPanel;
   }
 
-  public CityView(ActionListener a, PlayerPanel playerPanel, City city) throws FontFormatException, IOException {
+  public CityView(ActionListener a, PlayerPanel playerPanel, City city) {
     this.setCity(city);
     setLayout(new BorderLayout());
     this.playerPanel = playerPanel;
@@ -94,7 +94,7 @@ public class CityView extends JFrame {
     addBuildingsPanel(a);
   }
 
-  public void addArmyPane() throws FontFormatException, IOException {
+  public void addArmyPane() {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
     unitsCards = new CardsPanel();
@@ -104,7 +104,7 @@ public class CityView extends JFrame {
 
   }
 
-  public void addBuildingsPanel(ActionListener a) throws FontFormatException, IOException {
+  public void addBuildingsPanel(ActionListener a) {
     GridLayout gridLayout = new GridLayout(0, 5);
     gridLayout.setHgap(10);
     setBackground(Color.decode("#C8AE81"));
@@ -130,7 +130,7 @@ public class CityView extends JFrame {
     }
   }
 
-  private void setBuildingPanels(ActionListener a) throws FontFormatException, IOException {
+  private void setBuildingPanels(ActionListener a) {
     buildlingsSlavePanels[0] = new EconomicalBuildingPanel(a, BUILDING_NAMES[0], city);
     buildlingsSlavePanels[1] = new EconomicalBuildingPanel(a, BUILDING_NAMES[1], city);
     buildlingsSlavePanels[2] = new MilitaryBuildingPanel(a, BUILDING_NAMES[2], city);

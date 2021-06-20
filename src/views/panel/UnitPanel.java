@@ -34,7 +34,7 @@ public class UnitPanel extends JPanel {
     this.action1 = action1;
   }
 
-  public UnitPanel(ActionListener a, Unit unit) throws FontFormatException, IOException {
+  public UnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
     setLayout(new BorderLayout());
     action1 = new UnitButton("Initiate Army", 20);

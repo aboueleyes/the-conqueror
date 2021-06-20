@@ -33,6 +33,7 @@ public class WorldMapView extends JFrame {
   private CityButton romeButton;
   private CityButton spartaButton;
   private CardsPanel armyCards;
+
   public CardsPanel getArmyCards() {
     return armyCards;
   }
@@ -73,7 +74,7 @@ public class WorldMapView extends JFrame {
     this.armies = armies;
   }
 
-  public WorldMapView(ActionListener a, PlayerPanel playerpanel) throws FontFormatException, IOException {
+  public WorldMapView(ActionListener a, PlayerPanel playerpanel) {
     this.playerPanel = playerpanel;
     setExtendedState(MAXIMIZED_BOTH);
     setVisible(false);
@@ -112,20 +113,19 @@ public class WorldMapView extends JFrame {
     this.armyPanel = armyPanel;
   }
 
-  public void addArmyPane() throws FontFormatException, IOException {
+  public void addArmyPane() {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    armyPanel.add(new StyledLabel("Controlled Armies", 25, true),BorderLayout.PAGE_START);
+    armyPanel.add(new StyledLabel("Controlled Armies", 25, true), BorderLayout.PAGE_START);
     armyCards = new CardsPanel();
     Army army = new Army("Cairo");
     armyCards.addCard(new ArmyPanel(null, army));
-    armyPanel.add(armyCards,BorderLayout.CENTER);
-    
+    armyPanel.add(armyCards, BorderLayout.CENTER);
 
   }
 
-  public void addCitiesPane(ActionListener a) throws FontFormatException, IOException {
+  public void addCitiesPane(ActionListener a) {
     citiesPanel.setLayout(new BorderLayout());
     ImagePanel cairoPanel = new ImagePanel(new ImageIcon("src/images/maxresdefault.jpg").getImage());
     ImagePanel romePanel = new ImagePanel(new ImageIcon("src/images/rome.jpg").getImage());
