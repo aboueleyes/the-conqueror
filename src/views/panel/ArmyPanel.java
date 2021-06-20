@@ -1,9 +1,11 @@
 package views.panel;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import engine.City;
 import units.Army;
 import views.button.ArmyButton;
 import java.awt.event.ActionListener;
@@ -15,6 +17,9 @@ public class ArmyPanel extends JPanel{
   private JTextArea info = new JTextArea();
   private ArmyButton action1;
   private ArmyButton action2;
+  private City city;
+  private JComboBox cities = new JComboBox<>(citiesNames);
+  private static final String [] citiesNames = {"Cairo","Rome","Sparta"};
   
   public ArmyPanel (ActionListener a ,Army army) throws FontFormatException, IOException{
     this.army = army;
@@ -24,12 +29,27 @@ public class ArmyPanel extends JPanel{
     action2 = new ArmyButton("SiegeCity", 20);
     action2.setArmy(army);
     JPanel buttonPanel = new JPanel();
+    JPanel panel1 = new JPanel();
+    panel1.setLayout(new BorderLayout());
+    panel1.add(cities,BorderLayout.NORTH);
+
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
     buttonPanel.add(action2);
-    add(buttonPanel,BorderLayout.PAGE_END);
+    panel1.add(buttonPanel,BorderLayout.SOUTH);
+    add(panel1,BorderLayout.PAGE_END);
     info.setText("arg0");
     add(info);
+    action1.addActionListener(a);
+    action2.addActionListener(a);
+  }
+
+  public City getCity() {
+    return city;
+  }
+
+  public void setCity(City city) {
+    this.city = city;
   }
 
   public ArmyButton getAction2() {

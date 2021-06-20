@@ -7,9 +7,10 @@ import engine.City;
 
 import java.awt.BorderLayout;
 import units.Army;
+import units.Unit;
 
-public class ArmyButton  extends StyledButton{
-  private Army army;
+public class UnitButton  extends StyledButton{
+  private Unit unit;
   private City city;
   public City getCity() {
     return city;
@@ -17,15 +18,15 @@ public class ArmyButton  extends StyledButton{
   public void setCity(City city) {
     this.city = city;
   }
-  public ArmyButton(String string,int size) throws FontFormatException, IOException {
+  public UnitButton(String string,int size) throws FontFormatException, IOException {
     super(string,size);
     
   }
-  public Army getArmy() {
-    return army;
+  public Unit getUnit() {
+    return unit;
   }
-  public void setArmy(Army army) {
-    this.army = army;
+  public void setUnit(Unit unit) {
+    this.unit = unit;
   }
 
     

@@ -14,6 +14,7 @@ import javax.swing.plaf.DimensionUIResource;
 
 import engine.City;
 import views.panel.BuildingPanel;
+import views.panel.Cards;
 import views.panel.EconomicalBuildingPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
@@ -22,12 +23,30 @@ public class CityView extends JFrame {
   private PlayerPanel playerPanel;
   private JPanel buildingsPanel = new JPanel();
   private JPanel armyPanel = new JPanel();
+  private Cards unitsCards;
+  private Cards armyCards;
   private City city;
   private BuildingPanel[] buildlingsSlavePanels = new BuildingPanel[5];
   public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "ArcheryRange" };
 
   public JPanel getBuildingsPanel() {
     return buildingsPanel;
+  }
+
+  public Cards getArmyCards() {
+    return armyCards;
+  }
+
+  public void setArmyCards(Cards armyCards) {
+    this.armyCards = armyCards;
+  }
+
+  public Cards getUnitsCards() {
+    return unitsCards;
+  }
+
+  public void setUnitsCards(Cards unitsCards) {
+    this.unitsCards = unitsCards;
   }
 
   public BuildingPanel[] getBuildlingsSlavePanels() {
@@ -75,10 +94,13 @@ public class CityView extends JFrame {
   }
 
   public void addArmyPane() throws FontFormatException, IOException {
-    armyPanel.setLayout(new BoxLayout(armyPanel, BoxLayout.Y_AXIS));
+    armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
-    armyPanel.add(new StyledLabel("Controlled Armies", 25, true));
-    armyPanel.setLayout(new BoxLayout(armyPanel, BoxLayout.X_AXIS));
+    unitsCards = new Cards();
+    armyCards = new Cards();
+    armyPanel.add(unitsCards,BorderLayout.WEST);
+    armyPanel.add(armyCards,BorderLayout.EAST);
+    
   }
 
   public void addBuildingsPanel(ActionListener a) throws FontFormatException, IOException {
