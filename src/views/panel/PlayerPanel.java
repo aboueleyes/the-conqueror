@@ -16,9 +16,10 @@ public class PlayerPanel extends JPanel {
     private StyledLabel playerGold;
     private StyledLabel playerFood;
     private StyledLabel numOfTurns;
+    private StyledButton back;
     private StyledButton endTurn;
-    private static final int PLAYER_PANEL_HEIGHT = 55;
-    private static final int PLAYER_LABEL_SIZE = 20;
+    private static final int PLAYER_PANEL_HEIGHT = 45;
+    private static final int PLAYER_LABEL_SIZE = 16;
 
     public PlayerPanel(ActionListener a) {
 
@@ -45,6 +46,8 @@ public class PlayerPanel extends JPanel {
         numOfTurns.setBorder(new EmptyBorder(10, 10, 10, 800));
         endTurn = new StyledButton("End Turn", PLAYER_LABEL_SIZE);
         endTurn.addActionListener(a);
+        back = new StyledButton("Back", PLAYER_LABEL_SIZE);
+        back.addActionListener(a);
 
         add(gold);
         add(playerGold);
@@ -53,7 +56,16 @@ public class PlayerPanel extends JPanel {
         add(turns);
         add(numOfTurns);
         add(endTurn);
+        add(back);
 
+    }
+
+    public StyledButton getBack() {
+        return back;
+    }
+
+    public void setBack(StyledButton back) {
+        this.back = back;
     }
 
     public StyledLabel getPlayerName() {

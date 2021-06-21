@@ -3,6 +3,7 @@ package controllers;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static views.view.CityView.BUILDING_NAMES;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			playerPanels[i] = new PlayerPanel(this);
 		}
 		worldMapView = new WorldMapView(this, playerPanels[0]);
+		playerPanels[0].remove(playerPanels[0].getBack());
 	}
 
 	public int getIndexOfCity(String name) {
@@ -60,21 +62,32 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start")) {
-			startGame();}
-		if (e.getActionCommand().equals("End Turn")) {
-			game.endTurn();
-			for (PlayerPanel playerPanel : playerPanels) {
-					playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
-				}
+			startGame();
+		}
+		if (e.getActionCommand().equals("Back")) {
+			for (Window window : Window.getWindows()) {
+				window.setVisible(false);
 			}
-		
+			worldMapView.setVisible(true);
+		}
+
+		endTurnButton(e);
 		viewButtonsAction(e);
 		setBuildButtonsAction(e);
 		setRecruitButtonsAction(e);
-		setInitaiteButtonAction(e);
+		setInitiateButtonAction(e);
 	}
 
-	private void setInitaiteButtonAction(ActionEvent e) {
+	private void endTurnButton(ActionEvent e) {
+		if (e.getActionCommand().equals("End Turn")) {
+			game.endTurn();
+			for (PlayerPanel playerPanel : playerPanels) {
+				playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
+			}
+		}
+	}
+
+	private void setInitiateButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Initiate Army")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
@@ -138,7 +151,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	private void viewButtonsAction(ActionEvent e) {
 		for (int i = 0; i < CITIES_NAMES.length; i++) {
 			if (e.getActionCommand().equals(CITIES_NAMES[i])) {
-				System.out.println("leko");
 				worldMapView.setVisible(false);
 				cityViews[i].setVisible(true);
 			}
@@ -245,10 +257,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onInitiated(City city, Unit unit, Army army) {
-		//TODO add stationary 
+		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
 		getCityView(city).getArmyCards().addCard(armyPanel);
-		//worldMapView.getArmyCards().add(armyPanel);
+		// worldMapView.getArmyCards().add(armyPanel);
 		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
 		armyPanel.getInfo().setText(game.toString(army));
 
@@ -301,5 +313,4 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		// TODO Auto-generated method stub
 
 	}
-
 }
