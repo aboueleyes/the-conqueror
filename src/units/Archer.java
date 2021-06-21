@@ -27,8 +27,9 @@ public class Archer extends Unit {
     }
     return CAVALRY_TARGET_FACTORS[level - 1];
   }
-  
+
+  @Override
   public String toString() {
-  	return "type : Archer" + "\n" + super.toString(); 
+    return "type : Archer" + "\n" + super.toString();
   }
 }

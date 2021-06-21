@@ -87,7 +87,7 @@ public abstract class Unit {
 
   public void attack(Unit target) throws FriendlyFireException {
     if (this.getParentArmy().equals(target.getParentArmy())) {
-      throw new FriendlyFireException();
+      throw new FriendlyFireException("You cannot attack a friendly unit");
     } else {
       target.setCurrentSoldierCount(
           target.currentSoldierCount - (int) (this.currentSoldierCount * this.unitFactor(target, level)));

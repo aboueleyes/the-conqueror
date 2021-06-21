@@ -24,6 +24,8 @@ import units.Unit;
 
 public class Player {
 
+  private static final String NOT_ENOUGH_FOOD = "Not Enough Food";
+  private static final String NOT_ENOUGH_GOLD = "Not Enough Gold";
   private String name; // Variable representing the name of the player, READ ONLY
   private ArrayList<City> controlledCities; // An ArrayList containing the players controlled cities, READ ONLY
   private ArrayList<Army> controlledArmies; // An ArrayList containing the players controlled armies, READ ONLY
@@ -72,7 +74,7 @@ public class Player {
 
   public void decFood(double food) throws NotEnoughFoodException {
     if (food > this.food) {
-      throw new NotEnoughFoodException();
+      throw new NotEnoughFoodException(NOT_ENOUGH_FOOD);
     }
     this.food -= food;
   }
@@ -97,7 +99,7 @@ public class Player {
       if (type.equals("Cavalry") && militaryBuilding instanceof Stable)
         return militaryBuilding;
     }
-    throw new InvalidBuildingException();
+    throw new InvalidBuildingException("Error in CSV files");
   }
 
   public void recruitUnit(String type, String cityName)
@@ -112,7 +114,7 @@ public class Player {
       return;
     }
     if (targetBuilding.getRecruitmentCost() > treasury) {
-      throw new NotEnoughGoldException();
+      throw new NotEnoughGoldException(NOT_ENOUGH_GOLD);
     }
     Unit recruitedUnit = targetBuilding.recruit();
     playerCity.getDefendingArmy().getUnits().add(recruitedUnit);
@@ -138,7 +140,7 @@ public class Player {
       return;
     }
     if (building.getCost() > treasury) {
-      throw new NotEnoughGoldException();
+      throw new NotEnoughGoldException(NOT_ENOUGH_GOLD);
     }
     treasury -= building.getCost();
     if (building instanceof MilitaryBuilding) {
@@ -154,37 +156,28 @@ public class Player {
   }
 
   private Building setBuildingType(String type) {
-    Building building;
-    switch (type) {
-      case "Farm":
-        building = new Farm();
-        break;
-      case "Market":
-        building = new Market();
-        break;
-      case "Stable":
-        building = new Stable();
-        break;
-      case "Barracks":
-        building = new Barracks();
-        break;
-      default:
-        building = new ArcheryRange();
-        break;
-    }
-    return building;
+    if (type.equals("Farm"))
+      return new Farm();
+    if (type.equals("Stable"))
+      return new Stable();
+    if (type.equals("Market"))
+      return new Market();
+    if (type.equals("Barracks"))
+      return new Barracks();
+    else
+      return new ArcheryRange();
   }
 
-  public void upgradeBuilding(Building b, City city)
+  public void upgradeBuilding(Building building, City city)
       throws NotEnoughGoldException, BuildingInCoolDownException, MaxLevelException {
-    int cost = b.getUpgradeCost();
+    int cost = building.getUpgradeCost();
     if (cost > treasury) {
-      throw new NotEnoughGoldException();
+      throw new NotEnoughGoldException(NOT_ENOUGH_GOLD);
     }
-    b.upgrade();
+    building.upgrade();
     treasury -= cost;
     if (playerListener != null) {
-      playerListener.buildingUpgraded(b, city);
+      playerListener.buildingUpgraded(building, city);
     }
   }
 
@@ -202,10 +195,10 @@ public class Player {
   public void laySiege(Army army, City city) throws TargetNotReachedException, FriendlyCityException {
 
     if (controlledCities.contains(city)) {
-      throw new FriendlyCityException();
+      throw new FriendlyCityException("You cannot attack a friend city");
     }
     if (!army.getCurrentLocation().equals(city.getName())) {
-      throw new TargetNotReachedException();
+      throw new TargetNotReachedException("The army hasn't arrived yet");
     }
     army.setCurrentStatus(Status.BESIEGING);
     city.setUnderSiege(true);

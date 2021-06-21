@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -17,8 +16,8 @@ import views.button.UnitButton;
 public class DefendingUnitPanel extends JPanel {
   Unit unit;
   private JTextArea info = new JTextArea();
-  private UnitButton action1;
-  private UnitButton action2;
+  private UnitButton initiate;
+  private UnitButton relocate;
 
   public JTextArea getInfo() {
     return info;
@@ -29,34 +28,34 @@ public class DefendingUnitPanel extends JPanel {
   }
 
   public UnitButton getAction1() {
-    return action1;
+    return initiate;
   }
 
   public void setAction1(UnitButton action1) {
-    this.action1 = action1;
+    this.initiate = action1;
   }
 
   public DefendingUnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
-     setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
     ImagePanel background = setUnitPanelTypeImage(unit);
-    
+
     // background.setLayout(new BorderLayout());
-    action1 = new UnitButton("Initiate Army", 20);
-    action1.setUnit(unit);
-    action2 = new UnitButton("Relocate", 20);
-    action2.setUnit(unit);
+    initiate = new UnitButton("Initiate Army", 20);
+    initiate.setUnit(unit);
+    relocate = new UnitButton("Relocate", 20);
+    relocate.setUnit(unit);
     JPanel buttonPanel = new JPanel();
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-    buttonPanel.add(action1);
-    buttonPanel.add(action2);
-    background.add(info,BorderLayout.CENTER);
-    background.add(buttonPanel,BorderLayout.PAGE_END);
+    buttonPanel.add(initiate);
+    buttonPanel.add(relocate);
+    background.add(info, BorderLayout.CENTER);
+    background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText(unit.toString());
-    
-    action1.addActionListener(a);
-    action2.addActionListener(a);
+
+    initiate.addActionListener(a);
+    relocate.addActionListener(a);
     add(background);
   }
 
@@ -69,7 +68,7 @@ public class DefendingUnitPanel extends JPanel {
     } else {
       background = new ImagePanel(new ImageIcon("src/images/infantry.jpg").getImage());
     }
-    //background.setLayout(new BorderLayout());
+    // background.setLayout(new BorderLayout());
     return background;
   }
 
