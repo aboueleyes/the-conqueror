@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.SwingUtilities;
+
 import buildings.Building;
 import engine.City;
 import engine.Game;
@@ -81,8 +83,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Relocate")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
+			System.out.println("hello9999");
 			String city = unit.getParentArmy().getCurrentLocation();
 			Army army = cityViews[getIndexOfCity(city)].getSelected();
+			System.out.println(game.toString(army));
 			try {
 				army.relocateUnit(unit);
 			} catch (MaxCapacityException e1) {
@@ -94,7 +98,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	private void setSelectButttonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Select")) {
 			ArmyButton armyButton = (ArmyButton) e.getSource();
+			System.out.println("shemo");
 			cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())].setSelected(armyButton.getArmy());
+			System.out.println(game.toString(armyButton.getArmy()));
 		}
 	}
 
@@ -308,13 +314,16 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	public void onInitiated(City city, Unit unit, Army army) {
 		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
+		army.setArmyListener(this);
 		StationaryArmyPanel stationaryArmyPanel = new StationaryArmyPanel(this, army);
 		getCityView(city).getArmyCards().addCard(stationaryArmyPanel);
 		// worldMapView.getArmyCards().addCard(armyPanel);
 		armyPanel.getInfo().setText(game.toString(army));
 		army.setArmyPanel(armyPanel);
 		army.setStationaryArmyPanel(stationaryArmyPanel);
+		stationaryArmyPanel.getInfo().setText(game.toString(army));
 		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
+		SwingUtilities.updateComponentTreeUI(getCityView(city));
 	}
 
 	@Override
@@ -374,6 +383,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void onRelocate(Army army, Unit unit) {
 		String city = army.getCurrentLocation();
-		cityViews[getIndexOfCity(city)].getArmyCards().remove(unit.getUnitPanel());
+		System.out.println("hello");
+		cityViews[getIndexOfCity(city)].getUnitsCards().removeCard(unit.getUnitPanel());
+		SwingUtilities.updateComponentTreeUI(cityViews[getIndexOfCity(city)]);
 	}
 }
