@@ -9,9 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.DimensionUIResource;
 
-import units.Army;
+import engine.City;
 import views.button.CityButton;
-import views.panel.ArmyPanel;
 import views.panel.CardsPanel;
 import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
@@ -166,5 +165,16 @@ public class WorldMapView extends JFrame {
     cairoButton.setActionCommand("Cairo");
     spartaButton.setActionCommand("Sparta");
     romeButton.setActionCommand("Rome");
+  }
+
+  public void enableButton(City city) {
+    String name = city.getName();
+    if (name.equals("Cairo")) {
+      cairoButton.setEnabled(true);
+    } else if (name.equals("Sparta")) {
+      spartaButton.setEnabled(true);
+    } else {
+      romeButton.setEnabled(true);
+    }
   }
 }

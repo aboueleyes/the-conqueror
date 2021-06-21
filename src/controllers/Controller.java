@@ -314,7 +314,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onInitiated(City city, Unit unit, Army army) {
-		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
 		army.setArmyListener(this);
 		StationaryArmyPanel stationaryArmyPanel = new StationaryArmyPanel(this, army);
@@ -374,8 +373,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onOccupy(City city, Army army) {
-		// TODO Auto-generated method stub
-
+		worldMapView.enableButton(city);
+		getCityView(city).getArmyCards().add(new ArmyPanel(this, army));
 	}
 
 	public static void main(String[] args) {
