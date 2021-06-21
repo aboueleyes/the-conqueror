@@ -78,6 +78,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		setTargetButtonAction(e);
 		setSeigeingButtonAction(e);
 		setSelectButttonAction(e);
+		setRelocateButtonAction(e);
+	}
+
+	private void setRelocateButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Relocate")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
@@ -141,7 +145,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Initiate Army")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
-			// System.out.println(unit);
 			City city = Game.searchForCity(unit.getParentArmy().getCurrentLocation(), game.getAvailableCities());
 			game.getPlayer().initiateArmy(city, unit);
 		}
