@@ -1,7 +1,7 @@
 package units;
 
 import exceptions.FriendlyFireException;
-import views.panel.UnitPanel;
+import views.panel.DefendingUnitPanel;
 
 public abstract class Unit {
 
@@ -12,17 +12,17 @@ public abstract class Unit {
   private double marchingUpkeep; // the amount of food a unit consume when marching to another city
   private double siegeUpkeep; // the amount of food a unit consume when laying siege
   private Army parentArmy;
-  private UnitPanel unitPanel;
+  private DefendingUnitPanel unitPanel;
 
   public Army getParentArmy() {
     return parentArmy;
   }
 
-  public UnitPanel getUnitPanel() {
+  public DefendingUnitPanel getUnitPanel() {
     return unitPanel;
   }
 
-  public void setUnitPanel(UnitPanel unitPanel) {
+  public void setUnitPanel(DefendingUnitPanel unitPanel) {
     this.unitPanel = unitPanel;
   }
 

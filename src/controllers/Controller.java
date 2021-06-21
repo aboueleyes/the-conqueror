@@ -27,7 +27,8 @@ import views.button.UnitButton;
 import views.panel.ArmyPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
-import views.panel.UnitPanel;
+import views.panel.DefendingUnitPanel;
+import views.view.BattleView;
 import views.view.CityView;
 import views.view.StartView;
 import views.view.WorldMapView;
@@ -38,6 +39,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	WorldMapView worldMapView;
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
+	BattleView battleView;
 	public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
 	protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
@@ -235,7 +237,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void unitRecruited(Unit unit, City city) {
-		UnitPanel unitPanel = new UnitPanel(this, unit);
+		DefendingUnitPanel unitPanel = new DefendingUnitPanel(this, unit);
 		unit.setUnitPanel(unitPanel);
 		getCityView(city).getUnitsCards().addCard(unitPanel);
 	}
