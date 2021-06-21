@@ -17,6 +17,7 @@ import exceptions.BuildingInCoolDownException;
 import exceptions.FriendlyCityException;
 import exceptions.InvalidBuildingException;
 import exceptions.InvalidUnitException;
+import exceptions.MaxCapacityException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
 import exceptions.NotEnoughGoldException;
@@ -76,6 +77,25 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		setRecruitButtonsAction(e);
 		setTargetButtonAction(e);
 		setSeigeingButtonAction(e);
+		setSelectButttonAction(e);
+		if (e.getActionCommand().equals("Relocate")) {
+			UnitButton unitButton = (UnitButton) e.getSource();
+			Unit unit = unitButton.getUnit();
+			String city = unit.getParentArmy().getCurrentLocation();
+			Army army = cityViews[getIndexOfCity(city)].getSelected();
+			try {
+				army.relocateUnit(unit);
+			} catch (MaxCapacityException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	private void setSelectButttonAction(ActionEvent e) {
+		if (e.getActionCommand().equals("Select")) {
+			ArmyButton armyButton = (ArmyButton) e.getSource();
+			cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())].setSelected(armyButton.getArmy());
+		}
 	}
 
 	private void setSeigeingButtonAction(ActionEvent e) {
@@ -349,5 +369,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	public static void main(String[] args) {
 		new Controller();
+	}
+
+	@Override
+	public void onRelocate(Army army, Unit unit) {
+		String city = army.getCurrentLocation();
+		cityViews[getIndexOfCity(city)].getArmyCards().remove(unit.getUnitPanel());
 	}
 }

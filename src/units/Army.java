@@ -17,6 +17,7 @@ public class Army {
   private final int maxToHold = 10;
   private ArmyPanel armyPanel;
   private StationaryArmyPanel stationaryArmyPanel;
+  private ArmyListener armyListener;
 
   public ArmyPanel getArmyPanel() {
     return armyPanel;
@@ -42,8 +43,6 @@ public class Army {
   public void setArmyListener(ArmyListener armyListener) {
     this.armyListener = armyListener;
   }
-
-  private ArmyListener armyListener;
 
   public int getMaxToHold() {
     return maxToHold;
@@ -104,6 +103,9 @@ public class Army {
     this.getUnits().add(unit);
     unit.getParentArmy().getUnits().remove(unit);
     unit.setParentArmy(this);
+    if (armyListener != null) {
+      armyListener.onRelocate(this, unit);
+    }
   }
 
   public void handleAttackedUnit(Unit u) {

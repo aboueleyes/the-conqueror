@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.plaf.DimensionUIResource;
 
 import engine.City;
+import units.Army;
 import views.panel.BuildingPanel;
 import views.panel.CardsPanel;
 import views.panel.EconomicalBuildingPanel;
@@ -25,9 +26,18 @@ public class CityView extends JFrame {
   private City city;
   private BuildingPanel[] buildlingsSlavePanels = new BuildingPanel[5];
   public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "ArcheryRange" };
+  private Army selected;
 
   public JPanel getBuildingsPanel() {
     return buildingsPanel;
+  }
+
+  public Army getSelected() {
+    return selected;
+  }
+
+  public void setSelected(Army selected) {
+    this.selected = selected;
   }
 
   public CardsPanel getArmyCards() {
