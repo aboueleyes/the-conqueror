@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.DimensionUIResource;
 
+
 import engine.City;
 import units.Army;
 import views.panel.BuildingPanel;
@@ -101,7 +102,7 @@ public class CityView extends JFrame {
   }
 
   public void addArmyPane() {
-    armyPanel.setLayout(new BorderLayout());
+    armyPanel.setLayout(new GridLayout(0,2));
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
     unitsCards = new CardsPanel();
     armyCards = new CardsPanel();
