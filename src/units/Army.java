@@ -3,9 +3,9 @@ package units;
 import java.util.ArrayList;
 import java.util.Random;
 
-import engine.Game;
 import exceptions.MaxCapacityException;
 import views.panel.ArmyPanel;
+import views.panel.StationaryArmyPanel;
 
 public class Army {
 
@@ -14,12 +14,21 @@ public class Army {
   private int distancetoTarget = -1; // the distance needed to reach target city
   private String target = ""; // the target city
   private String currentLocation; // the current location of the army either in a city or road to another
-  private final int maxToHold = 10; // maximum number of units an army could hold (should better declared as static
+  private final int maxToHold = 10;
   private ArmyPanel armyPanel;
-                                    // final)
+  private StationaryArmyPanel stationaryArmyPanel;
+  private ArmyListener armyListener;
 
-		public ArmyPanel getArmyPanel() {
+  public ArmyPanel getArmyPanel() {
     return armyPanel;
+  }
+
+  public StationaryArmyPanel getStationaryArmyPanel() {
+    return stationaryArmyPanel;
+  }
+
+  public void setStationaryArmyPanel(StationaryArmyPanel stationaryArmyPanel) {
+    this.stationaryArmyPanel = stationaryArmyPanel;
   }
 
   public void setArmyPanel(ArmyPanel armyPanel) {
@@ -34,8 +43,6 @@ public class Army {
   public void setArmyListener(ArmyListener armyListener) {
     this.armyListener = armyListener;
   }
-
-  private ArmyListener armyListener;
 
   public int getMaxToHold() {
     return maxToHold;
@@ -96,6 +103,9 @@ public class Army {
     this.getUnits().add(unit);
     unit.getParentArmy().getUnits().remove(unit);
     unit.setParentArmy(this);
+    if (armyListener != null) {
+      armyListener.onRelocate(this, unit);
+    }
   }
 
   public void handleAttackedUnit(Unit u) {
@@ -130,5 +140,5 @@ public class Army {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
-  
+
 }

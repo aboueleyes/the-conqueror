@@ -17,6 +17,7 @@ import exceptions.BuildingInCoolDownException;
 import exceptions.FriendlyCityException;
 import exceptions.InvalidBuildingException;
 import exceptions.InvalidUnitException;
+import exceptions.MaxCapacityException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
 import exceptions.NotEnoughGoldException;
@@ -28,9 +29,10 @@ import views.button.ArmyButton;
 import views.button.CityButton;
 import views.button.UnitButton;
 import views.panel.ArmyPanel;
+import views.panel.DefendingUnitPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
-import views.panel.DefendingUnitPanel;
+import views.panel.StationaryArmyPanel;
 import views.view.BattleView;
 import views.view.CityView;
 import views.view.StartView;
@@ -66,16 +68,37 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Start")) {
-			startGame();
-		}
+		setInitiateButtonAction(e);
+		startGame(e);
 		backButtonActionResponse(e);
 		endTurnButton(e);
 		viewButtonsAction(e);
 		setBuildButtonsAction(e);
 		setRecruitButtonsAction(e);
-		setInitiateButtonAction(e);
-		target(e);
+		setTargetButtonAction(e);
+		setSeigeingButtonAction(e);
+		setSelectButttonAction(e);
+		if (e.getActionCommand().equals("Relocate")) {
+			UnitButton unitButton = (UnitButton) e.getSource();
+			Unit unit = unitButton.getUnit();
+			String city = unit.getParentArmy().getCurrentLocation();
+			Army army = cityViews[getIndexOfCity(city)].getSelected();
+			try {
+				army.relocateUnit(unit);
+			} catch (MaxCapacityException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	private void setSelectButttonAction(ActionEvent e) {
+		if (e.getActionCommand().equals("Select")) {
+			ArmyButton armyButton = (ArmyButton) e.getSource();
+			cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())].setSelected(armyButton.getArmy());
+		}
+	}
+
+	private void setSeigeingButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("SiegeCity")) {
 			ArmyButton armyButton = (ArmyButton) e.getSource();
 			Army army = armyButton.getArmy();
@@ -97,7 +120,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 	}
 
-	private void target(ActionEvent e) {
+	private void setTargetButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("TargetCity")) {
 			ArmyButton button = (ArmyButton) e.getSource();
 			String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
@@ -185,24 +208,26 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 	}
 
-	private void startGame() throws NullPointerException {
-		String playerName = startView.getNameOfPlayer().getText();
-		String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
-		try {
-			game = new Game(playerName, cityName);
-		} catch (IOException | InvalidUnitException e1) {
-			showMessageDialog(null, "Error in csv files Existing!!");
-			System.exit(1);
-		}
-		game.setGameListener(this);
-		game.getPlayer().setPlayerListener(this);
-		cityUnderControl(cityName);
-		startView.dispose();
-		worldMapView.setVisible(true);
-		setPlayer();
-		for (int i = 0; i < CITIES_NAMES.length; i++) {
-			cityViews[i] = new CityView(this, playerPanels[i + 1],
-					Game.searchForCity(CITIES_NAMES[i], game.getAvailableCities()));
+	private void startGame(ActionEvent e) throws NullPointerException {
+		if (e.getActionCommand().equals("Start")) {
+			String playerName = startView.getNameOfPlayer().getText();
+			String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
+			try {
+				game = new Game(playerName, cityName);
+			} catch (IOException | InvalidUnitException e1) {
+				showMessageDialog(null, "Error in csv files Existing!!");
+				System.exit(1);
+			}
+			game.setGameListener(this);
+			game.getPlayer().setPlayerListener(this);
+			cityUnderControl(cityName);
+			startView.dispose();
+			worldMapView.setVisible(true);
+			setPlayer();
+			for (int i = 0; i < CITIES_NAMES.length; i++) {
+				cityViews[i] = new CityView(this, playerPanels[i + 1],
+						Game.searchForCity(CITIES_NAMES[i], game.getAvailableCities()));
+			}
 		}
 	}
 
@@ -223,10 +248,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		} else {
 			worldMapView.getSpartaButton().setEnabled(true);
 		}
-	}
-
-	public static void main(String[] args) {
-		new Controller();
 	}
 
 	@Override
@@ -287,12 +308,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	public void onInitiated(City city, Unit unit, Army army) {
 		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
-		// getCityView(city).getArmyCards().addCard(armyPanel);
-		worldMapView.getArmyCards().addCard(armyPanel);
-		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
+		StationaryArmyPanel stationaryArmyPanel = new StationaryArmyPanel(this, army);
+		getCityView(city).getArmyCards().addCard(stationaryArmyPanel);
+		// worldMapView.getArmyCards().addCard(armyPanel);
 		armyPanel.getInfo().setText(game.toString(army));
 		army.setArmyPanel(armyPanel);
-
+		army.setStationaryArmyPanel(stationaryArmyPanel);
+		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
 	}
 
 	@Override
@@ -343,5 +365,15 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	public void onOccupy(City city, Army army) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static void main(String[] args) {
+		new Controller();
+	}
+
+	@Override
+	public void onRelocate(Army army, Unit unit) {
+		String city = army.getCurrentLocation();
+		cityViews[getIndexOfCity(city)].getArmyCards().remove(unit.getUnitPanel());
 	}
 }
