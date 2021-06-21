@@ -3,9 +3,9 @@ package units;
 import java.util.ArrayList;
 import java.util.Random;
 
-import engine.Game;
 import exceptions.MaxCapacityException;
 import views.panel.ArmyPanel;
+import views.panel.StationaryArmyPanel;
 
 public class Army {
 
@@ -14,12 +14,20 @@ public class Army {
   private int distancetoTarget = -1; // the distance needed to reach target city
   private String target = ""; // the target city
   private String currentLocation; // the current location of the army either in a city or road to another
-  private final int maxToHold = 10; // maximum number of units an army could hold (should better declared as static
+  private final int maxToHold = 10;
   private ArmyPanel armyPanel;
-                                    // final)
+  private StationaryArmyPanel stationaryArmyPanel;
 
-		public ArmyPanel getArmyPanel() {
+  public ArmyPanel getArmyPanel() {
     return armyPanel;
+  }
+
+  public StationaryArmyPanel getStationaryArmyPanel() {
+    return stationaryArmyPanel;
+  }
+
+  public void setStationaryArmyPanel(StationaryArmyPanel stationaryArmyPanel) {
+    this.stationaryArmyPanel = stationaryArmyPanel;
   }
 
   public void setArmyPanel(ArmyPanel armyPanel) {
@@ -130,5 +138,5 @@ public class Army {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
-  
+
 }
