@@ -31,4 +31,9 @@ public class Infantry extends Unit {
   public String toString() {
   	return "type : Infantry" + "\n" + super.toString();
   }
+  
+  public static void main(String[] argas) {
+  	Infantry test = new Infantry(1);
+  	System.out.println(test.toString());
+  }
 }

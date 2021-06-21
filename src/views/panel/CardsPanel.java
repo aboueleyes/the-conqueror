@@ -77,7 +77,7 @@ public class CardsPanel extends JPanel implements ActionListener{
 			if(e.getSource().equals(previous))
 				card.previous(panel_R);
 			else {
-				if(e.getActionCommand().equals("first"))
+				if(e.getSource().equals(first))
 					card.first(panel_R);
 				else
 					card.last(panel_R);

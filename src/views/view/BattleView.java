@@ -1,16 +1,25 @@
 package views.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.plaf.DimensionUIResource;
 
+import buildings.Barracks;
 import engine.Game;
 import exceptions.InvalidUnitException;
 import units.Archer;
@@ -18,6 +27,7 @@ import units.Army;
 import units.Cavalry;
 import units.Unit;
 import views.panel.CardsPanel;
+import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 
 public class BattleView extends JFrame {
@@ -29,6 +39,9 @@ public class BattleView extends JFrame {
 	private JPanel centre;
 	private Army attackerArmy;
 	private Army defenderArmy;
+	private JButton attack;
+	private JButton autoResolve;
+
 
 	public BattleView(ActionListener a, PlayerPanel playerPanel, Army attackerArmy, Army defenderArmy) {
 		super();
@@ -39,6 +52,11 @@ public class BattleView extends JFrame {
 		this.attackerArmy = attackerArmy;
 		this.defenderArmy = defenderArmy;
 		this.battleLog = new JPanel();
+		this.attack = new JButton("Attack");
+		this.attack.setFont(new Font("Dialog", Font.PLAIN, 20));
+		//this.attack.setPreferredSize(new Dimension(1600,40));
+		this.autoResolve = new JButton("Auto Resolve");
+		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
 		this.setLayout(new BorderLayout());
 		setExtendedState(MAXIMIZED_BOTH);
 		setVisible(false);
@@ -54,6 +72,19 @@ public class BattleView extends JFrame {
 	}
 
 	public void handleCentre(JPanel centre) {
+		centre.setLayout(new BorderLayout());
+		JPanel south = new JPanel();
+		JPanel north = new JPanel();
+		north.setLayout(new GridLayout(1,2));
+		north.add(attack);
+		north.add(autoResolve);
+		north.setPreferredSize(new Dimension(100,100));
+		centre.add(north, BorderLayout.PAGE_START);
+		centre.add(south, BorderLayout.CENTER);
+		south.setLayout(new GridLayout(1,2));
+		south.add(attackerPanel);
+		south.add(defenderPanel);
+
 		centre.setLayout(new GridLayout(1, 2));
 		centre.add(attackerPanel);
 		centre.add(defenderPanel);
@@ -76,24 +107,29 @@ public class BattleView extends JFrame {
 	}
 
 	public void handleDefenderPanel(CardsPanel defenderPanel) {
-		for (Unit unit : attackerArmy.getUnits()) {
+		for(Unit unit : defenderArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			defenderPanel.addCard(info);
 		}
 	}
 
 	public JPanel unitInformation(Unit unit) {
-		JPanel info = new JPanel();
-		String unitType;
-		if (unit instanceof Archer)
-			unitType = "Archer";
+		ImagePanel info;
+		if(unit instanceof Archer)
+			info = new ImagePanel(new ImageIcon("src/images/archer.jpg").getImage());
 		else {
-			if (unit instanceof Cavalry)
-				unitType = "Cavalry";
+			if(unit instanceof Cavalry)
+				info = new ImagePanel(new ImageIcon("src/images/cavalry.jpg").getImage());
 			else
-				unitType = "infantry";
+				info = new ImagePanel(new ImageIcon("src/images/infantry.jpg").getImage());
 		}
-		JLabel text = new JLabel(unitType + "/n" + "Current Solider" + unit.getCurrentSoldierCount());
+		String[] unitInfo = unit.toString().split("\n");
+		String line1 = unitInfo[0];
+		String line2 = unitInfo[1];
+		String line3 = unitInfo[2];
+		JLabel text = new JLabel();
+		text.setText("<html>"+ line1 + "<br>" + line2 + "<br>" + line3);
+		text.setFont(new Font("Dialog", Font.BOLD, 20));
 		info.add(text);
 		return info;
 	}

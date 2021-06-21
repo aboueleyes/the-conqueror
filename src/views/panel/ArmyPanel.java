@@ -5,10 +5,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import engine.City;
+import engine.Game;
+import exceptions.InvalidUnitException;
 import units.Army;
 import views.button.ArmyButton;
 
@@ -36,9 +39,9 @@ public class ArmyPanel extends JPanel {
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
     buttonPanel.add(action2);
-    panel1.add(buttonPanel, BorderLayout.SOUTH);
-    add(panel1, BorderLayout.PAGE_END);
-    info.setText("arg0");
+    panel1.add(buttonPanel,BorderLayout.SOUTH);
+    add(panel1,BorderLayout.PAGE_END);
+    info.setText("argxxxxxxxxxxxxxxxxx0");
     add(info);
     action1.addActionListener(a);
     action2.addActionListener(a);
@@ -83,5 +86,7 @@ public class ArmyPanel extends JPanel {
   public void setArmy(Army army) {
     this.army = army;
   }
-
+  
+  
+   
 }
