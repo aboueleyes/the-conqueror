@@ -176,8 +176,6 @@ public class Game {
 
   public void targetCity(Army army, String targetName) {
     String currentCity = army.getCurrentLocation();
-    army.setCurrentStatus(Status.MARCHING);
-    army.setCurrentLocation(ON_ROAD);
     if (army.getCurrentLocation().equals(ON_ROAD)) {
       currentCity = army.getTarget();
     }
@@ -187,7 +185,10 @@ public class Game {
     }
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
+    System.out.println(distance);
     City city = searchForCity(targetName, availableCities);
+    army.setCurrentStatus(Status.MARCHING);
+    army.setCurrentLocation(ON_ROAD);
     if (gameListener != null) {
       gameListener.onTargetCity(army, city);
     }

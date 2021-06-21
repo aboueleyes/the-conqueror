@@ -14,10 +14,11 @@ import units.Cavalry;
 import units.Unit;
 import views.button.UnitButton;
 
-public class UnitPanel extends JPanel {
+public class DefendingUnitPanel extends JPanel {
   Unit unit;
   private JTextArea info = new JTextArea();
   private UnitButton action1;
+  private UnitButton action2;
 
   public JTextArea getInfo() {
     return info;
@@ -35,25 +36,27 @@ public class UnitPanel extends JPanel {
     this.action1 = action1;
   }
 
-  public UnitPanel(ActionListener a, Unit unit) {
+  public DefendingUnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
+     setLayout(new BorderLayout());
     ImagePanel background = setUnitPanelTypeImage(unit);
-    setLayout(new BorderLayout());
-     //background.setLayout(new BorderLayout());
-    action1 = new UnitButton("Select", 20);
-    action1.setUnit(unit);
     
+    // background.setLayout(new BorderLayout());
+    action1 = new UnitButton("Initiate Army", 20);
+    action1.setUnit(unit);
+    action2 = new UnitButton("Relocate", 20);
+    action2.setUnit(unit);
     JPanel buttonPanel = new JPanel();
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
-  
-
-    background.add(buttonPanel, BorderLayout.PAGE_END);
+    buttonPanel.add(action2);
+    background.add(info,BorderLayout.CENTER);
+    background.add(buttonPanel,BorderLayout.PAGE_END);
     info.setText(unit.toString());
-    info.setOpaque(false);
-    background.add(info);
+    
     action1.addActionListener(a);
+    action2.addActionListener(a);
     add(background);
   }
 

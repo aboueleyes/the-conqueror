@@ -14,20 +14,24 @@ import engine.Game;
 import engine.GameListener;
 import engine.PlayerListener;
 import exceptions.BuildingInCoolDownException;
+import exceptions.FriendlyCityException;
 import exceptions.InvalidBuildingException;
 import exceptions.InvalidUnitException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
 import exceptions.NotEnoughGoldException;
+import exceptions.TargetNotReachedException;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
+import views.button.ArmyButton;
 import views.button.CityButton;
 import views.button.UnitButton;
 import views.panel.ArmyPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
-import views.panel.UnitPanel;
+import views.panel.DefendingUnitPanel;
+import views.view.BattleView;
 import views.view.CityView;
 import views.view.StartView;
 import views.view.WorldMapView;
@@ -38,6 +42,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	WorldMapView worldMapView;
 	PlayerPanel[] playerPanels = new PlayerPanel[5];
 	CityView[] cityViews = new CityView[3];
+	BattleView battleView;
 	public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
 	protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
@@ -64,18 +69,40 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Start")) {
 			startGame();
 		}
+		backButtonActionResponse(e);
+		endTurnButton(e);
+		viewButtonsAction(e);
+		setBuildButtonsAction(e);
+		setRecruitButtonsAction(e);
+		setInitiateButtonAction(e);
+		target(e);
+		if (e.getActionCommand().equals("SiegeCity")) {
+			ArmyButton armyButton = (ArmyButton) e.getSource();
+			Army army = armyButton.getArmy();
+			String targetName = (String) armyButton.getArmy().getArmyPanel().getCities().getSelectedItem();
+			try {
+				game.getPlayer().laySiege(army, Game.searchForCity(targetName, game.getAvailableCities()));
+			} catch (TargetNotReachedException | FriendlyCityException | NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	private void backButtonActionResponse(ActionEvent e) {
 		if (e.getActionCommand().equals("Back")) {
 			for (Window window : Window.getWindows()) {
 				window.setVisible(false);
 			}
 			worldMapView.setVisible(true);
 		}
+	}
 
-		endTurnButton(e);
-		viewButtonsAction(e);
-		setBuildButtonsAction(e);
-		setRecruitButtonsAction(e);
-		setInitiateButtonAction(e);
+	private void target(ActionEvent e) {
+		if (e.getActionCommand().equals("TargetCity")) {
+			ArmyButton button = (ArmyButton) e.getSource();
+			String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
+			game.targetCity(button.getArmy(), targetName);
+		}
 	}
 
 	private void endTurnButton(ActionEvent e) {
@@ -91,6 +118,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Initiate Army")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
+			// System.out.println(unit);
 			City city = Game.searchForCity(unit.getParentArmy().getCurrentLocation(), game.getAvailableCities());
 			game.getPlayer().initiateArmy(city, unit);
 		}
@@ -235,7 +263,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void unitRecruited(Unit unit, City city) {
-		UnitPanel unitPanel = new UnitPanel(this, unit);
+		DefendingUnitPanel unitPanel = new DefendingUnitPanel(this, unit);
 		unit.setUnitPanel(unitPanel);
 		getCityView(city).getUnitsCards().addCard(unitPanel);
 	}
@@ -259,23 +287,27 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	public void onInitiated(City city, Unit unit, Army army) {
 		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
-		getCityView(city).getArmyCards().addCard(armyPanel);
-		// worldMapView.getArmyCards().add(armyPanel);
+		// getCityView(city).getArmyCards().addCard(armyPanel);
+		worldMapView.getArmyCards().addCard(armyPanel);
 		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
 		armyPanel.getInfo().setText(game.toString(army));
+		army.setArmyPanel(armyPanel);
 
 	}
 
 	@Override
 	public void onSiegeing(Army army, City city) {
-		// TODO Auto-generated method stub
-
+		updateArmyInformation(army);
 	}
 
 	@Override
 	public void onTargetCity(Army army, City city) {
-		// TODO Auto-generated method stub
+		updateArmyInformation(army);
 
+	}
+
+	private void updateArmyInformation(Army army) {
+		army.getArmyPanel().getInfo().setText(game.toString(army));
 	}
 
 	@Override
@@ -291,13 +323,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void armyArrived(Army army) {
-		// TODO Auto-generated method stub
-
+		updateArmyInformation(army);
 	}
 
 	@Override
 	public void onDistanceUpdated(Army army) {
-		// TODO Auto-generated method stub
+		updateArmyInformation(army);
 
 	}
 

@@ -112,8 +112,6 @@ public class WorldMapView extends JFrame {
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
     armyPanel.add(new StyledLabel("Controlled Armies", 25, true), BorderLayout.PAGE_START);
     armyCards = new CardsPanel();
-    Army army = new Army("Cairo");
-    armyCards.addCard(new ArmyPanel(null, army));
     armyPanel.add(armyCards, BorderLayout.CENTER);
 
   }
