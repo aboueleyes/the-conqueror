@@ -9,7 +9,6 @@ import buildings.Farm;
 import buildings.MilitaryBuilding;
 import exceptions.FriendlyFireException;
 import exceptions.InvalidUnitException;
-import jdk.javadoc.internal.doclets.toolkit.taglets.SystemPropertyTaglet;
 import units.Archer;
 import units.Army;
 import units.Cavalry;
@@ -177,8 +176,6 @@ public class Game {
 
   public void targetCity(Army army, String targetName) {
     String currentCity = army.getCurrentLocation();
-    army.setCurrentStatus(Status.MARCHING);
-    army.setCurrentLocation(ON_ROAD);
     if (army.getCurrentLocation().equals(ON_ROAD)) {
       currentCity = army.getTarget();
     }
@@ -190,6 +187,8 @@ public class Game {
     army.setTarget(targetName);
     System.out.println(distance);
     City city = searchForCity(targetName, availableCities);
+    army.setCurrentStatus(Status.MARCHING);
+    army.setCurrentLocation(ON_ROAD);
     if (gameListener != null) {
       gameListener.onTargetCity(army, city);
     }
@@ -346,10 +345,5 @@ public class Game {
           + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n";
     return r;
   }
-public static void main(String[] args) throws IOException, InvalidUnitException {
-  Game game = new Game("s","Cairo");
-  Army army = new Army ("Rome");
-  game.targetCity(army, "Sparta");
-  System.out.println("dsbdks");
-}
+
 }
