@@ -38,8 +38,9 @@ public class DefendingUnitPanel extends JPanel {
 
   public DefendingUnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
-    // setLayout(null);
+     setLayout(new BorderLayout());
     ImagePanel background = setUnitPanelTypeImage(unit);
+    
     // background.setLayout(new BorderLayout());
     action1 = new UnitButton("Initiate Army", 20);
     action1.setUnit(unit);
@@ -50,10 +51,10 @@ public class DefendingUnitPanel extends JPanel {
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
     buttonPanel.add(action2);
-
-    background.add(buttonPanel, BorderLayout.PAGE_END);
+    background.add(info,BorderLayout.CENTER);
+    background.add(buttonPanel,BorderLayout.PAGE_END);
     info.setText(unit.toString());
-    background.add(info);
+    
     action1.addActionListener(a);
     action2.addActionListener(a);
     add(background);
@@ -68,6 +69,7 @@ public class DefendingUnitPanel extends JPanel {
     } else {
       background = new ImagePanel(new ImageIcon("src/images/infantry.jpg").getImage());
     }
+    //background.setLayout(new BorderLayout());
     return background;
   }
 

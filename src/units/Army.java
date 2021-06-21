@@ -5,6 +5,7 @@ import java.util.Random;
 
 import engine.Game;
 import exceptions.MaxCapacityException;
+import views.panel.ArmyPanel;
 
 public class Army {
 
@@ -14,8 +15,18 @@ public class Army {
   private String target = ""; // the target city
   private String currentLocation; // the current location of the army either in a city or road to another
   private final int maxToHold = 10; // maximum number of units an army could hold (should better declared as static
+  private ArmyPanel armyPanel;
                                     // final)
 
+		public ArmyPanel getArmyPanel() {
+    return armyPanel;
+  }
+
+  public void setArmyPanel(ArmyPanel armyPanel) {
+    this.armyPanel = armyPanel;
+  }
+
+  // TODO Auto-ge
   public ArmyListener getArmyListener() {
     return armyListener;
   }

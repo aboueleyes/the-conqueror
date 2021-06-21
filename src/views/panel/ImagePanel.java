@@ -1,5 +1,5 @@
 package views.panel;
-
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -13,6 +13,7 @@ public class ImagePanel extends JPanel {
 
   public ImagePanel(String img) {
     this(new ImageIcon(img).getImage());
+    setLayout(new BorderLayout());
   }
 
   public ImagePanel(Image img) {
@@ -22,6 +23,7 @@ public class ImagePanel extends JPanel {
     setMinimumSize(size);
     setMaximumSize(size);
     setSize(size);
+
   }
 
   @Override

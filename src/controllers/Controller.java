@@ -22,6 +22,7 @@ import exceptions.NotEnoughGoldException;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
+import views.button.ArmyButton;
 import views.button.CityButton;
 import views.button.UnitButton;
 import views.panel.ArmyPanel;
@@ -78,6 +79,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		setBuildButtonsAction(e);
 		setRecruitButtonsAction(e);
 		setInitiateButtonAction(e);
+		if(e.getActionCommand().equals("TargetCity")){
+			ArmyButton button = (ArmyButton) e.getSource();
+			String targetName = (String)button.getArmy().getArmyPanel().getCities().getSelectedItem();
+			game.targetCity(button.getArmy(), targetName);
+		}
 	}
 
 	private void endTurnButton(ActionEvent e) {
@@ -261,10 +267,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	public void onInitiated(City city, Unit unit, Army army) {
 		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
-		getCityView(city).getArmyCards().addCard(armyPanel);
-		// worldMapView.getArmyCards().add(armyPanel);
+		//getCityView(city).getArmyCards().addCard(armyPanel);
+		worldMapView.getArmyCards().addCard(armyPanel);
 		getCityView(city).getUnitsCards().removeCard(unit.getUnitPanel());
 		armyPanel.getInfo().setText(game.toString(army));
+		army.setArmyPanel(armyPanel);
 
 	}
 
@@ -276,7 +283,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onTargetCity(Army army, City city) {
-		// TODO Auto-generated method stub
+		army.getArmyPanel().getInfo().setText(game.toString(army));
 
 	}
 
@@ -299,7 +306,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onDistanceUpdated(Army army) {
-		// TODO Auto-generated method stub
+		army.getArmyPanel().getInfo().setText(game.toString(army));
 
 	}
 

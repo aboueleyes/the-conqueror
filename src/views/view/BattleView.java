@@ -30,6 +30,7 @@ import units.Unit;
 import views.panel.CardsPanel;
 import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
+import views.panel.UnitPanel;
 import views.panel.DefendingUnitPanel;
 
 public class BattleView extends JFrame {
@@ -98,14 +99,14 @@ public class BattleView extends JFrame {
 
 	public void handleAttackerPanel(CardsPanel attackerPanel, ActionListener a) {
 		for (Unit unit : attackerArmy.getUnits()) {
-			DefendingUnitPanel info = new DefendingUnitPanel(a, unit);
+			UnitPanel info = new UnitPanel(a, unit);
 			attackerPanel.addCard(info);
 		}
 	}
 
 	public void handleDefenderPanel(CardsPanel defenderPanel, ActionListener a) {
 		for (Unit unit : defenderArmy.getUnits()) {
-			DefendingUnitPanel info = new DefendingUnitPanel(a, unit);
+			UnitPanel info = new UnitPanel(a, unit);
 			defenderPanel.addCard(info);
 		}
 	}

@@ -20,8 +20,18 @@ public class ArmyPanel extends JPanel {
   private JTextArea info = new JTextArea();
   private ArmyButton action1;
   private ArmyButton action2;
+  private ArmyButton startBattle;
   private City city;
-  private JComboBox cities = new JComboBox<>(citiesNames);
+  private JComboBox<String> cities = new JComboBox<>(citiesNames);
+
+  public JComboBox<String> getCities() {
+    return cities;
+  }
+
+  public void setCities(JComboBox<String> cities) {
+    this.cities = cities;
+  }
+
   private static final String[] citiesNames = { "Cairo", "Rome", "Sparta" };
 
   public ArmyPanel(ActionListener a, Army army) {
@@ -31,6 +41,8 @@ public class ArmyPanel extends JPanel {
     action1.setArmy(army);
     action2 = new ArmyButton("SiegeCity", 20);
     action2.setArmy(army);
+    startBattle = new ArmyButton("Start Battle", 20);
+    startBattle.setArmy(army);
     JPanel buttonPanel = new JPanel();
     JPanel panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
@@ -39,12 +51,22 @@ public class ArmyPanel extends JPanel {
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
     buttonPanel.add(action2);
-    panel1.add(buttonPanel,BorderLayout.SOUTH);
-    add(panel1,BorderLayout.PAGE_END);
+    buttonPanel.add(startBattle);
+    panel1.add(buttonPanel, BorderLayout.SOUTH);
+    add(panel1, BorderLayout.PAGE_END);
     info.setText("argxxxxxxxxxxxxxxxxx0");
     add(info);
     action1.addActionListener(a);
     action2.addActionListener(a);
+    startBattle.addActionListener(a);
+  }
+
+  public ArmyButton getAction3() {
+    return startBattle;
+  }
+
+  public void setAction3(ArmyButton action3) {
+    this.startBattle = action3;
   }
 
   public City getCity() {
@@ -86,7 +108,5 @@ public class ArmyPanel extends JPanel {
   public void setArmy(Army army) {
     this.army = army;
   }
-  
-  
-   
+
 }
