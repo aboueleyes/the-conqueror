@@ -2,12 +2,7 @@ package views.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import views.MyInputVerifier;
+import controllers.Controller;
 import engine.Game;
-import utlis.ReadingCSVFile;
+import views.MyInputVerifier;
 import views.button.StyledButton;
 import views.panel.ImagePanel;
 
@@ -30,33 +25,8 @@ public class StartView extends JFrame {
     private JButton start;
     private ImagePanel panel;
     private Game game;
-    private static ArrayList<String> citiesName = new ArrayList<>();
 
-    public static String[] getStringArray(ArrayList<String> arr) {
-
-        String str[] = new String[arr.size()];
-        arr.forEach(n -> str[arr.indexOf(n)] = n);
-        return str;
-    }
-
-    public void loadCitiesAndDistances() throws IOException {
-        List<List<String>> data = ReadingCSVFile.readFile("distances.csv");
-
-        for (List<String> line : data) {
-            String from = line.get(0);
-            String to = line.get(1);
-            addToSet(to);
-            addToSet(from);
-        }
-    }
-
-    private void addToSet(String name) {
-        if (!citiesName.contains(name)) {
-            citiesName.add(name);
-        }
-    }
-
-    public StartView(ActionListener a) throws FontFormatException, IOException {
+    public StartView(ActionListener a) {
         setSize(500, 500);
         setComponent();
         addComponents();
@@ -75,13 +45,12 @@ public class StartView extends JFrame {
 
     }
 
-    private void setComponent() throws FontFormatException, IOException {
-        loadCitiesAndDistances();
+    private void setComponent() {
         setLabel1(new StyledLabel("Enter your name", 20, true));
         setNameOfPlayer(new JTextField());
         setLabel2(new StyledLabel("Choose yourCity", 20, true));
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
-        setCityOfPlayer(new JComboBox<>(getStringArray(citiesName)));
+        setCityOfPlayer(new JComboBox<>(Controller.CITIES_NAMES));
         setStart(new StyledButton("Start", 16));
         panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
     }
@@ -96,17 +65,12 @@ public class StartView extends JFrame {
     }
 
     private void sizeComponents() {
-        Font font1 = new Font(Font.SERIF, Font.ITALIC | Font.BOLD, 16);
-        Font font2 = new Font(Font.SERIF, Font.ITALIC, 14);
         label1.setBounds(50, 50, 400, 20);
         nameOfPlayer.setBounds(50, 75, 400, 20);
-        nameOfPlayer.setFont(font2);
         label2.setBounds(50, 200, 400, 20);
         cityOfPlayer.setBounds(50, 250, 400, 20);
-        cityOfPlayer.setFont(font2);
         cityOfPlayer.setSelectedIndex(-1);
         start.setBounds(200, 350, 100, 20);
-
     }
 
     public JButton getStart() {

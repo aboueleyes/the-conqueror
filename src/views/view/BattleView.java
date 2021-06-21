@@ -30,8 +30,8 @@ import views.panel.CardsPanel;
 import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 
-public class BattleView  extends JFrame{
-	
+public class BattleView extends JFrame {
+
 	private PlayerPanel playerPanle;
 	private JPanel battleLog;
 	private CardsPanel attackerPanel;
@@ -41,7 +41,8 @@ public class BattleView  extends JFrame{
 	private Army defenderArmy;
 	private JButton attack;
 	private JButton autoResolve;
-	
+
+
 	public BattleView(ActionListener a, PlayerPanel playerPanel, Army attackerArmy, Army defenderArmy) {
 		super();
 		this.playerPanle = playerPanel;
@@ -58,18 +59,18 @@ public class BattleView  extends JFrame{
 		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
 		this.setLayout(new BorderLayout());
 		setExtendedState(MAXIMIZED_BOTH);
-    setVisible(false);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setTitle("The Conqueror");
-    getContentPane().add(playerPanel, BorderLayout.PAGE_START);
-    getContentPane().add(battleLog, BorderLayout.PAGE_END);
-    getContentPane().add(centre, BorderLayout.CENTER);
-    handleCentre(centre);
-    handleBattlelog(battleLog);
-    handleAttackerPanel(attackerPanel);
-    handleDefenderPanel(defenderPanel);
+		setVisible(false);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("The Conqueror");
+		getContentPane().add(playerPanel, BorderLayout.PAGE_START);
+		getContentPane().add(battleLog, BorderLayout.PAGE_END);
+		getContentPane().add(centre, BorderLayout.CENTER);
+		handleCentre(centre);
+		handleBattlelog(battleLog);
+		handleAttackerPanel(attackerPanel);
+		handleDefenderPanel(defenderPanel);
 	}
-	
+
 	public void handleCentre(JPanel centre) {
 		centre.setLayout(new BorderLayout());
 		JPanel south = new JPanel();
@@ -83,31 +84,35 @@ public class BattleView  extends JFrame{
 		south.setLayout(new GridLayout(1,2));
 		south.add(attackerPanel);
 		south.add(defenderPanel);
+
+		centre.setLayout(new GridLayout(1, 2));
+		centre.add(attackerPanel);
+		centre.add(defenderPanel);
 	}
-	
+
 	public void handleBattlelog(JPanel battleLog) {
 		battleLog.setLayout(new BorderLayout());
 		JLabel head = new JLabel("Battle Log");
 		battleLog.add(head, BorderLayout.PAGE_START);
-	  JTextArea log = new JTextArea("xxxxxxxxxxxxxxxxx");
-	  battleLog.add(log,BorderLayout.CENTER);
-	  battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
+		JTextArea log = new JTextArea("");
+		battleLog.add(log, BorderLayout.CENTER);
+		battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
 	}
-	
-	public void handleAttackerPanel(CardsPanel attackerPanel){
-		for(Unit unit : attackerArmy.getUnits()) {
+
+	public void handleAttackerPanel(CardsPanel attackerPanel) {
+		for (Unit unit : attackerArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			attackerPanel.addCard(info);
 		}
 	}
-	
+
 	public void handleDefenderPanel(CardsPanel defenderPanel) {
 		for(Unit unit : defenderArmy.getUnits()) {
 			JPanel info = unitInformation(unit);
 			defenderPanel.addCard(info);
 		}
 	}
-	
+
 	public JPanel unitInformation(Unit unit) {
 		ImagePanel info;
 		if(unit instanceof Archer)
@@ -128,13 +133,12 @@ public class BattleView  extends JFrame{
 		info.add(text);
 		return info;
 	}
-	
-	public static void main(String[] args)throws IOException, FontFormatException, InvalidUnitException {
+
+	public static void main(String[] args) throws IOException, InvalidUnitException {
 		Game test = new Game("ahmed", "cairo");
 		Army test1 = test.getAvailableCities().get(0).getDefendingArmy();
-		Army test2 = test.getAvailableCities().get(0).getDefendingArmy();
 		new BattleView(null, new PlayerPanel(null), test1, test1).setVisible(true);
-		
+
 	}
 
 }

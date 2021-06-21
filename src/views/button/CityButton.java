@@ -1,8 +1,5 @@
 package views.button;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
-
 import engine.City;
 
 public class CityButton extends StyledButton {
@@ -10,7 +7,7 @@ public class CityButton extends StyledButton {
     private City city;
     private boolean built = false;
 
-    public CityButton(String s, int size) throws FontFormatException, IOException {
+    public CityButton(String s, int size) {
         super(s, size);
         setEnabled(false);
     }

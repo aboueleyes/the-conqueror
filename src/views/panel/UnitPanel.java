@@ -1,16 +1,14 @@
 package views.panel;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import java.awt.event.*;
-import java.io.IOException;
 
 import units.Unit;
-import views.button.ArmyButton;
 import views.button.UnitButton;
-
-import java.awt.*;
 
 public class UnitPanel extends JPanel {
   Unit unit;
@@ -34,7 +32,7 @@ public class UnitPanel extends JPanel {
     this.action1 = action1;
   }
 
-  public UnitPanel(ActionListener a, Unit unit) throws FontFormatException, IOException {
+  public UnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
     setLayout(new BorderLayout());
     action1 = new UnitButton("Initiate Army", 20);

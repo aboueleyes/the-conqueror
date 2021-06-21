@@ -1,5 +1,8 @@
 package views.panel;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,20 +14,17 @@ import engine.Game;
 import exceptions.InvalidUnitException;
 import units.Army;
 import views.button.ArmyButton;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.awt.BorderLayout;
-import java.awt.FontFormatException;
-public class ArmyPanel extends JPanel{
+
+public class ArmyPanel extends JPanel {
   private Army army;
   private JTextArea info = new JTextArea();
   private ArmyButton action1;
   private ArmyButton action2;
   private City city;
   private JComboBox cities = new JComboBox<>(citiesNames);
-  private static final String [] citiesNames = {"Cairo","Rome","Sparta"};
-  
-  public ArmyPanel (ActionListener a ,Army army) throws FontFormatException, IOException{
+  private static final String[] citiesNames = { "Cairo", "Rome", "Sparta" };
+
+  public ArmyPanel(ActionListener a, Army army) {
     this.army = army;
     setLayout(new BorderLayout());
     action1 = new ArmyButton("TargetCity", 20);
@@ -34,7 +34,7 @@ public class ArmyPanel extends JPanel{
     JPanel buttonPanel = new JPanel();
     JPanel panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
-    panel1.add(cities,BorderLayout.NORTH);
+    panel1.add(cities, BorderLayout.NORTH);
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
@@ -66,30 +66,27 @@ public class ArmyPanel extends JPanel{
   public Army getArmy() {
     return army;
   }
+
   public ArmyButton getAction1() {
     return action1;
   }
+
   public void setAction(ArmyButton action) {
     this.action1 = action;
   }
+
   public JTextArea getInfo() {
     return info;
   }
+
   public void setInfo(JTextArea info) {
     this.info = info;
   }
+
   public void setArmy(Army army) {
     this.army = army;
   }
   
-  public static void main(String[] args) throws InvalidUnitException, IOException, FontFormatException {
-  	Game game = new Game("ahmed", "cairo");
-  	Army army = game.getAvailableCities().get(0).getDefendingArmy();
-  	ArmyPanel armypanel = new ArmyPanel(null, army);
-  	JFrame test = new JFrame();
-  	test.add(armypanel);
-  	test.setVisible(true);
-  }
   
-    
+   
 }

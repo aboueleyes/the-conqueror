@@ -1,28 +1,25 @@
 package views.panel;
 
-import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import engine.City;
 import views.button.CityButton;
-import views.button.StyledButton;
 
 public class MilitaryBuildingPanel extends BuildingPanel {
   private CityButton recruit;
 
-  public MilitaryBuildingPanel(ActionListener a, String name, City city) throws FontFormatException, IOException {
+  public MilitaryBuildingPanel(ActionListener a, String name, City city) {
     super(a, name, city);
     setLayout(new GridLayout(2, 2));
     setUpgrade(new CityButton("Build", 30));
     getUpgrade().setEnabled(true);
     getUpgrade().addActionListener(a);
     getUpgrade().setCity(city);
-    setInfo(new JTextArea("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n xxxxxxxxxxxxxxxxxx"));
+    setInfo(new JTextArea(""));
     getInfo().setEditable(false);
     getInfo().setVisible(false);
     setRecruit(new CityButton("Recruit", 30));
