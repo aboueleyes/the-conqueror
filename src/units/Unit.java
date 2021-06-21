@@ -2,6 +2,7 @@ package units;
 
 import exceptions.FriendlyFireException;
 import views.panel.DefendingUnitPanel;
+import views.panel.UnitPanel;
 
 public abstract class Unit {
 
@@ -13,9 +14,26 @@ public abstract class Unit {
   private double siegeUpkeep; // the amount of food a unit consume when laying siege
   private Army parentArmy;
   private DefendingUnitPanel unitPanel;
+  private UnitPanel battleUnitPanel;
+  UnitListener unitListener;
+  public UnitListener getUnitListener() {
+    return unitListener;
+}
 
-  public Army getParentArmy() {
+public void setUnitListener(UnitListener unitListener) {
+    this.unitListener = unitListener;
+}
+
+public Army getParentArmy() {
     return parentArmy;
+  }
+
+  public UnitPanel getBattleUnitPanel() {
+    return battleUnitPanel;
+  }
+
+  public void setBattleUnitPanel(UnitPanel battleUnitPanel) {
+    this.battleUnitPanel = battleUnitPanel;
   }
 
   public DefendingUnitPanel getUnitPanel() {
@@ -89,9 +107,13 @@ public abstract class Unit {
     if (this.getParentArmy().equals(target.getParentArmy())) {
       throw new FriendlyFireException();
     } else {
+      int currentSoldierBeforeAttack = target.currentSoldierCount;
       target.setCurrentSoldierCount(
           target.currentSoldierCount - (int) (this.currentSoldierCount * this.unitFactor(target, level)));
       target.getParentArmy().handleAttackedUnit(target);
+      if(unitListener!=null){
+        unitListener.UnitOnattack(this, target,currentSoldierBeforeAttack-target.getCurrentSoldierCount() );
+      }
     }
   }
 }

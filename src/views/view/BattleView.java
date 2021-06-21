@@ -25,8 +25,10 @@ import engine.Game;
 import exceptions.InvalidUnitException;
 import units.Archer;
 import units.Army;
+import units.ArmyListener;
 import units.Cavalry;
 import units.Unit;
+import units.UnitListener;
 import views.panel.CardsPanel;
 import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
@@ -44,6 +46,88 @@ public class BattleView extends JFrame {
 	private Army defenderArmy;
 	private JButton attack;
 	private JButton autoResolve;
+    private  Unit attackingUnit;
+	private  Unit defendingUnit;
+	JTextArea log = new JTextArea();
+	public PlayerPanel getPlayerPanle() {
+		return playerPanle;
+	}
+
+	public void setPlayerPanle(PlayerPanel playerPanle) {
+		this.playerPanle = playerPanle;
+	}
+
+	public JPanel getBattleLog() {
+		return battleLog;
+	}
+
+	public void setBattleLog(JPanel battleLog) {
+		this.battleLog = battleLog;
+	}
+
+	public CardsPanel getAttackerPanel() {
+		return attackerPanel;
+	}
+
+	public void setAttackerPanel(CardsPanel attackerPanel) {
+		this.attackerPanel = attackerPanel;
+	}
+
+	public CardsPanel getDefenderPanel() {
+		return defenderPanel;
+	}
+
+	public void setDefenderPanel(CardsPanel defenderPanel) {
+		this.defenderPanel = defenderPanel;
+	}
+
+	public JPanel getCentre() {
+		return centre;
+	}
+
+	public void setCentre(JPanel centre) {
+		this.centre = centre;
+	}
+
+	public Army getAttackerArmy() {
+		return attackerArmy;
+	}
+
+	public void setAttackerArmy(Army attackerArmy) {
+		this.attackerArmy = attackerArmy;
+	}
+
+	public Army getDefenderArmy() {
+		return defenderArmy;
+	}
+
+	public void setDefenderArmy(Army defenderArmy) {
+		this.defenderArmy = defenderArmy;
+	}
+
+	public JButton getAttack() {
+		return attack;
+	}
+
+	public void setAttack(JButton attack) {
+		this.attack = attack;
+	}
+
+	public JButton getAutoResolve() {
+		return autoResolve;
+	}
+
+	public void setAutoResolve(JButton autoResolve) {
+		this.autoResolve = autoResolve;
+	}
+
+	public JTextArea getLog() {
+		return log;
+	}
+
+	public void setLog(JTextArea log) {
+		this.log = log;
+	}
 
 	public BattleView(ActionListener a, PlayerPanel playerPanel, Army attackerArmy, Army defenderArmy) {
 		super();
@@ -55,6 +139,7 @@ public class BattleView extends JFrame {
 		this.defenderArmy = defenderArmy;
 		this.battleLog = new JPanel();
 		this.attack = new JButton("Attack");
+		attack.addActionListener(a);
 		this.attack.setFont(new Font("Dialog", Font.PLAIN, 20));
 		// this.attack.setPreferredSize(new Dimension(1600,40));
 		this.autoResolve = new JButton("Auto Resolve");
@@ -71,6 +156,24 @@ public class BattleView extends JFrame {
 		handleBattlelog(battleLog);
 		handleAttackerPanel(attackerPanel, a);
 		handleDefenderPanel(defenderPanel, a);
+		defenderArmy.setArmyListener((ArmyListener) a);
+		attackerArmy.setArmyListener((ArmyListener) a);
+	}
+
+	public Unit getDefendingUnit() {
+		return defendingUnit;
+	}
+
+	public void setDefendingUnit(Unit defendingUnit) {
+		this.defendingUnit = defendingUnit;
+	}
+
+	public Unit getAttackingUnit() {
+		return attackingUnit;
+	}
+
+	public void setAttackingUnit(Unit attackingUnit) {
+		this.attackingUnit = attackingUnit;
 	}
 
 	public void handleCentre(JPanel centre) {
@@ -92,7 +195,6 @@ public class BattleView extends JFrame {
 		battleLog.setLayout(new BorderLayout());
 		JLabel head = new JLabel("Battle Log");
 		battleLog.add(head, BorderLayout.PAGE_START);
-		JTextArea log = new JTextArea("");
 		battleLog.add(log, BorderLayout.CENTER);
 		battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
 	}
@@ -100,14 +202,21 @@ public class BattleView extends JFrame {
 	public void handleAttackerPanel(CardsPanel attackerPanel, ActionListener a) {
 		for (Unit unit : attackerArmy.getUnits()) {
 			UnitPanel info = new UnitPanel(a, unit);
+			unit.setBattleUnitPanel(info);
+			info.getAction1().setActionCommand("selectAttacker");
 			attackerPanel.addCard(info);
+			unit.setUnitListener((UnitListener) a);
 		}
 	}
 
 	public void handleDefenderPanel(CardsPanel defenderPanel, ActionListener a) {
 		for (Unit unit : defenderArmy.getUnits()) {
 			UnitPanel info = new UnitPanel(a, unit);
+			unit.setBattleUnitPanel(info);
+			info.getAction1().setActionCommand("selectDefender");
 			defenderPanel.addCard(info);
+			unit.setUnitListener((UnitListener) a);
+
 		}
 	}
 

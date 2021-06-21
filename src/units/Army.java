@@ -109,8 +109,12 @@ public class Army {
   }
 
   public void handleAttackedUnit(Unit u) {
-    if (u.getCurrentSoldierCount() == 0)
+    if (u.getCurrentSoldierCount() == 0){
       this.getUnits().remove(u);
+    }  
+    if(armyListener!=null){
+      armyListener.onRemovedUnit(this, u);
+    }
   }
 
   public double foodNeeded() {
@@ -131,9 +135,7 @@ public class Army {
     for (Unit unit : units) {
       unit.decCurrentSoldierCount();
     }
-    if (armyListener != null) {
-      armyListener.onKill(this);
-    }
+   
   }
 
   public Unit getRandomUnit() {
