@@ -307,8 +307,8 @@ public class Game {
     }
     if (defender.getUnits().isEmpty()) {
       occupy(attacker, defender.getCurrentLocation());
-      if(gameListener!=null){
-        gameListener.OnBattleEnded(attacker,defender,true);
+      if (gameListener != null) {
+        gameListener.OnBattleEnded(attacker, defender, true);
       }
     } else {
       player.getControlledArmies().remove(attacker);
@@ -317,23 +317,24 @@ public class Game {
         return;
       }
       removeSieging(currentCity);
-      if(gameListener!=null){
+      if (gameListener != null) {
         System.out.println("autoresolve method");
-        gameListener.OnBattleEnded(attacker,defender,false);
+        gameListener.OnBattleEnded(attacker, defender, false);
       }
     }
   }
-  public void battleEnded(Army attacker,Army defender){
-    if(attacker.getUnits().size()==0){
-      if(gameListener!=null){
-        gameListener.OnBattleEnded(attacker,defender,false);
+
+  public void battleEnded(Army attacker, Army defender) {
+    if (attacker.getUnits().isEmpty()) {
+      if (gameListener != null) {
+        gameListener.OnBattleEnded(attacker, defender, false);
       }
-    }
-    else if(defender.getUnits().size()==0){
-      
-      gameListener.OnBattleEnded(attacker,defender,true);
+    } else if (defender.getUnits().isEmpty()) {
+
+      gameListener.OnBattleEnded(attacker, defender, true);
     }
   }
+
   private void removeSieging(City currentCity) {
     currentCity.setTurnsUnderSiege(-1);
     currentCity.setUnderSiege(false);
