@@ -389,7 +389,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void onOccupy(City city, Army army) {
     worldMapView.enableButton(city);
-    getCityView(city).getArmyCards().add(new ArmyPanel(this, army));
+    worldMapView.getArmyCards().removeCard(army.getArmyPanel());
+    for(Unit unit : army.getUnits()){
+      getCityView(city).getUnitsCards().addCard(unit.getUnitPanel());
+    }
   }
 
   @Override

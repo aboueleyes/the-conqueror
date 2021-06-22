@@ -31,7 +31,7 @@ public class CardsPanel extends JPanel implements ActionListener{
 	  panel_R = new JPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+		gbc.weightx = 0.5;
     gbc.weighty = 1;
     
     add(panel_L, gbc);
@@ -48,8 +48,7 @@ public class CardsPanel extends JPanel implements ActionListener{
     
     panel_L.add(next);
     panel_L.add(previous);
-    panel_L.add(first);
-    panel_L.add(last);
+   
     
     card = new CardLayout();
     panel_R.setLayout(card);
@@ -62,8 +61,9 @@ public class CardsPanel extends JPanel implements ActionListener{
     
 	}
 	
-	 public void addCard(JPanel unit) {
-   	panel_R.add(unit);
+	public void addCard(JPanel unit) {
+   	 panel_R.add(unit);
+	 card.last(panel_R);
    }
     public void removeCard(JPanel unit){
 		panel_R.remove(unit);
