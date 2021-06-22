@@ -134,6 +134,7 @@ public class BattleView extends JFrame {
 		this.autoResolve = new JButton("Auto Resolve");
 		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
 		this.setLayout(new BorderLayout());
+		autoResolve.addActionListener(a);
 		setExtendedState(MAXIMIZED_BOTH);
 		setVisible(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

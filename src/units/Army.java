@@ -109,10 +109,11 @@ public class Army {
 
   public void handleAttackedUnit(Unit unit) {
     if (unit.getCurrentSoldierCount() == 0){
-      this.getUnits().remove(unit);
       if (armyListener != null) {
-      armyListener.onRemovedUnit(this, unit);
-      }
+        armyListener.onRemovedUnit(this, unit);
+        }
+      this.getUnits().remove(unit);
+      
     }
   }
 
