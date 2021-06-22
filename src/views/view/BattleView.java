@@ -18,7 +18,6 @@ import engine.Game;
 import exceptions.InvalidUnitException;
 import units.Army;
 import units.ArmyListener;
-import units.Cavalry;
 import units.Unit;
 import units.UnitListener;
 import views.panel.CardsPanel;
@@ -36,9 +35,10 @@ public class BattleView extends JFrame {
 	private Army defenderArmy;
 	private JButton attack;
 	private JButton autoResolve;
-    private  Unit attackingUnit;
-	private  Unit defendingUnit;
+	private Unit attackingUnit;
+	private Unit defendingUnit;
 	JTextArea log = new JTextArea();
+
 	public PlayerPanel getPlayerPanle() {
 		return playerPanle;
 	}
@@ -131,7 +131,6 @@ public class BattleView extends JFrame {
 		this.attack = new JButton("Attack");
 		attack.addActionListener(a);
 		this.attack.setFont(new Font("Dialog", Font.PLAIN, 20));
-		// this.attack.setPreferredSize(new Dimension(1600,40));
 		this.autoResolve = new JButton("Auto Resolve");
 		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
 		this.setLayout(new BorderLayout());
@@ -209,31 +208,6 @@ public class BattleView extends JFrame {
 
 		}
 	}
-
-	// public JPanel unitInformation(Unit unit) {
-	// ImagePanel info = setUnitPanelTypeImage(unit);
-	// String[] unitInfo = unit.toString().split("\n");
-	// String line1 = unitInfo[0];
-	// String line2 = unitInfo[1];
-	// String line3 = unitInfo[2];
-	// JLabel text = new JLabel();
-	// text.setText("<html>" + line1 + "<br>" + line2 + "<br>" + line3);
-	// text.setFont(new Font("Dialog", Font.BOLD, 20));
-	// info.add(text);
-	// return info;
-	// }
-
-	// private ImagePanel setUnitPanelTypeImage(Unit unit) {
-	// ImagePanel info;
-	// if (unit instanceof Archer) {
-	// info = new ImagePanel(new ImageIcon("src/images/archer.jpg").getImage());
-	// } else if (unit instanceof Cavalry) {
-	// info = new ImagePanel(new ImageIcon("src/images/cavalry.jpg").getImage());
-	// } else {
-	// info = new ImagePanel(new ImageIcon("src/images/infantry.jpg").getImage());
-	// }
-	// return info;
-	// }
 
 	public static void main(String[] args) throws IOException, InvalidUnitException {
 		Game test = new Game("ahmed", "cairo");

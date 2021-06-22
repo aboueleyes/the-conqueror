@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import controllers.Controller;
-import engine.Game;
 import views.MyInputVerifier;
 import views.button.StyledButton;
 import views.panel.ImagePanel;
@@ -24,7 +23,6 @@ public class StartView extends JFrame {
     private JComboBox<String> cityOfPlayer;
     private JButton start;
     private ImagePanel panel;
-    private Game game;
 
     public StartView(ActionListener a) {
         setSize(500, 500);
