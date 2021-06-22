@@ -9,7 +9,7 @@ import units.Unit;
 public class Barracks extends MilitaryBuilding {
 
   private static final int BARRACKS_COST = 2000;
-  private static final int[] BARRACKS_UPGRADE_COST = { 1000, 1500};
+  private static final int[] BARRACKS_UPGRADE_COST = { 1000, 1500 };
   private static final int[] BARRACKS_RECRUITMENT_COST = { 500, 550, 600 };
 
   public Barracks() {
@@ -27,10 +27,10 @@ public class Barracks extends MilitaryBuilding {
   @Override
   public Unit recruit() throws BuildingInCoolDownException, MaxRecruitedException {
     if (isCoolDown()) {
-      throw new BuildingInCoolDownException();
+      throw new BuildingInCoolDownException("Building is cooling down");
     }
     if (getCurrentRecruit() == getMaxRecruit()) {
-      throw new MaxRecruitedException();
+      throw new MaxRecruitedException("You have reached the max recruit");
     }
     setCurrentRecruit(getCurrentRecruit() + 1);
     return new Infantry(getLevel());

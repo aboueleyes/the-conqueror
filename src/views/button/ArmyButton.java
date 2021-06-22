@@ -1,8 +1,6 @@
 package views.button;
 
 import engine.City;
-
-import java.awt.BorderLayout;
 import units.Army;
 
 public class ArmyButton extends StyledButton {
