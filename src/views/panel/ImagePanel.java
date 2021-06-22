@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
@@ -29,5 +31,16 @@ public class ImagePanel extends JPanel {
   @Override
   public void paintComponent(Graphics g) {
     g.drawImage(img, 0, 0, null);
+  }
+
+  public static void main(String[] args) {
+    JFrame test = new JFrame();
+    test.setVisible(true);
+    ImagePanel panel = new ImagePanel(new ImageIcon("src/images/archer.jpg").getImage());     test.setLayout(new BorderLayout());
+    JPanel p = new JPanel();
+    p.add(panel);
+     panel.setLayout(new BorderLayout());
+     panel.add(new JLabel("fhif"),BorderLayout.PAGE_END); test.add(panel);
+     test.add(panel);
   }
 }

@@ -177,6 +177,8 @@ public class Player {
     building.upgrade();
     treasury -= cost;
     if (playerListener != null) {
+      playerListener.buildingUpgraded(b, city);
+      playerListener.onTreasuryUpdate();
       playerListener.buildingUpgraded(building, city);
     }
   }

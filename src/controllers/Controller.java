@@ -17,6 +17,7 @@ import engine.GameListener;
 import engine.PlayerListener;
 import exceptions.BuildingInCoolDownException;
 import exceptions.FriendlyCityException;
+import exceptions.FriendlyFireException;
 import exceptions.InvalidBuildingException;
 import exceptions.InvalidUnitException;
 import exceptions.MaxCapacityException;
@@ -27,6 +28,7 @@ import exceptions.TargetNotReachedException;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
+import units.UnitListener;
 import views.button.ArmyButton;
 import views.button.CityButton;
 import views.button.UnitButton;
@@ -40,7 +42,7 @@ import views.view.CityView;
 import views.view.StartView;
 import views.view.WorldMapView;
 
-public class Controller implements ActionListener, GameListener, PlayerListener, ArmyListener {
+public class Controller implements ActionListener, GameListener, PlayerListener, ArmyListener,UnitListener {
 	Game game;
 	StartView startView;
 	WorldMapView worldMapView;
@@ -81,6 +83,47 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		setSeigeingButtonAction(e);
 		setSelectButttonAction(e);
 		setRelocateButtonAction(e);
+		setStartBattleButtonAction(e);
+		if(e.getActionCommand().equals("selectAttacker")){
+          UnitButton button = (UnitButton) e.getSource();
+		  battleView.setAttackingUnit(button.getUnit());
+		  System.out.println("att");
+		}
+		if(e.getActionCommand().equals("selectDefender")){
+			System.out.println("defe");
+			UnitButton button = (UnitButton) e.getSource();
+			battleView.setDefendingUnit(button.getUnit());
+			System.out.println(button.getUnit().toString());
+		  }
+		if(e.getActionCommand().equals("Attack")){
+			System.out.println("attack");
+          try {
+
+			battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
+		} catch (FriendlyFireException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println("gkgk");
+          Unit defender = battleView.getDefenderArmy().getRandomUnit();
+		  Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
+		  try {
+			defender.attack(playerUnit);
+		} catch (FriendlyFireException e1) {
+			e1.printStackTrace();
+		}
+		}
+	}
+
+	private void setStartBattleButtonAction(ActionEvent e) {
+		if(e.getActionCommand().equals("Start Battle")){
+			ArmyButton button = (ArmyButton) e.getSource();
+			City city = Game.searchForCity(button.getArmy().getCurrentLocation(), game.getAvailableCities());
+			battleView = new BattleView(this, playerPanels[4], button.getArmy(),city.getDefendingArmy() );
+			battleView.setVisible(true);
+			worldMapView.setVisible(false);
+			System.out.println("ggg");
+		}
+
 	}
 
 	private void setRelocateButtonAction(ActionEvent e) {
@@ -258,11 +301,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 	}
 
-	@Override
-	public void onKill(Army army) {
-		// TODO Auto-generated method stub
+	
 
-	}
 
 	public int getIndexOfBuilding(String type) {
 		for (int i = 0; i < BUILDING_NAMES.length; i++) {
@@ -295,6 +335,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		DefendingUnitPanel unitPanel = new DefendingUnitPanel(this, unit);
 		unit.setUnitPanel(unitPanel);
 		getCityView(city).getUnitsCards().addCard(unitPanel);
+		
 	}
 
 	private CityView getCityView(City city) {
@@ -318,7 +359,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		army.setArmyListener(this);
 		StationaryArmyPanel stationaryArmyPanel = new StationaryArmyPanel(this, army);
 		getCityView(city).getArmyCards().addCard(stationaryArmyPanel);
-		// worldMapView.getArmyCards().addCard(armyPanel);
+		worldMapView.getArmyCards().addCard(armyPanel);
 		armyPanel.getInfo().setText(game.toString(army));
 		army.setArmyPanel(armyPanel);
 		army.setStationaryArmyPanel(stationaryArmyPanel);
@@ -334,17 +375,21 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onTargetCity(Army army, City city) {
+		if(city!=null){
+		  getCityView(city).getArmyCards().remove(army.getStationaryArmyPanel());
+		}  
 		updateArmyInformation(army);
 
 	}
 
 	private void updateArmyInformation(Army army) {
 		army.getArmyPanel().getInfo().setText(game.toString(army));
+		army.getStationaryArmyPanel().getInfo().setText(game.toString(army));
 	}
 
 	@Override
 	public void onSiegeUpdate(City city, Army army) {
-		// TODO Auto-generated method stub
+		updateArmyInformation(army);
 
 	}
 
@@ -386,5 +431,23 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		String city = army.getCurrentLocation();
 		cityViews[getIndexOfCity(city)].getUnitsCards().removeCard(unit.getUnitPanel());
 		SwingUtilities.updateComponentTreeUI(cityViews[getIndexOfCity(city)]);
+		updateArmyInformation(army);
+	}
+
+	@Override
+	public void onRemovedUnit(Army army, Unit unit) {
+		battleView.getAttackerPanel().removeCard(unit.getBattleUnitPanel());
+		battleView.getDefenderPanel().removeCard(unit.getBattleUnitPanel());
+        SwingUtilities.updateComponentTreeUI(battleView);
+		
+	}
+
+	@Override
+	public void UnitOnattack(Unit attackerUnit, Unit defenderUnit, int killedSoldiers) {
+		System.out.println("gggfufjfjfjg");
+		String toBeLogged = "Attacked unit lose "+killedSoldiers + " Soldiers" +"\n";
+		battleView.getLog().setText(battleView.getLog().getText()+toBeLogged);
+		defenderUnit.getBattleUnitPanel().getInfo().setText(defenderUnit.toString());
+		
 	}
 }

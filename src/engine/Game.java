@@ -165,7 +165,9 @@ public class Game {
   }
 
   public void targetCity(Army army, String targetName) {
+    
     String currentCity = army.getCurrentLocation();
+    City previousCity = searchForCity(army.getCurrentLocation(), availableCities);
     if (army.getCurrentLocation().equals(ON_ROAD)) {
       currentCity = army.getTarget();
     }
@@ -179,7 +181,7 @@ public class Game {
     army.setCurrentStatus(Status.MARCHING);
     army.setCurrentLocation(ON_ROAD);
     if (gameListener != null) {
-      gameListener.onTargetCity(army, city);
+      gameListener.onTargetCity(army, previousCity);
     }
   }
 
@@ -325,13 +327,13 @@ public class Game {
   }
 
   public String toString(Army army) {
-    String r = "current location : " + army.getCurrentLocation() + "\n" + "current status : " + army.getCurrentStatus()
+    String r = "current location : " + army.getCurrentLocation() + "\n" + "current status : " + army.getCurrentStatus()+"\n"+"Number Of Units: "+army.getUnits().size()
         + "\n";
     if (army.getCurrentStatus().equals(Status.MARCHING))
-      r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() + "\n";
+      r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() +"\n"+"Number Of Units: "+army.getUnits().size()+"\n";
     if (army.getCurrentStatus().equals(Status.BESIEGING))
       r += "besieged city : " + army.getCurrentLocation() + "\n" + "turns under siege : "
-          + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n";
+          + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() +"\n"+"Number Of Units: "+army.getUnits().size()+"\n";
     return r;
   }
 
