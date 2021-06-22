@@ -160,9 +160,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("Start Battle")) {
       ArmyButton button = (ArmyButton) e.getSource();
       City city = cityNameToObject(button.getArmy().getCurrentLocation());
-      battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
-      battleView.setVisible(true);
-      worldMapView.setVisible(false);
+      try {
+        game.startBattle(button.getArmy(), city);
+        battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
+        battleView.setVisible(true);
+        worldMapView.setVisible(false);
+      } catch (FriendlyFireException | TargetNotReachedException e1) {
+        showErrorMessage(e1);
+      }
     }
 
   }
@@ -390,7 +395,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void onOccupy(City city, Army army) {
     worldMapView.enableButton(city);
     worldMapView.getArmyCards().removeCard(army.getArmyPanel());
-    for(Unit unit : army.getUnits()){
+    for (Unit unit : army.getUnits()) {
       getCityView(city).getUnitsCards().addCard(unit.getUnitPanel());
     }
   }
@@ -464,5 +469,17 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   public static void main(String[] args) {
     new Controller();
+  }
+
+  @Override
+  public void playerWon() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void playerLost() {
+    // TODO Auto-generated method stub
+
   }
 }

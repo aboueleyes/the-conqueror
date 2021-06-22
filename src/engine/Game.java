@@ -9,6 +9,7 @@ import buildings.Farm;
 import buildings.MilitaryBuilding;
 import exceptions.FriendlyFireException;
 import exceptions.InvalidUnitException;
+import exceptions.TargetNotReachedException;
 import units.Archer;
 import units.Army;
 import units.Cavalry;
@@ -16,6 +17,7 @@ import units.Infantry;
 import units.Status;
 import units.Unit;
 import utlis.ReadingCSVFile;
+import views.panel.PlayerPanel;
 
 public class Game {
 
@@ -165,7 +167,7 @@ public class Game {
   }
 
   public void targetCity(Army army, String targetName) {
-    
+
     String currentCity = army.getCurrentLocation();
     City previousCity = searchForCity(army.getCurrentLocation(), availableCities);
     if (army.getCurrentLocation().equals(ON_ROAD)) {
@@ -191,6 +193,7 @@ public class Game {
     handleTarget();
     feedArmy();
     updateSiege();
+    whoWon();
   }
 
   private void updateSiege() {
@@ -319,21 +322,59 @@ public class Game {
     currentCity.setUnderSiege(false);
   }
 
+  public void whoWon() {
+    if (isGameOver()) {
+      if (isThePlayerWon()) {
+        if (gameListener != null) {
+          gameListener.playerWon();
+        }
+      } else {
+        if (gameListener != null) {
+          gameListener.playerLost();
+        }
+      }
+    }
+  }
+
   public boolean isGameOver() {
     if (currentTurnCount > maxTurnCount) {
       return true;
     }
-    return (availableCities.size() == player.getControlledCities().size());
+    return isThePlayerWon();
+  }
+
+  private boolean isThePlayerWon() {
+    return availableCities.size() == player.getControlledCities().size();
+  }
+
+  private boolean haveReached(Army army, City city) {
+    return army.getCurrentLocation().equals(city.getName());
+  }
+
+  private boolean isFriend(City city) {
+    return player.getControlledCities().contains(city);
+  }
+
+  public void startBattle(Army army, City city) throws FriendlyFireException, TargetNotReachedException {
+    if (isFriend(city)) {
+      throw new FriendlyFireException("you can't attack a friend");
+    }
+    if (haveReached(army, city)) {
+      throw new TargetNotReachedException("the army hasn't arrived yet!");
+    }
+
   }
 
   public String toString(Army army) {
-    String r = "current location : " + army.getCurrentLocation() + "\n" + "current status : " + army.getCurrentStatus()+"\n"+"Number Of Units: "+army.getUnits().size()
-        + "\n";
+    String r = "current location : " + army.getCurrentLocation() + "\n" + "current status : " + army.getCurrentStatus()
+        + "\n" + "Number Of Units: " + army.getUnits().size() + "\n";
     if (army.getCurrentStatus().equals(Status.MARCHING))
-      r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() +"\n"+"Number Of Units: "+army.getUnits().size()+"\n";
+      r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() + "\n"
+          + "Number Of Units: " + army.getUnits().size() + "\n";
     if (army.getCurrentStatus().equals(Status.BESIEGING))
       r += "besieged city : " + army.getCurrentLocation() + "\n" + "turns under siege : "
-          + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() +"\n"+"Number Of Units: "+army.getUnits().size()+"\n";
+          + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n"
+          + "Number Of Units: " + army.getUnits().size() + "\n";
     return r;
   }
 

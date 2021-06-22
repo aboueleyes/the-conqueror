@@ -15,8 +15,12 @@ public interface GameListener {
   public void onDistanceUpdated(Army army);
 
   public void onFeedUpdated();
+
   public void onTreasuryUpdate();
 
   public void onOccupy(City city, Army army);
 
+  public void playerWon();
+
+  public void playerLost();
 }
