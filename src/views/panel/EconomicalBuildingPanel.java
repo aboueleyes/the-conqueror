@@ -25,7 +25,5 @@ public class EconomicalBuildingPanel extends BuildingPanel {
     add(new JLabel(""));
     add(getUpgrade());
     add(getInfo());
-
   }
-
 }

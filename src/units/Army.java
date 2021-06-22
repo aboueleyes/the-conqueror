@@ -35,7 +35,6 @@ public class Army {
     this.armyPanel = armyPanel;
   }
 
-  // TODO Auto-ge
   public ArmyListener getArmyListener() {
     return armyListener;
   }
@@ -99,7 +98,7 @@ public class Army {
 
   public void relocateUnit(Unit unit) throws MaxCapacityException {
     if (this.getUnits().size() == this.getMaxToHold())
-      throw new MaxCapacityException();
+      throw new MaxCapacityException("You have reached the max capacity");
     this.getUnits().add(unit);
     unit.getParentArmy().getUnits().remove(unit);
     unit.setParentArmy(this);
@@ -112,8 +111,12 @@ public class Army {
     if (u.getCurrentSoldierCount() == 0){
       this.getUnits().remove(u);
     }  
-    if(armyListener!=null){
-      armyListener.onRemovedUnit(this, u);
+   
+  public void handleAttackedUnit(Unit unit) {
+    if (unit.getCurrentSoldierCount() == 0)
+      this.getUnits().remove(unit);
+     if(armyListener!=null){
+      armyListener.onRemovedUnit(this, unit);
     }
   }
 

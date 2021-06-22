@@ -27,11 +27,11 @@ public class ArcheryRange extends MilitaryBuilding {
   @Override
   public Unit recruit() throws BuildingInCoolDownException, MaxRecruitedException {
     if (isCoolDown()) {
-      throw new BuildingInCoolDownException();
+      throw new BuildingInCoolDownException("Building is cooling down");
     }
 
     else if (getCurrentRecruit() == getMaxRecruit()) {
-      throw new MaxRecruitedException();
+      throw new MaxRecruitedException("You have reached the max recruit");
     } else {
       setCurrentRecruit(getCurrentRecruit() + 1);
       return new Archer(getLevel());

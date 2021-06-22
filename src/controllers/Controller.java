@@ -123,20 +123,19 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			worldMapView.setVisible(false);
 			System.out.println("ggg");
 		}
+
 	}
 
 	private void setRelocateButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Relocate")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
-			System.out.println("hello9999");
 			String city = unit.getParentArmy().getCurrentLocation();
 			Army army = cityViews[getIndexOfCity(city)].getSelected();
-			System.out.println(game.toString(army));
 			try {
 				army.relocateUnit(unit);
 			} catch (MaxCapacityException e1) {
-				e1.printStackTrace();
+				showErrorMessage(e1);
 			}
 		}
 	}
@@ -145,7 +144,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Select")) {
 			ArmyButton armyButton = (ArmyButton) e.getSource();
 			cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())].setSelected(armyButton.getArmy());
-			System.out.println(game.toString(armyButton.getArmy()));
 		}
 	}
 
@@ -157,9 +155,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			try {
 				game.getPlayer().laySiege(army, Game.searchForCity(targetName, game.getAvailableCities()));
 			} catch (TargetNotReachedException | FriendlyCityException | NullPointerException e1) {
-				e1.printStackTrace();
+				showErrorMessage(e1);
 			}
 		}
+	}
+
+	private void showErrorMessage(Exception e1) {
+		showMessageDialog(null, e1.getMessage());
 	}
 
 	private void backButtonActionResponse(ActionEvent e) {
@@ -192,7 +194,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		if (e.getActionCommand().equals("Initiate Army")) {
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
-			// System.out.println(unit);
 			City city = Game.searchForCity(unit.getParentArmy().getCurrentLocation(), game.getAvailableCities());
 			game.getPlayer().initiateArmy(city, unit);
 		}
@@ -207,7 +208,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 					game.getPlayer().recruitUnit(unitType, button.getCity().getName());
 				} catch (BuildingInCoolDownException | MaxRecruitedException | NotEnoughGoldException
 						| InvalidBuildingException e1) {
-					e1.printStackTrace();
+					showErrorMessage(e1);
 				}
 			}
 		}
@@ -224,14 +225,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 							enableRecuritButton(i, button);
 						}
 					} catch (NotEnoughGoldException e1) {
-						e1.printStackTrace();
+						showErrorMessage(e1);
 					}
 				} else {
 					Building building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
 					try {
 						game.getPlayer().upgradeBuilding(building, button.getCity());
 					} catch (NotEnoughGoldException | BuildingInCoolDownException | MaxLevelException e1) {
-						e1.printStackTrace();
 					}
 				}
 			}
@@ -355,7 +355,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onInitiated(City city, Unit unit, Army army) {
-		// TODO add stationary
 		ArmyPanel armyPanel = new ArmyPanel(this, army);
 		army.setArmyListener(this);
 		StationaryArmyPanel stationaryArmyPanel = new StationaryArmyPanel(this, army);
@@ -419,8 +418,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void onOccupy(City city, Army army) {
-		// TODO Auto-generated method stub
-
+		worldMapView.enableButton(city);
+		getCityView(city).getArmyCards().add(new ArmyPanel(this, army));
 	}
 
 	public static void main(String[] args) {
@@ -430,7 +429,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	@Override
 	public void onRelocate(Army army, Unit unit) {
 		String city = army.getCurrentLocation();
-		System.out.println("hello");
 		cityViews[getIndexOfCity(city)].getUnitsCards().removeCard(unit.getUnitPanel());
 		SwingUtilities.updateComponentTreeUI(cityViews[getIndexOfCity(city)]);
 		updateArmyInformation(army);

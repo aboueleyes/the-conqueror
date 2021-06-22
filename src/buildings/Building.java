@@ -54,10 +54,10 @@ public abstract class Building {
 
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     if (isCoolDown()) {
-      throw new BuildingInCoolDownException();
+      throw new BuildingInCoolDownException("Building is cooling down");
     }
     if (getLevel() == maxLevel) {
-      throw new MaxLevelException();
+      throw new MaxLevelException("You have reached the max recruit");
     }
     setLevel(getLevel() + 1);
     setCoolDown(true);

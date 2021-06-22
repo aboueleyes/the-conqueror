@@ -1,18 +1,12 @@
 package views.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,20 +14,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.plaf.DimensionUIResource;
 
-import buildings.Barracks;
 import engine.Game;
 import exceptions.InvalidUnitException;
-import units.Archer;
 import units.Army;
 import units.ArmyListener;
 import units.Cavalry;
 import units.Unit;
 import units.UnitListener;
 import views.panel.CardsPanel;
-import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 import views.panel.UnitPanel;
-import views.panel.DefendingUnitPanel;
 
 public class BattleView extends JFrame {
 

@@ -121,21 +121,11 @@ public class Game {
   }
 
   public static Army searchForArmy(String cityName, ArrayList<Army> armies) {
-    for (Army army : armies) {
-      if (army.getCurrentLocation().equals(cityName)) {
-        return army;
-      }
-    }
-    return null;
+    return armies.stream().filter(army -> army.getCurrentLocation().equals(cityName)).findFirst().orElse(null);
   }
 
   public static City searchForCity(String cityName, ArrayList<City> availableCities) throws NullPointerException {
-    for (City city : availableCities) {
-      if (cityName.equals(city.getName())) {
-        return city;
-      }
-    }
-    return null;
+    return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst().orElse(null);
   }
 
   private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army)
@@ -187,7 +177,6 @@ public class Game {
     }
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
-    System.out.println(distance);
     City city = searchForCity(targetName, availableCities);
     army.setCurrentStatus(Status.MARCHING);
     army.setCurrentLocation(ON_ROAD);
