@@ -32,57 +32,54 @@ public class DefendingUnitPanel extends JPanel {
     return initiate;
   }
 
-  public void setAction1(UnitButton action1) {
-    this.initiate = action1;
+  public void setAction1(UnitButton initiate) {
+    this.initiate = initiate;
   }
 
   public DefendingUnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
-     setLayout(new BorderLayout());
-    //ImagePanel background = setUnitPanelTypeImage(unit);
+    setLayout(new BorderLayout());
+    // ImagePanel background = setUnitPanelTypeImage(unit);
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
     add(background);
     background.setLayout(new BorderLayout());
-    action1 = new UnitButton("Initiate Army", 20);
-    action1.setUnit(unit);
-    action2 = new UnitButton("Relocate", 20);
-    action2.setUnit(unit);
+    initiate = new UnitButton("Initiate Army", 20);
+    initiate.setUnit(unit);
+    relocate = new UnitButton("Relocate", 20);
+    relocate.setUnit(unit);
     setLayout(new BorderLayout());
-    ImagePanel background = setUnitPanelTypeImage(unit);
 
     // background.setLayout(new BorderLayout());
     initiate = new UnitButton("Initiate Army", 20);
     initiate.setUnit(unit);
     relocate = new UnitButton("Relocate", 20);
     relocate.setUnit(unit);
-
+    JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(initiate);
     buttonPanel.add(relocate);
     background.add(info, BorderLayout.CENTER);
     background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText(unit.toString());
-    info.setFont(new Font(Font.MONOSPACED,Font.ITALIC|Font.BOLD,16));
-    //info.setForeground(Color.LIGHT_GRAY);
+    info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
+    // info.setForeground(Color.LIGHT_GRAY);
     info.setOpaque(false);
-    
-    action1.addActionListener(a);
-    action2.addActionListener(a);
-    
+
+    initiate.addActionListener(a);
+    relocate.addActionListener(a);
+
   }
 
   private String setUnitPanelTypeImage(Unit unit) {
     ImagePanel background;
     if (unit instanceof Archer) {
-     return "src/images/archer.jpg";
+      return "src/images/archer.jpg";
     } else if (unit instanceof Cavalry) {
       return "src/images/cavalry.jpg";
     } else {
-       return "src/images/infantry.jpg";
-    }    
-    
-    // background.setLayout(new BorderLayout());
-    return background;
+      return "src/images/infantry.jpg";
+    }
+
   }
 
   public Unit getUnit() {
