@@ -417,7 +417,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void onFeedUpdated() {
     for (PlayerPanel playerPanel : playerPanels) {
-      playerPanel.getPlayerFood().setText("" + game.getPlayer().getFood());
+      String food = String.format("$%.2f", game.getPlayer().getFood());
+      playerPanel.getPlayerFood().setText(food);
     }
   }
 
