@@ -44,26 +44,29 @@ public class DefendingUnitPanel extends JPanel {
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
     
     background.setLayout(new BorderLayout());
-    initiate = new UnitButton("Initiate Army", 20);
+    initiate = new UnitButton("Initiate Army", 15);
     initiate.setUnit(unit);
-    relocate = new UnitButton("Relocate", 20);
+    relocate = new UnitButton("Relocate", 15);
     relocate.setUnit(unit);
     setLayout(new BorderLayout());
+    JPanel container = new JPanel();
 
     JPanel buttonPanel = new JPanel();
-    buttonPanel.setLayout(new GridLayout(1,3));
+    buttonPanel.setLayout(new GridLayout(2,1));
     buttonPanel.add(initiate);
-    buttonPanel.add(new JLabel());
     buttonPanel.add(relocate);
-   
+    container.setLayout(new BorderLayout());
+    container.add(buttonPanel,BorderLayout.EAST);
+    container.setOpaque(false);
     background.add(info,BorderLayout.EAST);
-    background.add(buttonPanel,BorderLayout.PAGE_END);
+    background.add(container,BorderLayout.PAGE_END);
     info.setText(unit.toString());
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
     info.setOpaque(false);
     buttonPanel.setOpaque(false);
     initiate.addActionListener(a);
     relocate.addActionListener(a);
+    background.setOpaque(false);
     add(background);
 
   }
