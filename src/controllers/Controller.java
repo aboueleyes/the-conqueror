@@ -342,6 +342,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     DefendingUnitPanel unitPanel = new DefendingUnitPanel(this, unit);
     unit.setUnitPanel(unitPanel);
     getCityView(city).getUnitsCards().addCard(unitPanel);
+    unit.setUnitListener(this);
 
   }
 
@@ -527,5 +528,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     battleView.getAutoResolve().setEnabled(false);
     battleView.getAttack().setEnabled(false);
 
+  }
+
+  @Override
+  public void OnUpdateSoldierCount(Unit unit) {
+    System.out.println("haha");
+    unit.getUnitPanel().getInfo().setText(unit.toString());
+    
   }
 }
