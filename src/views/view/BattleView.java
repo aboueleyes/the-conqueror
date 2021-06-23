@@ -21,6 +21,7 @@ import units.ArmyListener;
 import units.Unit;
 import units.UnitListener;
 import views.panel.CardsPanel;
+import views.panel.ImageTextArea;
 import views.panel.PlayerPanel;
 import views.panel.UnitPanel;
 
@@ -37,7 +38,7 @@ public class BattleView extends JFrame {
 	private JButton autoResolve;
 	private Unit attackingUnit;
 	private Unit defendingUnit;
-	JTextArea log = new JTextArea();
+	ImageTextArea log = new ImageTextArea("src/images/battle4.jpg");
 
 	public PlayerPanel getPlayerPanle() {
 		return playerPanle;
@@ -115,7 +116,7 @@ public class BattleView extends JFrame {
 		return log;
 	}
 
-	public void setLog(JTextArea log) {
+	public void setLog(ImageTextArea log) {
 		this.log = log;
 	}
 
@@ -134,6 +135,7 @@ public class BattleView extends JFrame {
 		this.autoResolve = new JButton("Auto Resolve");
 		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
 		this.setLayout(new BorderLayout());
+		this.log.setEditable(false);
 		autoResolve.addActionListener(a);
 		setExtendedState(MAXIMIZED_BOTH);
 		setVisible(false);
@@ -213,8 +215,10 @@ public class BattleView extends JFrame {
 	public static void main(String[] args) throws IOException, InvalidUnitException {
 		Game test = new Game("ahmed", "cairo");
 		Army test1 = test.getAvailableCities().get(0).getDefendingArmy();
-		new BattleView(null, new PlayerPanel(null), test1, test1).setVisible(true);
-
+		BattleView battle = new BattleView(null, new PlayerPanel(null), test1, test1);
+		battle.setVisible(true);
+		System.out.println(battle.log.getSize());
+		
 	}
 
 }
