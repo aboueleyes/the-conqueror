@@ -25,7 +25,7 @@ public class Game {
 
   private ArrayList<City> availableCities; // An ArrayList containing the cities in the game, READ ONLY
   private ArrayList<Distance> distances; // An ArrayList containing the distances between the cities, READ ONLY
-  private final int maxTurnCount = 30; // Maximum number of turns in the Game
+  private final int maxTurnCount = 50; // Maximum number of turns in the Game
   private int currentTurnCount = 1; // Current number of turns, READ ONLY
   private static final double INITIAL_TREASURY = 5000;
   private static final String ON_ROAD = "OnRoad";
