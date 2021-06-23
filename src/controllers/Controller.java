@@ -112,7 +112,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
       try {
         game = new Game(playerName, cityName);
-      } catch (IOException | InvalidUnitException e1) {
+      } catch (IOException e1) {
         showMessageDialog(null, "Error in csv files Existing!!");
         System.exit(1);
       }

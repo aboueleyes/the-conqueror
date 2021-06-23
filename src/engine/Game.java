@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import buildings.EconomicBuilding;
-import buildings.Farm;
-import buildings.MilitaryBuilding;
 import exceptions.FriendlyFireException;
-import exceptions.InvalidUnitException;
 import exceptions.TargetNotReachedException;
 import units.Archer;
 import units.Army;
@@ -17,7 +14,6 @@ import units.Infantry;
 import units.Status;
 import units.Unit;
 import utlis.ReadingCSVFile;
-import views.panel.PlayerPanel;
 
 public class Game {
 
@@ -69,7 +65,7 @@ public class Game {
     this.currentTurnCount = currentTurnCount;
   }
 
-  public Game(String playerName, String cityName) throws IOException, InvalidUnitException {
+  public Game(String playerName, String cityName) throws IOException {
     this.player = new Player(playerName);
     player.setTreasury(INITIAL_TREASURY);
     setCurrentTurnCount(1);
@@ -79,7 +75,7 @@ public class Game {
     loadCitiesFiles(cityName);
   }
 
-  private void loadCitiesFiles(String cityName) throws IOException, InvalidUnitException {
+  private void loadCitiesFiles(String cityName) throws IOException {
     for (City city : availableCities) {
       if (!city.getName().equals(cityName)) {
         String path = city.getName().toLowerCase() + "_army.csv";
@@ -108,7 +104,7 @@ public class Game {
     }
   }
 
-  public void loadArmy(String cityName, String path) throws IOException, InvalidUnitException {
+  public void loadArmy(String cityName, String path) throws IOException {
     ArrayList<Unit> unitList = new ArrayList<>();
     List<List<String>> data = ReadingCSVFile.readFile(path);
     City currentCity = searchForCity(cityName, availableCities);
@@ -120,8 +116,7 @@ public class Game {
     }
   }
 
-  private void readUnitValues(ArrayList<Unit> unitList, List<List<String>> data, Army army)
-      throws InvalidUnitException {
+  private void readUnitValues(ArrayList<Unit> unitList, List<List<String>> data, Army army) {
     for (List<String> line : data) {
       String unitName = line.get(0);
       int level = Integer.parseInt(line.get(1));
@@ -137,23 +132,16 @@ public class Game {
     return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst().orElse(null);
   }
 
-  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army)
-      throws InvalidUnitException {
-    switch (unitName) {
-      case "Archer":
-        Unit archer = new Archer(level);
-        addUnitToUnits(unitList, army, archer);
-        break;
-      case "Infantry":
-        Unit infantry = new Infantry(level);
-        addUnitToUnits(unitList, army, infantry);
-        break;
-      case "Cavalry":
-        Unit cavalry = new Cavalry(level);
-        addUnitToUnits(unitList, army, cavalry);
-        break;
-      default:
-        throw new InvalidUnitException();
+  private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army) {
+    if (unitName.equals("Archer")) {
+      Unit archer = new Archer(level);
+      addUnitToUnits(unitList, army, archer);
+    } else if (unitName.equals("Infantry")) {
+      Unit infantry = new Infantry(level);
+      addUnitToUnits(unitList, army, infantry);
+    } else {
+      Unit cavalry = new Cavalry(level);
+      addUnitToUnits(unitList, army, cavalry);
     }
   }
 
@@ -237,7 +225,7 @@ public class Game {
           gameListener.onDistanceUpdated(army);
         }
         if (army.getDistancetoTarget() == 0) {
-          setArmyArrived(army);
+          army.setArmyArrived();
           if (gameListener != null) {
             gameListener.armyArrived(army);
           }
@@ -246,56 +234,20 @@ public class Game {
     }
   }
 
-  private void setArmyArrived(Army army) {
-    army.setCurrentLocation(army.getTarget());
-    army.setTarget("");
-    army.setCurrentStatus(Status.IDLE);
-  }
-
   private void feedArmy() {
     double foodNeeded = 0;
-    foodNeeded += attackingArmyFeeding(foodNeeded);
-    foodNeeded += defendingArmyFeeding(foodNeeded);
-    if (!isFoodEnough(foodNeeded)) {
-      loseAttackingArmies();
-      loseDefendingArmies();
+    foodNeeded += player.attackingArmyFeeding(foodNeeded);
+    foodNeeded += player.defendingArmyFeeding(foodNeeded);
+    if (!player.isFoodEnough(foodNeeded)) {
+      player.loseAttackingArmies();
+      player.loseDefendingArmies();
     }
     player.setFood(player.getFood() - foodNeeded);
   }
 
-  private boolean isFoodEnough(double foodNeeded) {
-    return foodNeeded <= player.getFood();
-  }
-
-  private void loseDefendingArmies() {
-    for (City city : player.getControlledCities()) {
-      city.getDefendingArmy().killUnits();
-    }
-  }
-
-  private void loseAttackingArmies() {
-    for (Army army : player.getControlledArmies()) {
-      army.killUnits();
-    }
-  }
-
-  private double defendingArmyFeeding(double foodNeeded) {
-    for (City city : player.getControlledCities()) {
-      foodNeeded += city.getDefendingArmy().foodNeeded();
-    }
-    return foodNeeded;
-  }
-
-  private double attackingArmyFeeding(double foodNeeded) {
-    for (Army army : player.getControlledArmies()) {
-      foodNeeded += army.foodNeeded();
-    }
-    return foodNeeded;
-  }
-
   private void clearBuildings() {
     for (City city : player.getControlledCities()) {
-      clearMilitaryBuildings(city);
+      city.clearMilitaryBuildings();
       for (EconomicBuilding economicBuilding : city.getEconomicalBuildings()) {
         economicBuilding.setCoolDown(false);
         player.getHarvestAndTreasury(economicBuilding);
@@ -307,18 +259,12 @@ public class Game {
     }
   }
 
-  private void clearMilitaryBuildings(City city) {
-    for (MilitaryBuilding militaryBuilding : city.getMilitaryBuildings()) {
-      militaryBuilding.clear();
-    }
-  }
-
   public void occupy(Army army, String cityName) {
     City city = searchForCity(cityName, availableCities);
     player.getControlledArmies().remove(army);
     player.addControlCity(city);
     city.setDefendingArmy(army);
-    removeSieging(city);
+    city.removeSieging();
     army.setCurrentStatus(Status.IDLE);
     if (gameListener != null) {
       gameListener.onOccupy(city, army);
@@ -333,7 +279,7 @@ public class Game {
     while (theBattleIsGoing(attacker, defender)) {
       attackerTurn = alternateAttacking(attacker, defender, attackerTurn);
     }
-    if (isWonTheBattle(defender)) {
+    if (defender.didWinTheBattle()) {
       occupy(attacker, defender.getCurrentLocation());
       if (gameListener != null) {
         gameListener.OnBattleEnded(attacker, defender, true);
@@ -356,36 +302,26 @@ public class Game {
   }
 
   private boolean theBattleIsGoing(Army attacker, Army defender) {
-    return !isWonTheBattle(attacker) && !isWonTheBattle(defender);
+    return !attacker.didWinTheBattle() && !defender.didWinTheBattle();
   }
 
   private void removeTheAttack(Army attacker, Army defender) {
     player.getControlledArmies().remove(attacker);
     City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
-    removeSieging(currentCity);
+    currentCity.removeSieging();
     if (gameListener != null) {
       gameListener.OnBattleEnded(attacker, defender, false);
     }
   }
 
-  private boolean isWonTheBattle(Army defender) {
-    return defender.getUnits().isEmpty();
-  }
-
   public void battleEnded(Army attacker, Army defender) {
-    if (isWonTheBattle(attacker)) {
+    if (attacker.didWinTheBattle()) {
       if (gameListener != null) {
         gameListener.OnBattleEnded(attacker, defender, false);
       }
-    } else if (isWonTheBattle(defender)) {
-
+    } else if (defender.didWinTheBattle()) {
       gameListener.OnBattleEnded(attacker, defender, true);
     }
-  }
-
-  private void removeSieging(City currentCity) {
-    currentCity.setTurnsUnderSiege(-1);
-    currentCity.setUnderSiege(false);
   }
 
   public void whoWon() {
@@ -414,18 +350,13 @@ public class Game {
     return availableCities.size() == player.getControlledCities().size();
   }
 
-  private boolean haveReached(Army army, City city) {
-    return !army.getCurrentLocation().equals(city.getName());
-  }
-
   public void startBattle(Army army, City city) throws FriendlyFireException, TargetNotReachedException {
     if (player.isFriend(city)) {
       throw new FriendlyFireException("you can't attack a friend");
     }
-    if (haveReached(army, city)) {
+    if (army.haveReached(city)) {
       throw new TargetNotReachedException("the army hasn't arrived yet!");
     }
-
   }
 
   public String toString(Army army) {

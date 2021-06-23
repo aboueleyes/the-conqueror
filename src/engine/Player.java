@@ -227,4 +227,30 @@ public class Player {
     }
   }
 
+  public boolean isFoodEnough(double foodNeeded) {
+    return foodNeeded <= food;
+  }
+
+  public void loseDefendingArmies() {
+    controlledCities.forEach(city -> city.getDefendingArmy().killUnits());
+  }
+
+  public void loseAttackingArmies() {
+    controlledArmies.forEach(Army::killUnits);
+  }
+
+  public double defendingArmyFeeding(double foodNeeded) {
+    for (City city : controlledCities) {
+      foodNeeded += city.feedDefendingArmy();
+    }
+    return foodNeeded;
+  }
+
+  public double attackingArmyFeeding(double foodNeeded) {
+    for (Army army : controlledArmies) {
+      foodNeeded += army.foodNeeded();
+    }
+    return foodNeeded;
+  }
+
 }
