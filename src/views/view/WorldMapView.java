@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
 
 import engine.City;
@@ -109,9 +111,13 @@ public class WorldMapView extends JFrame {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    armyPanel.add(new StyledLabel("Controlled Armies", 25, true), BorderLayout.PAGE_START);
+    StyledLabel label =  new StyledLabel("Controlled Armies", 25, true);
+     label.setBorder(new EmptyBorder(10,10,10,10));
+    armyPanel.add(label, BorderLayout.PAGE_START);
+
     armyCards = new CardsPanel();
-    armyPanel.add(armyCards, BorderLayout.CENTER);
+    armyCards.setPreferredSize(new DimensionUIResource(500,JFrame.HEIGHT));
+    armyPanel.add(armyCards, BorderLayout.LINE_START);
 
   }
 
