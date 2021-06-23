@@ -68,6 +68,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void actionPerformed(ActionEvent e) {
+  	playSound("button click.wav");
     setInitiateButtonAction(e);
     startGame(e);
     setBackButtonActionResponse(e);
