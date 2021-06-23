@@ -7,7 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +25,7 @@ public class CardsPanel extends JPanel implements ActionListener{
 	
 	public CardsPanel() {
 		super();
-		this.setLayout(new GridLayout());
+		this.setLayout(new BorderLayout());
 		this.setVisible(true);
 		panel_L = new JPanel();
 	  panel_R = new JPanel();
@@ -34,10 +34,10 @@ public class CardsPanel extends JPanel implements ActionListener{
 		gbc.weightx = 0.5;
     gbc.weighty = 1;
     
-    add(panel_L, gbc);
+    add(panel_L,BorderLayout.PAGE_END);
     gbc.weightx = 10;
-    add(panel_R, gbc);
-    panel_L.setLayout(new GridLayout(5, 1));
+    add(panel_R, BorderLayout.CENTER);
+    panel_L.setLayout(new GridLayout(1, 2));
     
     
     next = new JButton("Next");

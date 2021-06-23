@@ -6,9 +6,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
+import javax.swing.border.Border;
+import java.awt.GridLayout;
 import units.Archer;
 import units.Cavalry;
 import units.Unit;
@@ -40,7 +42,7 @@ public class DefendingUnitPanel extends JPanel {
     this.unit = unit;
     setLayout(new BorderLayout());
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
-    add(background);
+    
     background.setLayout(new BorderLayout());
     initiate = new UnitButton("Initiate Army", 20);
     initiate.setUnit(unit);
@@ -48,32 +50,31 @@ public class DefendingUnitPanel extends JPanel {
     relocate.setUnit(unit);
     setLayout(new BorderLayout());
 
-    initiate = new UnitButton("Initiate Army", 20);
-    initiate.setUnit(unit);
-    relocate = new UnitButton("Relocate", 20);
-    relocate.setUnit(unit);
     JPanel buttonPanel = new JPanel();
-    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+    buttonPanel.setLayout(new GridLayout(1,3));
     buttonPanel.add(initiate);
+    buttonPanel.add(new JLabel());
     buttonPanel.add(relocate);
-    background.add(info, BorderLayout.CENTER);
-    background.add(buttonPanel, BorderLayout.PAGE_END);
+   
+    background.add(info,BorderLayout.EAST);
+    background.add(buttonPanel,BorderLayout.PAGE_END);
     info.setText(unit.toString());
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
     info.setOpaque(false);
-
+    buttonPanel.setOpaque(false);
     initiate.addActionListener(a);
     relocate.addActionListener(a);
+    add(background);
 
   }
 
   private String setUnitPanelTypeImage(Unit unit) {
     if (unit instanceof Archer) {
-      return "src/images/archer.jpg";
+      return "src/images/archer.png";
     } else if (unit instanceof Cavalry) {
-      return "src/images/cavalry.jpg";
+      return "src/images/cavalry.png";
     } else {
-      return "src/images/infantry.jpg";
+      return "src/images/infantry.png";
     }
 
   }
