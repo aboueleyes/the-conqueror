@@ -22,6 +22,8 @@ public class City {
   private int turnsUnderSiege = -1; // Number of turns the city has been siege
   private boolean underSiege = false; // Variable checking if the is under siege or not
 
+  private static final int MAX_TURNS_UNDER_SEIGE = 3;
+
   public String getName() {
     return this.name;
   }
@@ -102,5 +104,9 @@ public class City {
     }
     City city = (City) o;
     return city.getName().equals(this.getName());
+  }
+
+  public boolean reachedMaxSiege() {
+    return turnsUnderSiege == MAX_TURNS_UNDER_SEIGE;
   }
 }

@@ -210,4 +210,21 @@ public class Player {
       playerListener.onSiegeing(army, city);
     }
   }
+
+  public boolean isFriend(Army army) {
+    return controlledArmies.contains(army);
+  }
+
+  public boolean isFriend(City city) {
+    return controlledCities.contains(city);
+  }
+
+  public void getHarvestAndTreasury(EconomicBuilding economicBuilding) {
+    if (economicBuilding instanceof Farm) {
+      food = (food + economicBuilding.harvest());
+    } else {
+      treasury = (treasury + economicBuilding.harvest());
+    }
+  }
+
 }

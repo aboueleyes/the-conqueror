@@ -24,4 +24,5 @@ public class Market extends EconomicBuilding {
   public int harvest() {
     return HARVEST_VALUES[getLevel() - 1];
   }
+  
 }

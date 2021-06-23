@@ -108,12 +108,12 @@ public class Army {
   }
 
   public void handleAttackedUnit(Unit unit) {
-    if (unit.getCurrentSoldierCount() == 0){
+    if (unit.getCurrentSoldierCount() == 0) {
       if (armyListener != null) {
         armyListener.onRemovedUnit(this, unit);
-        }
+      }
       this.getUnits().remove(unit);
-      
+
     }
   }
 
@@ -136,6 +136,10 @@ public class Army {
       unit.decCurrentSoldierCount();
     }
 
+  }
+
+  public boolean isReached() {
+    return target.equals("");
   }
 
   public Unit getRandomUnit() {
