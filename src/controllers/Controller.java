@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 import buildings.Building;
@@ -147,7 +148,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
 
       } catch (FriendlyFireException e1) {
-        e1.printStackTrace();
+        showErrorMessage(e1);
       }
       Unit defender = battleView.getDefenderArmy().getRandomUnit();
       Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
@@ -160,6 +161,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         }
       }
       game.battleEnded(battleView.getAttackerArmy(), battleView.getDefenderArmy());
+      battleView.setDefendingUnit(null);
+      battleView.setAttackingUnit(null);
+      JButton button = (JButton) e.getSource();
+      button.setEnabled(false);
     }
   }
 
