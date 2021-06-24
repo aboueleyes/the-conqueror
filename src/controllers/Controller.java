@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 import buildings.Building;
@@ -112,7 +113,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
       try {
         game = new Game(playerName, cityName);
-      } catch (IOException | InvalidUnitException e1) {
+      } catch (IOException e1) {
         showMessageDialog(null, "Error in csv files Existing!!");
         System.exit(1);
       }
@@ -147,7 +148,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
 
       } catch (FriendlyFireException e1) {
-        e1.printStackTrace();
+        showErrorMessage(e1);
       }
       Unit defender = battleView.getDefenderArmy().getRandomUnit();
       Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
@@ -160,6 +161,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         }
       }
       game.battleEnded(battleView.getAttackerArmy(), battleView.getDefenderArmy());
+      battleView.setDefendingUnit(null);
+      battleView.setAttackingUnit(null);
+      JButton button = (JButton) e.getSource();
+      button.setEnabled(false);
     }
   }
 
@@ -167,6 +172,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("selectDefender")) {
       UnitButton button = (UnitButton) e.getSource();
       battleView.setDefendingUnit(button.getUnit());
+      if (battleView.getAttackingUnit() != null) {
+        battleView.getAttack().setEnabled(true);
+      }
     }
   }
 
@@ -174,6 +182,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("selectAttacker")) {
       UnitButton button = (UnitButton) e.getSource();
       battleView.setAttackingUnit(button.getUnit());
+      if (battleView.getDefendingUnit() != null) {
+        battleView.getAttack().setEnabled(true);
+      }
     }
   }
 
@@ -212,7 +223,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectButttonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Select")) {
       ArmyButton armyButton = (ArmyButton) e.getSource();
-      cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())].setSelected(armyButton.getArmy());
+      CityView cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
+      cityView.setSelected(armyButton.getArmy());
+      for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
+        unit.getUnitPanel().enableRelocate();
+      }
+      SwingUtilities.updateComponentTreeUI(cityView);
     }
   }
 
@@ -242,7 +258,16 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("TargetCity")) {
       ArmyButton button = (ArmyButton) e.getSource();
       String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
+      CityView cityView = getCityView(button.getArmy().getCurrentLocation());
       game.targetCity(button.getArmy(), targetName);
+      if (cityView != null) {
+        if (cityView.getSelected().equals(button.getArmy())) {
+          cityView.setSelected(null);
+        }
+        for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
+          unit.getUnitPanel().disableRelocate();
+        }
+      }
     }
   }
 
@@ -339,9 +364,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void unitRecruited(Unit unit, City city) {
-    DefendingUnitPanel unitPanel = new DefendingUnitPanel(this, unit);
-    unit.setUnitPanel(unitPanel);
-    getCityView(city).getUnitsCards().addCard(unitPanel);
+    getCityView(city).addDefendingPanel(unit, this);
+    unit.setUnitListener(this);
 
   }
 
@@ -466,6 +490,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     return cityViews[getIndexOfCity(city.getName())];
   }
 
+  private CityView getCityView(String name) {
+    return cityViews[getIndexOfCity(name)];
+  }
+
   public int getIndexOfBuilding(String type) {
     for (int i = 0; i < BUILDING_NAMES.length; i++) {
       if (type.equals(BUILDING_NAMES[i])) {
@@ -526,6 +554,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     playerPanels[4].getBack().setEnabled(true);
     battleView.getAutoResolve().setEnabled(false);
     battleView.getAttack().setEnabled(false);
+
+  }
+
+  @Override
+  public void OnUpdateSoldierCount(Unit unit) {
+    System.out.println("haha");
+    unit.getUnitPanel().getInfo().setText(unit.toString());
 
   }
 }

@@ -22,7 +22,7 @@ public class ImagePanel extends JPanel {
     this.img = img;
     Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
     setPreferredSize(size);
-    setMinimumSize(size);
+    setMinimumSize(new Dimension(50,50));
     setMaximumSize(size);
     setSize(size);
 

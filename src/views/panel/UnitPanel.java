@@ -36,9 +36,9 @@ public class UnitPanel extends JPanel {
 
   public UnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
-    ImagePanel background = setUnitPanelTypeImage(unit);
+    ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
     setLayout(new BorderLayout());
-     //background.setLayout(new BorderLayout());
+     background.setLayout(new BorderLayout());
     action1 = new UnitButton("Select", 20);
     action1.setUnit(unit);
     
@@ -56,17 +56,15 @@ public class UnitPanel extends JPanel {
     add(background);
   }
 
-  private ImagePanel setUnitPanelTypeImage(Unit unit) {
-    ImagePanel background;
+  private String setUnitPanelTypeImage(Unit unit) {
     if (unit instanceof Archer) {
-      background = new ImagePanel(new ImageIcon("src/images/archer.jpg").getImage());
+      return "src/images/archer.jpg";
     } else if (unit instanceof Cavalry) {
-      background = new ImagePanel(new ImageIcon("src/images/cavalry.jpg").getImage());
+      return "src/images/cavalry.jpg";
     } else {
-      background = new ImagePanel(new ImageIcon("src/images/infantry.jpg").getImage());
+      return "src/images/infantry.jpg";
     }
-    //background.setLayout(new BorderLayout());
-    return background;
+
   }
 
   public Unit getUnit() {

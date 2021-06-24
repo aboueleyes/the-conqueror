@@ -109,4 +109,17 @@ public class City {
   public boolean reachedMaxSiege() {
     return turnsUnderSiege == MAX_TURNS_UNDER_SEIGE;
   }
+
+  public void removeSieging() {
+    turnsUnderSiege = -1;
+    underSiege = false;
+  }
+
+  public double feedDefendingArmy() {
+    return defendingArmy.foodNeeded();
+  }
+
+  public void clearMilitaryBuildings() {
+    militaryBuildings.forEach(MilitaryBuilding::clear);
+  }
 }
