@@ -41,9 +41,14 @@ public abstract class MilitaryBuilding extends Building {
   }
 
   public abstract Unit recruit() throws BuildingInCoolDownException, MaxRecruitedException;
-  
+
   @Override
   public String toString() {
-  	return super.toString() + "recruitmentCost : " + this.getRecruitmentCost() + "\n" ;
+    return super.toString() + "recruitmentCost : " + this.getRecruitmentCost() + "\n";
+  }
+
+  public void clear() {
+    setCoolDown(false);
+    currentRecruit = 0;
   }
 }

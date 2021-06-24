@@ -69,6 +69,9 @@ public Army getParentArmy() {
 
   public void decCurrentSoldierCount() {
     setCurrentSoldierCount(currentSoldierCount - (int) (currentSoldierCount * 0.1));
+    if(unitListener!=null){
+      unitListener.OnUpdateSoldierCount(this);
+    }
   }
 
   public double getIdleUpkeep() {

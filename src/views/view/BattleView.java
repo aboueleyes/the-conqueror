@@ -26,7 +26,7 @@ import views.panel.UnitPanel;
 
 public class BattleView extends JFrame {
 
-	private PlayerPanel playerPanle;
+	private PlayerPanel playerPanel;
 	private JPanel battleLog;
 	private CardsPanel attackerPanel;
 	private CardsPanel defenderPanel;
@@ -39,12 +39,12 @@ public class BattleView extends JFrame {
 	private Unit defendingUnit;
 	JTextArea log = new JTextArea();
 
-	public PlayerPanel getPlayerPanle() {
-		return playerPanle;
+	public PlayerPanel getPlayerPanel() {
+		return playerPanel;
 	}
 
-	public void setPlayerPanle(PlayerPanel playerPanle) {
-		this.playerPanle = playerPanle;
+	public void setPlayerPanel(PlayerPanel playerPanel) {
+		this.playerPanel = playerPanel;
 	}
 
 	public JPanel getBattleLog() {
@@ -121,7 +121,7 @@ public class BattleView extends JFrame {
 
 	public BattleView(ActionListener a, PlayerPanel playerPanel, Army attackerArmy, Army defenderArmy) {
 		super();
-		this.playerPanle = playerPanel;
+		this.playerPanel = playerPanel;
 		this.attackerPanel = new CardsPanel();
 		this.defenderPanel = new CardsPanel();
 		this.centre = new JPanel();
@@ -134,6 +134,7 @@ public class BattleView extends JFrame {
 		this.autoResolve = new JButton("Auto Resolve");
 		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
 		this.setLayout(new BorderLayout());
+		autoResolve.addActionListener(a);
 		setExtendedState(MAXIMIZED_BOTH);
 		setVisible(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -147,6 +148,7 @@ public class BattleView extends JFrame {
 		handleDefenderPanel(defenderPanel, a);
 		defenderArmy.setArmyListener((ArmyListener) a);
 		attackerArmy.setArmyListener((ArmyListener) a);
+		attack.setEnabled(false);
 	}
 
 	public Unit getDefendingUnit() {

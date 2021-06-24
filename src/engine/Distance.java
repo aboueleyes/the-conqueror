@@ -1,5 +1,8 @@
 package engine;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Distance {
 
   private String from; // The name of the city that the army will begin moving from, READ ONLY
@@ -23,5 +26,9 @@ public class Distance {
     this.to = to;
     this.distance = distance;
   }
-  
+
+  public boolean containsCity(String firstCity, String secondCity) {
+    return from.equals(firstCity) && to.contains(secondCity) || from.equals(secondCity) && to.contains(firstCity);
+  }
+
 }

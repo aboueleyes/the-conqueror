@@ -3,6 +3,7 @@ package units;
 import java.util.ArrayList;
 import java.util.Random;
 
+import engine.City;
 import exceptions.MaxCapacityException;
 import views.panel.ArmyPanel;
 import views.panel.StationaryArmyPanel;
@@ -108,10 +109,12 @@ public class Army {
   }
 
   public void handleAttackedUnit(Unit unit) {
-    if (unit.getCurrentSoldierCount() == 0)
+    if (unit.getCurrentSoldierCount() == 0) {
+      if (armyListener != null) {
+        armyListener.onRemovedUnit(this, unit);
+      }
       this.getUnits().remove(unit);
-    if (armyListener != null) {
-      armyListener.onRemovedUnit(this, unit);
+
     }
   }
 
@@ -136,9 +139,26 @@ public class Army {
 
   }
 
+  public boolean isReached() {
+    return target.equals("");
+  }
+
   public Unit getRandomUnit() {
     /** source https://stackoverflow.com/a/35471979/9260982 */
     return units.get(new Random().nextInt(units.size()));
   }
 
+  public void setArmyArrived() {
+    currentLocation = target;
+    target = "";
+    currentStatus = Status.IDLE;
+  }
+
+  public boolean haveReached(City city) {
+    return !currentLocation.equals(city.getName());
+  }
+
+  public boolean didWinTheBattle() {
+    return units.isEmpty();
+  }
 }

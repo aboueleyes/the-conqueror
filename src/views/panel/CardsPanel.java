@@ -7,14 +7,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class CardsPanel extends JPanel implements ActionListener{
-	
+import units.Unit;
+
+public class CardsPanel extends JPanel implements ActionListener {
+
 	JPanel panel_L;
 	JPanel panel_R;
 	JButton next;
@@ -22,70 +26,82 @@ public class CardsPanel extends JPanel implements ActionListener{
 	JButton first;
 	JButton last;
 	CardLayout card;
-	
+	DefendingUnitPanel defendingUnitPanel;
+
+	public DefendingUnitPanel getDefendingUnitPanel() {
+		return defendingUnitPanel;
+	}
+
+	public void setDefendingUnitPanel(DefendingUnitPanel defendingUnitPanel) {
+		this.defendingUnitPanel = defendingUnitPanel;
+	}
+
+	public void addDefendingPanel(Unit unit, ActionListener a) {
+		defendingUnitPanel = new DefendingUnitPanel(a, unit);
+		unit.setUnitPanel(defendingUnitPanel);
+		addCard(defendingUnitPanel);
+	}
+
 	public CardsPanel() {
 		super();
-		this.setLayout(new GridLayout());
+		this.setLayout(new BorderLayout());
 		this.setVisible(true);
 		panel_L = new JPanel();
-	  panel_R = new JPanel();
+		panel_R = new JPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-    gbc.weighty = 1;
-    
-    add(panel_L, gbc);
-    gbc.weightx = 10;
-    add(panel_R, gbc);
-    panel_L.setLayout(new GridLayout(5, 1));
-    
-    
-    next = new JButton("Next");
-    previous = new JButton("Previous");
-    first = new JButton("First");
-    last = new JButton("Last");
- 
-    
-    panel_L.add(next);
-    panel_L.add(previous);
-    panel_L.add(first);
-    panel_L.add(last);
-    
-    card = new CardLayout();
-    panel_R.setLayout(card);
-    
-    next.addActionListener(this);
-    previous.addActionListener(this);
-    first.addActionListener(this);
-    last.addActionListener(this);
+		gbc.weightx = 0.5;
+		gbc.weighty = 1;
 
-    
+		add(panel_L, BorderLayout.PAGE_END);
+		gbc.weightx = 10;
+		add(panel_R, BorderLayout.CENTER);
+		panel_L.setLayout(new GridLayout(1, 2));
+
+		next = new JButton("Next");
+		previous = new JButton("Previous");
+		first = new JButton("First");
+		last = new JButton("Last");
+
+		panel_L.add(next);
+		panel_L.add(previous);
+
+		card = new CardLayout();
+		panel_R.setLayout(card);
+
+		next.addActionListener(this);
+		previous.addActionListener(this);
+		first.addActionListener(this);
+		last.addActionListener(this);
+
 	}
-	
-	 public void addCard(JPanel unit) {
-   	panel_R.add(unit);
-   }
-    public void removeCard(JPanel unit){
+
+	public void addCard(JPanel unit) {
+		panel_R.add(unit);
+		card.last(panel_R);
+	}
+
+	public void removeCard(JPanel unit) {
 		panel_R.remove(unit);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(next))
+		if (e.getSource().equals(next))
 			card.next(panel_R);
 		else {
-			if(e.getSource().equals(previous))
+			if (e.getSource().equals(previous))
 				card.previous(panel_R);
 			else {
-				if(e.getSource().equals(first))
+				if (e.getSource().equals(first))
 					card.first(panel_R);
 				else
 					card.last(panel_R);
 			}
 		}
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		JFrame test = new JFrame();
 		test.setVisible(true);
@@ -99,5 +115,9 @@ public class CardsPanel extends JPanel implements ActionListener{
 		test.add(test2);
 
 	}
+
+	// public void selected() {
+	// 	panel_R.getComponents()
+	// }
 
 }

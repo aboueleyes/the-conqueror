@@ -210,4 +210,47 @@ public class Player {
       playerListener.onSiegeing(army, city);
     }
   }
+
+  public boolean isFriend(Army army) {
+    return controlledArmies.contains(army);
+  }
+
+  public boolean isFriend(City city) {
+    return controlledCities.contains(city);
+  }
+
+  public void getHarvestAndTreasury(EconomicBuilding economicBuilding) {
+    if (economicBuilding instanceof Farm) {
+      food = (food + economicBuilding.harvest());
+    } else {
+      treasury = (treasury + economicBuilding.harvest());
+    }
+  }
+
+  public boolean isFoodEnough(double foodNeeded) {
+    return foodNeeded <= food;
+  }
+
+  public void loseDefendingArmies() {
+    controlledCities.forEach(city -> city.getDefendingArmy().killUnits());
+  }
+
+  public void loseAttackingArmies() {
+    controlledArmies.forEach(Army::killUnits);
+  }
+
+  public double defendingArmyFeeding(double foodNeeded) {
+    for (City city : controlledCities) {
+      foodNeeded += city.feedDefendingArmy();
+    }
+    return foodNeeded;
+  }
+
+  public double attackingArmyFeeding(double foodNeeded) {
+    for (Army army : controlledArmies) {
+      foodNeeded += army.foodNeeded();
+    }
+    return foodNeeded;
+  }
+
 }
