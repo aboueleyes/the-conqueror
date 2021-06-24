@@ -247,7 +247,15 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("TargetCity")) {
       ArmyButton button = (ArmyButton) e.getSource();
       String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
+      CityView cityView = getCityView(button.getArmy().getCurrentLocation());
+
       game.targetCity(button.getArmy(), targetName);
+      if (cityView.getSelected().equals(button.getArmy())) {
+        cityView.setSelected(null);
+      }
+      for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
+        unit.getUnitPanel().disableRelocate();
+      }
     }
   }
 
@@ -468,6 +476,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   private CityView getCityView(City city) {
     return cityViews[getIndexOfCity(city.getName())];
+  }
+
+  private CityView getCityView(String name) {
+    return cityViews[getIndexOfCity(name)];
   }
 
   public int getIndexOfBuilding(String type) {
