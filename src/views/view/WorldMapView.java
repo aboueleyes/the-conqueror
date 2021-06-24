@@ -3,7 +3,7 @@ package views.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-
+import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,9 +27,17 @@ public class WorldMapView extends JFrame {
   private CityButton romeButton;
   private CityButton spartaButton;
   private CardsPanel armyCards;
-
+  private CardsPanel unitsCard;
   public CardsPanel getArmyCards() {
     return armyCards;
+  }
+
+  public CardsPanel getUnitsCard() {
+    return unitsCard;
+  }
+
+  public void setUnitsCard(CardsPanel unitsCard) {
+    this.unitsCard = unitsCard;
   }
 
   public void setArmyCards(CardsPanel armyCards) {
@@ -80,6 +88,9 @@ public class WorldMapView extends JFrame {
     addArmyPane();
     getContentPane().add(citiesPanel, BorderLayout.CENTER);
     addCitiesPane(a);
+    armyCards.getNext().addActionListener(a);
+    armyCards.getPrevious().addActionListener(a);
+    unitsCard.setOpaque(false);
 
   }
 
@@ -114,10 +125,19 @@ public class WorldMapView extends JFrame {
     StyledLabel label =  new StyledLabel("Controlled Armies", 25, true);
      label.setBorder(new EmptyBorder(10,10,10,10));
     armyPanel.add(label, BorderLayout.PAGE_START);
-
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridLayout(1,3));
+    unitsCard = new CardsPanel();
+    unitsCard.setVisible(false);
     armyCards = new CardsPanel();
-    armyCards.setPreferredSize(new DimensionUIResource(500,JFrame.HEIGHT));
-    armyPanel.add(armyCards, BorderLayout.LINE_START);
+    armyCards.setOpaque(false);
+    panel.add(armyCards);
+    panel.add(new JLabel());
+    panel.add(unitsCard);
+    panel.setOpaque(false);
+    armyPanel.add(panel);
+   
+    
 
   }
 

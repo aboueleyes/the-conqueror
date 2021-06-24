@@ -1,8 +1,9 @@
 package views.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionListener;
-
+import java.awt.font.*;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -22,11 +23,20 @@ public class ArmyPanel extends JPanel {
   private ArmyButton action1;
   private ArmyButton action2;
   private ArmyButton startBattle;
+  private ArmyButton view;
   private City city;
   private JComboBox<String> cities = new JComboBox<>(citiesNames);
 
   public JComboBox<String> getCities() {
     return cities;
+  }
+
+  public ArmyButton getView() {
+    return view;
+  }
+
+  public void setView(ArmyButton view) {
+    this.view = view;
   }
 
   public void setCities(JComboBox<String> cities) {
@@ -41,28 +51,33 @@ public class ArmyPanel extends JPanel {
     ImagePanel background = new ImagePanel(new ImageIcon("src/images/army.png").getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
-    action1 = new ArmyButton("TargetCity", 20);
+    action1 = new ArmyButton("TargetCity", 15);
     action1.setArmy(army);
-    action2 = new ArmyButton("SiegeCity", 20);
+    action2 = new ArmyButton("SiegeCity", 15);
     action2.setArmy(army);
-    startBattle = new ArmyButton("Start Battle", 20);
+    startBattle = new ArmyButton("Start Battle", 15);
     startBattle.setArmy(army);
+    view = new ArmyButton("view", 15);
+    view.setArmy(army);
     JPanel buttonPanel = new JPanel();
     JPanel panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
     panel1.add(cities, BorderLayout.NORTH);
-
-    buttonPanel.setLayout(new GridLayout(1,3));
+    background.setOpaque(false);
+    buttonPanel.setLayout(new GridLayout(1,4));
     buttonPanel.add(action1);
     buttonPanel.add(action2);
     buttonPanel.add(startBattle);
+    buttonPanel.add(view);
     panel1.add(buttonPanel, BorderLayout.SOUTH);
     background.add(panel1, BorderLayout.PAGE_END);
     info.setText("");
-    background.add(info,BorderLayout.CENTER);
+    info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
+    background.add(info,BorderLayout.EAST);
     action1.addActionListener(a);
     action2.addActionListener(a);
     startBattle.addActionListener(a);
+    view.addActionListener(a);
     info.setOpaque(false);
     add(background);
     setOpaque(false);
