@@ -18,7 +18,7 @@ import views.button.ArmyButton;
 
 public class ArmyPanel extends JPanel {
   private Army army;
-  private JTextArea info = new JTextArea();
+  private ImageTextArea info = new ImageTextArea("src/images/army2.jpg");
   private ArmyButton action1;
   private ArmyButton action2;
   private ArmyButton startBattle;
@@ -59,6 +59,7 @@ public class ArmyPanel extends JPanel {
     panel1.add(buttonPanel, BorderLayout.SOUTH);
     background.add(panel1, BorderLayout.PAGE_END);
     info.setText("");
+    info.setEditable(false);
     background.add(info,BorderLayout.CENTER);
     action1.addActionListener(a);
     action2.addActionListener(a);
@@ -108,7 +109,7 @@ public class ArmyPanel extends JPanel {
     return info;
   }
 
-  public void setInfo(JTextArea info) {
+  public void setInfo(ImageTextArea info) {
     this.info = info;
   }
 
