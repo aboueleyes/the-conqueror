@@ -239,7 +239,6 @@ public class Game {
     foodNeeded += player.attackingArmyFeeding(foodNeeded);
     foodNeeded += player.defendingArmyFeeding(foodNeeded);
     if (!player.isFoodEnough(foodNeeded)) {
-      System.out.println("hlaten");
       player.loseAttackingArmies();
       player.loseDefendingArmies();
     }

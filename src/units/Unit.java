@@ -2,8 +2,9 @@ package units;
 
 import exceptions.FriendlyFireException;
 import views.panel.DefendingUnitPanel;
+import views.panel.InfoUnitPanel;
 import views.panel.UnitPanel;
-
+import java.awt.event.*;
 public abstract class Unit {
 
   private int level; // The current level of a unit. READ ONLY.
@@ -15,10 +16,19 @@ public abstract class Unit {
   private Army parentArmy;
   private DefendingUnitPanel unitPanel;
   private UnitPanel battleUnitPanel;
+  private InfoUnitPanel infoUnitPanel;
   UnitListener unitListener;
   public UnitListener getUnitListener() {
     return unitListener;
 }
+
+public InfoUnitPanel getInfoUnitPanel() {
+    return infoUnitPanel;
+  }
+
+  public void setInfoUnitPanel(InfoUnitPanel infoUnitPanel) {
+    this.infoUnitPanel = infoUnitPanel;
+  }
 
 public void setUnitListener(UnitListener unitListener) {
     this.unitListener = unitListener;
@@ -118,5 +128,9 @@ public Army getParentArmy() {
         unitListener.UnitOnattack(this, target,currentSoldierBeforeAttack-target.getCurrentSoldierCount() );
       }
     }
+  }
+  public void addInfoUnitPanel(ActionListener a){
+    InfoUnitPanel infoUnitPanel = new InfoUnitPanel(a, this);
+    setInfoUnitPanel(infoUnitPanel);
   }
 }

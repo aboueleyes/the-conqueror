@@ -21,12 +21,29 @@ public class CardsPanel extends JPanel implements ActionListener {
 
 	JPanel panel_L;
 	JPanel panel_R;
-	JButton next;
-	JButton previous;
+	private JButton next;
+	public JButton getNext() {
+		return next;
+	}
+
+	public void setNext(JButton next) {
+		this.next = next;
+	}
+
+	public JButton getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(JButton previous) {
+		this.previous = previous;
+	}
+
+	private JButton previous;
 	JButton first;
 	JButton last;
 	CardLayout card;
 	DefendingUnitPanel defendingUnitPanel;
+	
 
 	public DefendingUnitPanel getDefendingUnitPanel() {
 		return defendingUnitPanel;
@@ -41,6 +58,7 @@ public class CardsPanel extends JPanel implements ActionListener {
 		unit.setUnitPanel(defendingUnitPanel);
 		addCard(defendingUnitPanel);
 	}
+
 
 	public CardsPanel() {
 		super();
@@ -73,6 +91,7 @@ public class CardsPanel extends JPanel implements ActionListener {
 		previous.addActionListener(this);
 		first.addActionListener(this);
 		last.addActionListener(this);
+		panel_R.setOpaque(false);
 
 	}
 
@@ -101,7 +120,9 @@ public class CardsPanel extends JPanel implements ActionListener {
 		}
 
 	}
-
+    public void clear(){
+		panel_R.removeAll();
+    }
 	public static void main(String[] args) {
 		JFrame test = new JFrame();
 		test.setVisible(true);

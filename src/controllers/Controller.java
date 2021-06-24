@@ -77,12 +77,32 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     setSelectButttonAction(e);
     setRelocateButtonAction(e);
     setStartBattleButtonAction(e);
-
+    setViewButtonAction(e);
+    setNextAndPreviousButtonsAction(e);
     if (battleView != null) {
       setSelectAttackButtonAction(e);
       setSelectDefenderButtonAction(e);
       setAttackButtonAction(e);
       setAutoResolveButtonAction(e);
+    }
+  }
+
+  private void setNextAndPreviousButtonsAction(ActionEvent e) {
+    if(e.getActionCommand().equals("next")|| e.getActionCommand().equals("previous")){
+      worldMapView.getUnitsCard().clear();
+      worldMapView.getUnitsCard().setVisible(false);
+    }
+  }
+
+  private void setViewButtonAction(ActionEvent e) {
+    if(e.getActionCommand().equals("view")){
+      worldMapView.getUnitsCard().clear();
+      ArmyButton button = (ArmyButton) e.getSource();
+      Army army = button.getArmy();
+      for(Unit unit : army.getUnits()){
+        worldMapView.getUnitsCard().addCard(unit.getInfoUnitPanel());
+      }
+      worldMapView.getUnitsCard().setVisible(true);
     }
   }
 
@@ -141,6 +161,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       playerPanel.getNumOfTurns().setText(Integer.toString(game.getCurrentTurnCount()));
     }
   }
+
 
   private void setAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Attack")) {
@@ -220,6 +241,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     }
   }
 
+
   private void setSelectButttonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Select")) {
       ArmyButton armyButton = (ArmyButton) e.getSource();
@@ -251,7 +273,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         window.setVisible(false);
       }
       worldMapView.setVisible(true);
+      worldMapView.getUnitsCard().setVisible(false);
     }
+    
   }
 
   private void setTargetButtonAction(ActionEvent e) {
@@ -366,6 +390,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void unitRecruited(Unit unit, City city) {
     getCityView(city).addDefendingPanel(unit, this);
     unit.setUnitListener(this);
+    unit.addInfoUnitPanel(this);
+
 
   }
 
@@ -559,8 +585,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void OnUpdateSoldierCount(Unit unit) {
-    System.out.println("haha");
     unit.getUnitPanel().getInfo().setText(unit.toString());
+    unit.getInfoUnitPanel().getInfo().setText(unit.toString());
 
   }
 }
