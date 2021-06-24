@@ -212,7 +212,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setStartBattleButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Start Battle")) {
       ArmyButton button = (ArmyButton) e.getSource();
-      City city = cityNameToObject(button.getArmy().getCurrentLocation());
+      City city = cityNameToObject((String)button.getArmy().getArmyPanel().getCities().getSelectedItem());
       try {
         game.startBattle(button.getArmy(), city);
         battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
@@ -285,7 +285,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       CityView cityView = getCityView(button.getArmy().getCurrentLocation());
       game.targetCity(button.getArmy(), targetName);
       if (cityView != null) {
-        if (cityView.getSelected().equals(button.getArmy())) {
+        if (cityView.getSelected()!=null&&cityView.getSelected().equals(button.getArmy())) {
           cityView.setSelected(null);
         }
         for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {

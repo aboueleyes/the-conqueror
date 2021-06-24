@@ -2,8 +2,9 @@ package views.panel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-
+import java.awt.Font;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -19,19 +20,22 @@ public class StationaryArmyPanel extends JPanel {
 
   public StationaryArmyPanel(ActionListener a, Army army) {
     this.army = army;
+    ImagePanel background = new ImagePanel(new ImageIcon("src/images/army.png").getImage());
     setLayout(new BorderLayout());
-    selectArmy = new ArmyButton("Select", 20);
+    background.setLayout(new BorderLayout());
+    selectArmy = new ArmyButton("Select", 15);
     selectArmy.setArmy(army);
     JPanel buttonPanel = new JPanel();
-    JPanel panel1 = new JPanel();
-    panel1.setLayout(new BorderLayout());
-
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(selectArmy);
-    panel1.add(buttonPanel, BorderLayout.SOUTH);
-    add(panel1, BorderLayout.PAGE_END);
+    buttonPanel.setOpaque(false);
+    background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText("");
-    add(info);
+    info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
+    background.add(info,BorderLayout.EAST);
+    add(background);
+    info.setOpaque(false);
+    info.setEditable(false);
     selectArmy.addActionListener(a);
   }
 

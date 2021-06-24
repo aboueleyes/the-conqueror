@@ -44,7 +44,7 @@ public class InfoUnitPanel extends JPanel {
     info.setText(unit.toString());
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
     info.setOpaque(false);
-  
+    info.setEditable(false);    
     background.setOpaque(false);
     add(background);
     setOpaque(false);

@@ -71,6 +71,7 @@ public class DefendingUnitPanel extends JPanel {
     info.setText(unit.toString());
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
     info.setOpaque(false);
+    info.setEditable(false);
     buttonPanel.setOpaque(false);
     initiate.addActionListener(a);
     relocate.addActionListener(a);
