@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.plaf.DimensionUIResource;
 
@@ -149,6 +150,9 @@ public class BattleView extends JFrame {
 		defenderArmy.setArmyListener((ArmyListener) a);
 		attackerArmy.setArmyListener((ArmyListener) a);
 		attack.setEnabled(false);
+		JScrollPane scroll = new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		battleLog.add(scroll);
 	}
 
 	public Unit getDefendingUnit() {
