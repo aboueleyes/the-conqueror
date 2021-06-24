@@ -22,6 +22,22 @@ public class DefendingUnitPanel extends JPanel {
   private UnitButton initiate;
   private UnitButton relocate;
 
+  public UnitButton getInitiate() {
+    return initiate;
+  }
+
+  public void setInitiate(UnitButton initiate) {
+    this.initiate = initiate;
+  }
+
+  public UnitButton getRelocate() {
+    return relocate;
+  }
+
+  public void setRelocate(UnitButton relocate) {
+    this.relocate = relocate;
+  }
+
   public JTextArea getInfo() {
     return info;
   }
@@ -30,19 +46,11 @@ public class DefendingUnitPanel extends JPanel {
     this.info = info;
   }
 
-  public UnitButton getAction1() {
-    return initiate;
-  }
-
-  public void setAction1(UnitButton initiate) {
-    this.initiate = initiate;
-  }
-
   public DefendingUnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
     setLayout(new BorderLayout());
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
-    
+
     background.setLayout(new BorderLayout());
     initiate = new UnitButton("Initiate Army", 15);
     initiate.setUnit(unit);
@@ -52,14 +60,14 @@ public class DefendingUnitPanel extends JPanel {
     JPanel container = new JPanel();
 
     JPanel buttonPanel = new JPanel();
-    buttonPanel.setLayout(new GridLayout(2,1));
+    buttonPanel.setLayout(new GridLayout(2, 1));
     buttonPanel.add(initiate);
     buttonPanel.add(relocate);
     container.setLayout(new BorderLayout());
-    container.add(buttonPanel,BorderLayout.EAST);
+    container.add(buttonPanel, BorderLayout.EAST);
     container.setOpaque(false);
-    background.add(info,BorderLayout.EAST);
-    background.add(container,BorderLayout.PAGE_END);
+    background.add(info, BorderLayout.EAST);
+    background.add(container, BorderLayout.PAGE_END);
     info.setText(unit.toString());
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
     info.setOpaque(false);
@@ -68,7 +76,6 @@ public class DefendingUnitPanel extends JPanel {
     relocate.addActionListener(a);
     background.setOpaque(false);
     add(background);
-
   }
 
   private String setUnitPanelTypeImage(Unit unit) {
@@ -90,4 +97,11 @@ public class DefendingUnitPanel extends JPanel {
     this.unit = unit;
   }
 
+  public void enableRelocate() {
+    relocate.setEnabled(true);
+  }
+
+  public void disableRelocate(){
+    relocate.setEnabled(false);
+  }
 }
