@@ -167,6 +167,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("selectDefender")) {
       UnitButton button = (UnitButton) e.getSource();
       battleView.setDefendingUnit(button.getUnit());
+      if (battleView.getAttackingUnit() != null) {
+        battleView.getAttack().setEnabled(true);
+      }
     }
   }
 
@@ -174,6 +177,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("selectAttacker")) {
       UnitButton button = (UnitButton) e.getSource();
       battleView.setAttackingUnit(button.getUnit());
+      if (battleView.getDefendingUnit() != null) {
+        battleView.getAttack().setEnabled(true);
+      }
     }
   }
 
@@ -248,13 +254,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       ArmyButton button = (ArmyButton) e.getSource();
       String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
       CityView cityView = getCityView(button.getArmy().getCurrentLocation());
-
       game.targetCity(button.getArmy(), targetName);
-      if (cityView.getSelected().equals(button.getArmy())) {
-        cityView.setSelected(null);
-      }
-      for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
-        unit.getUnitPanel().disableRelocate();
+      if (cityView != null) {
+        if (cityView.getSelected().equals(button.getArmy())) {
+          cityView.setSelected(null);
+        }
+        for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
+          unit.getUnitPanel().disableRelocate();
+        }
       }
     }
   }
