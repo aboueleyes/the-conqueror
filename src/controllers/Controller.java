@@ -212,7 +212,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectButttonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Select")) {
       ArmyButton armyButton = (ArmyButton) e.getSource();
-      cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())].setSelected(armyButton.getArmy());
+      CityView cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
+      cityView.setSelected(armyButton.getArmy());
+      for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
+        unit.getUnitPanel().enableRelocate();
+      }
+      SwingUtilities.updateComponentTreeUI(cityView);
     }
   }
 
@@ -339,9 +344,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void unitRecruited(Unit unit, City city) {
-    DefendingUnitPanel unitPanel = new DefendingUnitPanel(this, unit);
-    unit.setUnitPanel(unitPanel);
-    getCityView(city).getUnitsCards().addCard(unitPanel);
+    getCityView(city).addDefendingPanel(unit, this);
     unit.setUnitListener(this);
 
   }
@@ -534,6 +537,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void OnUpdateSoldierCount(Unit unit) {
     System.out.println("haha");
     unit.getUnitPanel().getInfo().setText(unit.toString());
-    
+
   }
 }

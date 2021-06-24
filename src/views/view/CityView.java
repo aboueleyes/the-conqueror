@@ -5,17 +5,19 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
 
-
 import engine.City;
 import units.Army;
+import units.Unit;
 import views.panel.BuildingPanel;
 import views.panel.CardsPanel;
+import views.panel.DefendingUnitPanel;
 import views.panel.EconomicalBuildingPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
@@ -104,25 +106,24 @@ public class CityView extends JFrame {
   }
 
   public void addArmyPane() {
-    armyPanel.setLayout(new GridLayout(1,3));
+    armyPanel.setLayout(new GridLayout(1, 3));
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
     unitsCards = new CardsPanel();
     armyCards = new CardsPanel();
     JPanel panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
-    
-    JLabel label1 = new JLabel("<html><h1><strong><i>" + "Defending Army"+ "</i></strong></h1><hr></html>");
 
-   
-    label1.setBorder(new EmptyBorder(5,5,5,5));
-    panel1.add(label1,BorderLayout.PAGE_START);
+    JLabel label1 = new JLabel("<html><h1><strong><i>" + "Defending Army" + "</i></strong></h1><hr></html>");
+
+    label1.setBorder(new EmptyBorder(5, 5, 5, 5));
+    panel1.add(label1, BorderLayout.PAGE_START);
     panel1.add(unitsCards);
 
     JPanel panel2 = new JPanel();
     panel2.setLayout(new BorderLayout());
-    JLabel label2 = new JLabel("<html><h1><strong><i>" + "Stationary Armies"+ "</i></strong></h1><hr></html>");
-    label2.setBorder(new EmptyBorder(5,5,5,5));
-    panel2.add(label2,BorderLayout.PAGE_START);
+    JLabel label2 = new JLabel("<html><h1><strong><i>" + "Stationary Armies" + "</i></strong></h1><hr></html>");
+    label2.setBorder(new EmptyBorder(5, 5, 5, 5));
+    panel2.add(label2, BorderLayout.PAGE_START);
     panel2.add(armyCards);
     armyPanel.add(panel1, BorderLayout.WEST);
     armyPanel.add(new JLabel());
@@ -153,6 +154,13 @@ public class CityView extends JFrame {
     for (int i = 2; i < BUILDING_NAMES.length; i++) {
       MilitaryBuildingPanel panel = (MilitaryBuildingPanel) buildlingsSlavePanels[i];
       panel.getRecruit().setActionCommand("r" + BUILDING_NAMES[i]);
+    }
+  }
+
+  public void addDefendingPanel(Unit unit, ActionListener a) {
+    unitsCards.addDefendingPanel(unit, a);
+    if (selected == null) {
+      unitsCards.getDefendingUnitPanel().disableRelocate();
     }
   }
 
