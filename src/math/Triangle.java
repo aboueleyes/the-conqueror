@@ -97,17 +97,17 @@ public class Triangle {
 
   public static int getDistance(int xy, int xz, int yz, int xa) {
     Triangle t = new Triangle(xy, xz, yz);
-    if (!t.isTriangle()) {
-      if (maxSide(xy, xz, yz) == xy) {
-        return Math.abs(xa - xz);
-      }
-      if (maxSide(xy, xz, yz) == xz) {
-        return Math.abs(xz - xa);
-      }
-      if (maxSide(xy, xz, yz) == yz) {
-        return xa + xz;
-      }
-    }
+    // if (!t.isTriangle()) {
+    //   if (maxSide(xy, xz, yz) == xy) {
+    //     return Math.abs(xa - xz);
+    //   }
+    //   if (maxSide(xy, xz, yz) == xz) {
+    //     return Math.abs(xz - xa);
+    //   }
+    //   if (maxSide(xy, xz, yz) == yz) {
+    //     return xa + xz;
+    //   }
+    // }
     Point point_a = t.getA(xa);
     Point new_distance_cord = t.getZ().subtractPoint(point_a);
     return (int) new_distance_cord.getR();
