@@ -15,6 +15,14 @@ public class StationaryArmyPanel extends JPanel {
   private Army army;
   private JTextArea info = new JTextArea();
   private ArmyButton selectArmy;
+  public ArmyButton getSelectArmy() {
+    return selectArmy;
+  }
+
+  public void setSelectArmy(ArmyButton selectArmy) {
+    this.selectArmy = selectArmy;
+  }
+
   private City city;
 
   public StationaryArmyPanel(ActionListener a, Army army) {
@@ -42,7 +50,6 @@ public class StationaryArmyPanel extends JPanel {
   public void setCity(City city) {
     this.city = city;
   }
-
   public Army getArmy() {
     return army;
   }
