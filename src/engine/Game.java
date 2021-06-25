@@ -160,20 +160,26 @@ public class Game {
   }
 
   public void targetCity(Army army, String targetName) {
-
+    if(army.getCurrentLocation().equals(targetName)){
+      return;
+    }
     String currentCity = army.getCurrentLocation();
     City previousCity = searchForCity(army.getCurrentLocation(), availableCities);
+    int distance = searchForDistance(currentCity, targetName);
+   
     if (army.getCurrentLocation().equals(ON_ROAD)) {
       currentCity = army.getTarget();
-    }
-    int distance = searchForDistance(currentCity, targetName);
-    if (army.getCurrentLocation().equals(ON_ROAD)) {
+      distance = searchForDistance(currentCity, targetName);
       distance += army.getDistancetoTarget();
     }
+   
+    if(army.getCurrentStatus().equals(Status.BESIEGING)){
+      previousCity.removeSieging();
+    } 
+
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
     army.setCurrentLocation(ON_ROAD);
-    City city = searchForCity(targetName, availableCities);
     army.setCurrentStatus(Status.MARCHING);
     if (gameListener != null) {
       gameListener.onTargetCity(army, previousCity);
@@ -368,11 +374,11 @@ public class Game {
         + "\n" + NUMBER_OF_UNITS + army.getUnits().size() + "\n";
     if (army.getCurrentStatus().equals(Status.MARCHING))
       r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() + "\n"
-          + NUMBER_OF_UNITS + army.getUnits().size() + "\n";
+         + "\n";
     if (army.getCurrentStatus().equals(Status.BESIEGING))
       r += "besieged city : " + army.getCurrentLocation() + "\n" + "turns under siege : "
           + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n"
-          + NUMBER_OF_UNITS + army.getUnits().size() + "\n";
+          +"\n";
     return r;
   }
 
