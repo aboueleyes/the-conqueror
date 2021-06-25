@@ -4,12 +4,14 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import static views.view.CityView.BUILDING_NAMES;
 
+import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import buildings.Building;
@@ -41,6 +43,7 @@ import views.panel.PlayerPanel;
 import views.panel.StationaryArmyPanel;
 import views.view.BattleView;
 import views.view.CityView;
+import views.view.EndGameView;
 import views.view.StartView;
 import views.view.WorldMapView;
 
@@ -51,11 +54,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   PlayerPanel[] playerPanels = new PlayerPanel[5];
   CityView[] cityViews = new CityView[3];
   BattleView battleView;
+  EndGameView endGameView;
   public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
   protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
   public Controller() {
     startView = new StartView(this);
+    endGameView = new EndGameView(this);
     for (int i = 0; i < playerPanels.length; i++) {
       playerPanels[i] = new PlayerPanel(this);
     }
@@ -85,6 +90,23 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       setAttackButtonAction(e);
       setAutoResolveButtonAction(e);
     }
+    endGame(e);
+    	
+  }
+  
+  public void endGame(ActionEvent e) {
+  	 if(e.getActionCommand().equals("end game"))
+     	System.exit(0);
+     if(e.getActionCommand().equals("play again")) {
+     	startView.dispose();
+     	worldMapView.dispose();
+     	if(battleView != null)
+     		battleView.dispose();
+     	for(CityView currentCity : cityViews)
+     		currentCity.dispose();
+     	endGameView.dispose();
+     	new Controller();	
+     }
   }
 
   private void setNextAndPreviousButtonsAction(ActionEvent e) {
@@ -557,14 +579,26 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void playerWon() {
-    showMessageDialog(null, "Gaaamed Yasta 3aaaa4");
+    endGame(true);
 
   }
 
   @Override
   public void playerLost() {
-    showMessageDialog(null, "Shaaaame on you!!");
+    endGame(false);
 
+  }
+  
+  public void endGame(boolean youWon) {
+  	JLabel text;
+  	if(youWon)
+  		text = new JLabel("congrantulations, you won the game");
+  	else
+  		text = new JLabel("opps, you lost the game");
+  	text.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 20));
+  	text.setOpaque(false);
+  	endGameView.addLabel(text);
+  	endGameView.setVisible(true);
   }
 
   @Override
