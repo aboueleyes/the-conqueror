@@ -4,12 +4,14 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import static views.view.CityView.BUILDING_NAMES;
 
+import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import buildings.Building;
@@ -41,6 +43,7 @@ import views.panel.PlayerPanel;
 import views.panel.StationaryArmyPanel;
 import views.view.BattleView;
 import views.view.CityView;
+import views.view.EndGameView;
 import views.view.StartView;
 import views.view.WorldMapView;
 
@@ -51,11 +54,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   PlayerPanel[] playerPanels = new PlayerPanel[5];
   CityView[] cityViews = new CityView[3];
   BattleView battleView;
+  EndGameView endGameView;
   public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
   protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
   public Controller() {
     startView = new StartView(this);
+    endGameView = new EndGameView(this);
     for (int i = 0; i < playerPanels.length; i++) {
       playerPanels[i] = new PlayerPanel(this);
     }
@@ -85,21 +90,33 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       setAttackButtonAction(e);
       setAutoResolveButtonAction(e);
     }
+    endGame(e);
+
+  }
+
+  public void endGame(ActionEvent e) {
+    if (e.getActionCommand().equals("end game"))
+      System.exit(0);
+    if (e.getActionCommand().equals("play again")) {
+      startView.dispose();
+      endGameView.dispose();
+      new Controller();
+    }
   }
 
   private void setNextAndPreviousButtonsAction(ActionEvent e) {
-    if(e.getActionCommand().equals("next")|| e.getActionCommand().equals("previous")){
+    if (e.getActionCommand().equals("next") || e.getActionCommand().equals("previous")) {
       worldMapView.getUnitsCard().clear();
       worldMapView.getUnitsCard().setVisible(false);
     }
   }
 
   private void setViewButtonAction(ActionEvent e) {
-    if(e.getActionCommand().equals("view")){
+    if (e.getActionCommand().equals("view")) {
       worldMapView.getUnitsCard().clear();
       ArmyButton button = (ArmyButton) e.getSource();
       Army army = button.getArmy();
-      for(Unit unit : army.getUnits()){
+      for (Unit unit : army.getUnits()) {
         worldMapView.getUnitsCard().addCard(unit.getInfoUnitPanel());
       }
       worldMapView.getUnitsCard().setVisible(true);
@@ -108,7 +125,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   private void setAutoResolveButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Auto Resolve")) {
-      System.out.println("autoresolve");
       try {
         game.autoResolve(battleView.getAttackerArmy(), battleView.getDefenderArmy());
       } catch (FriendlyFireException e1) {
@@ -161,7 +177,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       playerPanel.getNumOfTurns().setText(Integer.toString(game.getCurrentTurnCount()));
     }
   }
-
 
   private void setAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Attack")) {
@@ -241,7 +256,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     }
   }
 
-
   private void setSelectButttonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Select")) {
       ArmyButton armyButton = (ArmyButton) e.getSource();
@@ -279,7 +293,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       worldMapView.setVisible(true);
       worldMapView.getUnitsCard().setVisible(false);
     }
-    
+
   }
 
   private void setTargetButtonAction(ActionEvent e) {
@@ -288,8 +302,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
       CityView cityView = getCityView(button.getArmy().getCurrentLocation());
       game.targetCity(button.getArmy(), targetName);
-      if (cityView != null) {
-        if (cityView.getSelected()!=null&&cityView.getSelected().equals(button.getArmy())) {
+      if (cityView != null && cityView.getSelected() != null) {
+        if (cityView.getSelected().equals(button.getArmy())) {
           cityView.setSelected(null);
         }
         for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
@@ -395,7 +409,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     getCityView(city).addDefendingPanel(unit, this);
     unit.setUnitListener(this);
     unit.addInfoUnitPanel(this);
-
 
   }
 
@@ -561,19 +574,35 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void playerWon() {
-    showMessageDialog(null, "Gaaamed Yasta 3aaaa4");
+    endGame(true);
 
   }
 
   @Override
   public void playerLost() {
-    showMessageDialog(null, "Shaaaame on you!!");
+    endGame(false);
 
+  }
+
+  public void endGame(boolean youWon) {
+    JLabel text;
+    if (youWon)
+      text = new JLabel("congrantulations, you won the game");
+    else
+      text = new JLabel("opps, you lost the game");
+    text.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+    text.setOpaque(false);
+    endGameView.addLabel(text);
+    worldMapView.dispose();
+    if (battleView != null)
+      battleView.dispose();
+    for (CityView currentCity : cityViews)
+      currentCity.dispose();
+    endGameView.setVisible(true);
   }
 
   @Override
   public void OnBattleEnded(Army attacker, Army defender, boolean win) {
-    System.out.println("ddddd");
     if (win) {
       showMessageDialog(null, "You won The battle");
       worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
