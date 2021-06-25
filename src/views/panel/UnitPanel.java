@@ -7,7 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
+import java.awt.Font;
 import units.Archer;
 import units.Cavalry;
 import units.Unit;
@@ -46,13 +46,15 @@ public class UnitPanel extends JPanel {
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
-  
-
+    buttonPanel.setOpaque(false);
+    
     background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText(unit.toString());
     info.setOpaque(false);
     info.setEditable(false);
-    background.add(info);
+    info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
+
+    background.add(info,BorderLayout.EAST);
     action1.addActionListener(a);
     add(background);
   }

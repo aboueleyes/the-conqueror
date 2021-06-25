@@ -445,7 +445,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void onTargetCity(Army army, City city) {
-    System.out.println(city.getName());
     if (city != null) {
       getCityView(city).getArmyCards().removeCard(army.getStationaryArmyPanel());
     }
@@ -534,7 +533,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private CityView getCityView(String name) {
+    if(getIndexOfCity(name)>=0){
     return cityViews[getIndexOfCity(name)];
+    }
+    return null;
   }
 
   public int getIndexOfBuilding(String type) {
@@ -618,8 +620,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void OnUpdateSoldierCount(Unit unit) {
+    if(unit.getUnitPanel()!=null&& unit.getInfoUnitPanel()!=null){
     unit.getUnitPanel().getInfo().setText(unit.toString());
     unit.getInfoUnitPanel().getInfo().setText(unit.toString());
-
+    }
   }
 }
