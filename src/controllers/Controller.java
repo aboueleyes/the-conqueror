@@ -7,8 +7,12 @@ import static views.view.CityView.BUILDING_NAMES;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
@@ -65,6 +69,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void actionPerformed(ActionEvent e) {
+  	playSound("button click.wav");
     setInitiateButtonAction(e);
     startGame(e);
     setBackButtonActionResponse(e);
@@ -134,7 +139,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       try {
         game = new Game(playerName, cityName);
       } catch (IOException e1) {
-        showMessageDialog(null, "Error in csv files Existing!!");
+        playSound("Error in csv files");
+        showMessageDialog(null, "Error in csv files Existing!!")
         System.exit(1);
       }
       game.setGameListener(this);
@@ -236,6 +242,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       try {
         army.relocateUnit(unit);
       } catch (MaxCapacityException e1) {
+      	playSound("You have reached the max capacity.wav");
         showErrorMessage(e1);
       }
     }
@@ -266,6 +273,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       try {
         game.getPlayer().laySiege(army, cityNameToObject(targetName));
       } catch (TargetNotReachedException | FriendlyCityException | NullPointerException e1) {
+      	if(e1 instanceof TargetNotReachedException)
+      		playSound("The army hasnt arrived yet.wav");
+      	else if(e1 instanceof FriendlyFireException)
+      		playSound("You cannot attack a friend city.wav");
         showErrorMessage(e1);
       }
     }
@@ -317,6 +328,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
           game.getPlayer().recruitUnit(unitType, button.getCity().getName());
         } catch (BuildingInCoolDownException | MaxRecruitedException | NotEnoughGoldException
             | InvalidBuildingException e1) {
+        	if(e1 instanceof BuildingInCoolDownException)
+        		playSound("Building is cooling down.wav");
+        	else if(e1 instanceof MaxRecruitedException)
+        		playSound("You have reached the max recruit.wav");
+        	else if(e1 instanceof NotEnoughGoldException)
+        		playSound("NOT_ENOUGH_GOLD");
           showErrorMessage(e1);
         }
       }
@@ -334,6 +351,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
               enableRecuritButton(i, button);
             }
           } catch (NotEnoughGoldException e1) {
+          	playSound("NOT_ENOUGH_GOLD.wav");
             showErrorMessage(e1);
           }
         } else {
@@ -341,6 +359,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
           try {
             game.getPlayer().upgradeBuilding(building, button.getCity());
           } catch (NotEnoughGoldException | BuildingInCoolDownException | MaxLevelException e1) {
+          	if(e1 instanceof NotEnoughGoldException)
+          		playSound("NOT_ENOUGH_GOLD.wav");
+          	else if(e1 instanceof BuildingInCoolDownException)
+          		playSound("Building is cooling down.wav");
+          	else if(e1 instanceof MaxLevelException)
+          		playSound("you have reached the maximum level.wav");
             showErrorMessage(e1);
           }
         }
@@ -554,6 +578,19 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private City cityNameToObject(String cityName) {
     return Game.searchForCity(cityName, game.getAvailableCities());
   }
+  
+  public void playSound(String path){
+		path = "src/sounds/" + path;
+		try {
+			AudioInputStream sound =  AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+			clip.open(sound);
+			clip.start();
+		}catch(Exception e) {
+			
+		}
+		
+	}
 
   public static void main(String[] args) {
     new Controller();
