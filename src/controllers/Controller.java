@@ -227,7 +227,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setStartBattleButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Start Battle")) {
       ArmyButton button = (ArmyButton) e.getSource();
-      City city = cityNameToObject(button.getArmy().getCurrentLocation());
+      City city = cityNameToObject((String)button.getArmy().getArmyPanel().getCities().getSelectedItem());
       try {
         game.startBattle(button.getArmy(), city);
         battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
@@ -260,10 +260,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("Select")) {
       ArmyButton armyButton = (ArmyButton) e.getSource();
       CityView cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
+      if (cityView.getSelected() != null) {
+        cityView.getSelected().getStationaryArmyPanel().getSelectArmy().setEnabled(true);
+      }
       cityView.setSelected(armyButton.getArmy());
       for (Unit unit : cityView.getCity().getDefendingArmy().getUnits()) {
         unit.getUnitPanel().enableRelocate();
       }
+      armyButton.setEnabled(false);
       SwingUtilities.updateComponentTreeUI(cityView);
     }
   }

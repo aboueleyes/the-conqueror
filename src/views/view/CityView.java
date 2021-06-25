@@ -99,9 +99,9 @@ public class CityView extends JFrame {
     setTitle("The Conqueror");
     pack();
     getContentPane().add(playerPanel, BorderLayout.PAGE_START);
-    getContentPane().add(buildingsPanel, BorderLayout.CENTER);
+    getContentPane().add(buildingsPanel);
     addArmyPane();
-    getContentPane().add(armyPanel, BorderLayout.SOUTH);
+    getContentPane().add(armyPanel, BorderLayout.PAGE_END);
     addBuildingsPanel(a);
   }
 
@@ -132,7 +132,7 @@ public class CityView extends JFrame {
   }
 
   public void addBuildingsPanel(ActionListener a) {
-    GridLayout gridLayout = new GridLayout(0, 5);
+    GridLayout gridLayout = new GridLayout(1, 5);
     gridLayout.setHgap(10);
     setBackground(Color.decode("#C8AE81"));
     buildingsPanel.setLayout(gridLayout);

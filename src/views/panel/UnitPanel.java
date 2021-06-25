@@ -51,6 +51,7 @@ public class UnitPanel extends JPanel {
     background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText(unit.toString());
     info.setOpaque(false);
+    info.setEditable(false);
     background.add(info);
     action1.addActionListener(a);
     add(background);
@@ -58,11 +59,11 @@ public class UnitPanel extends JPanel {
 
   private String setUnitPanelTypeImage(Unit unit) {
     if (unit instanceof Archer) {
-      return "src/images/archer.jpg";
+      return "src/images/archer.png";
     } else if (unit instanceof Cavalry) {
-      return "src/images/cavalry.jpg";
+      return "src/images/cavalry.png";
     } else {
-      return "src/images/infantry.jpg";
+      return "src/images/infantry.png";
     }
 
   }

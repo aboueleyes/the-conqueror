@@ -351,12 +351,16 @@ public class Game {
   }
 
   public void startBattle(Army army, City city) throws FriendlyFireException, TargetNotReachedException {
-    if (player.isFriend(city)) {
-      throw new FriendlyFireException("you can't attack a friend");
-    }
     if (army.haveReached(city)) {
       throw new TargetNotReachedException("the army hasn't arrived yet!");
     }
+    
+    if (player.isFriend(city)) {
+      System.out.println(player.getControlledCities().size());
+      System.out.println(city.getName());
+      throw new FriendlyFireException("you can't attack a friend");
+    }
+   
   }
 
   public String toString(Army army) {
