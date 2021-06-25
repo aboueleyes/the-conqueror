@@ -69,9 +69,12 @@ public class ArmyPanel extends JPanel {
     buttonPanel.add(action2);
     buttonPanel.add(startBattle);
     buttonPanel.add(view);
+    cities.setOpaque(false);
+
     panel1.add(buttonPanel, BorderLayout.SOUTH);
     background.add(panel1, BorderLayout.PAGE_END);
     info.setText("");
+    info.setEditable(false);
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
     background.add(info,BorderLayout.EAST);
     action1.addActionListener(a);
