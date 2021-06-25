@@ -99,10 +99,10 @@ public class Triangle {
     Triangle t = new Triangle(xy, xz, yz);
     if (!t.isTriangle()) {
       if (maxSide(xy, xz, yz) == xy) {
-        return xa - xz;
+        return Math.abs(xa - xz);
       }
       if (maxSide(xy, xz, yz) == xz) {
-        return xz - xa;
+        return Math.abs(xz - xa);
       }
       if (maxSide(xy, xz, yz) == yz) {
         return xa + xz;
