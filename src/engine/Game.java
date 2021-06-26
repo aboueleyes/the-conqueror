@@ -65,20 +65,20 @@ public class Game {
     this.currentTurnCount = currentTurnCount;
   }
 
-  public Game(String playerName, String cityName) throws IOException {
+  public Game(String playerName, String cityName, String level) throws IOException {
     this.player = new Player(playerName);
     player.setTreasury(INITIAL_TREASURY);
     setCurrentTurnCount(1);
     distances = new ArrayList<>();
     availableCities = new ArrayList<>();
     loadCitiesAndDistances();
-    loadCitiesFiles(cityName);
+    loadCitiesFiles(cityName, level);
   }
 
-  private void loadCitiesFiles(String cityName) throws IOException {
+  private void loadCitiesFiles(String cityName, String level) throws IOException {
     for (City city : availableCities) {
       if (!city.getName().equals(cityName)) {
-        String path = "assets/csv/" + city.getName().toLowerCase() + "_army.csv";
+        String path = "assets/csv/" + level + "/" + city.getName().toLowerCase() + "_army.csv";
         loadArmy(city.getName(), path);
       } else {
         player.addControlCity(city);
@@ -249,7 +249,7 @@ public class Game {
       player.loseDefendingArmies();
     }
     player.setFood(player.getFood() - foodNeeded);
-    if(gameListener!=null){
+    if (gameListener != null) {
       gameListener.onFeedUpdated();
     }
   }

@@ -143,10 +143,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   private void startGame(ActionEvent e) throws NullPointerException {
     if (e.getActionCommand().equals("Start")) {
+      String level = startView.getLevel();
       String playerName = startView.getNameOfPlayer().getText();
       String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
       try {
-        game = new Game(playerName, cityName);
+        game = new Game(playerName, cityName, level);
       } catch (IOException e1) {
         showMessageDialog(null, "Error in csv files Existing!!");
         System.exit(1);
