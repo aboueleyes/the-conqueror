@@ -61,11 +61,11 @@ public class UnitPanel extends JPanel {
 
   private String setUnitPanelTypeImage(Unit unit) {
     if (unit instanceof Archer) {
-      return "./assets/img/archer.png";
+      return "./assets/img/units/archer.png";
     } else if (unit instanceof Cavalry) {
-      return "./assets/img/cavalry.png";
+      return "./assets/img/units/cavalry.png";
     } else {
-      return "./assets/img/infantry.png";
+      return "./assets/img/units/infantry.png";
     }
 
   }

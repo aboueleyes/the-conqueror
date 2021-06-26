@@ -54,11 +54,11 @@ public class MilitaryBuildingPanel extends BuildingPanel {
 
   public String setImageType(String type) {
     if (type.equals("ArcheryRange")) {
-      return "./assets/img/archeryRange.png";
+      return "./assets/img/buildings/archeryRange.png";
     } else if (type.equals("Barracks")) {
-      return "./assets/img/barracks.png";
+      return "./assets/img/buildings/barracks.png";
     } else {
-      return "./assets/img/stable.png";
+      return "./assets/img/buildings/stable.png";
     }
   }
 

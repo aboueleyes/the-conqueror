@@ -29,7 +29,7 @@ public class StationaryArmyPanel extends JPanel {
 
   public StationaryArmyPanel(ActionListener a, Army army) {
     this.army = army;
-    ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/army.png").getImage());
+    ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/armies/army.png").getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
     selectArmy = new ArmyButton("Select", 15);

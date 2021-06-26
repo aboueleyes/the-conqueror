@@ -142,9 +142,9 @@ public class WorldMapView extends JFrame {
 
   public void addCitiesPane(ActionListener a) {
     citiesPanel.setLayout(new BorderLayout());
-    ImagePanel cairoPanel = new ImagePanel(new ImageIcon("./assets/img/maxresdefault.jpg").getImage());
-    ImagePanel romePanel = new ImagePanel(new ImageIcon("./assets/img/rome.jpg").getImage());
-    ImagePanel spartaPanel = new ImagePanel(new ImageIcon("./assets/img/gdfg.jpg").getImage());
+    ImagePanel cairoPanel = new ImagePanel(new ImageIcon("./assets/img/cities/cairo.jpg").getImage());
+    ImagePanel romePanel = new ImagePanel(new ImageIcon("./assets/img/cities/rome.jpg").getImage());
+    ImagePanel spartaPanel = new ImagePanel(new ImageIcon("./assets/img/cities/sparta.jpg").getImage());
 
     cairoPanel.setLayout(new BorderLayout());
     cairoPanel.add(new StyledLabel("Cairo", 70, true), BorderLayout.LINE_START);

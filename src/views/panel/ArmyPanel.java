@@ -45,7 +45,7 @@ public class ArmyPanel extends JPanel {
   public ArmyPanel(ActionListener a, Army army) {
     this.army = army;
 
-    ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/army.png").getImage());
+    ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/armies/army.png").getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
     action1 = new ArmyButton("TargetCity", 15);

@@ -51,9 +51,9 @@ public class EconomicalBuildingPanel extends BuildingPanel {
 
   public String setImageType(String type) {
     if (type.equals("Farm")) {
-      return "./assets/img/farm.png";
+      return "./assets/img/buildings/farm.png";
     } else {
-      return "./assets/img/market.png";
+      return "./assets/img/buildings/market.png";
     }
   }
 
