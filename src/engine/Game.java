@@ -249,6 +249,9 @@ public class Game {
       player.loseDefendingArmies();
     }
     player.setFood(player.getFood() - foodNeeded);
+    if(gameListener!=null){
+      gameListener.onFeedUpdated();
+    }
   }
 
   private void clearBuildings() {
@@ -260,7 +263,6 @@ public class Game {
       }
     }
     if (gameListener != null) {
-      gameListener.onFeedUpdated();
       gameListener.onTreasuryUpdate();
     }
   }

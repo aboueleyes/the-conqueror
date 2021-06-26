@@ -122,8 +122,8 @@ public class WorldMapView extends JFrame {
   public void addArmyPane() {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
-    armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    StyledLabel label = new StyledLabel("Controlled Armies", 25, true);
+    //armyPanel.setBackground(Color.decode(COLOR_BEIGE));
+    JLabel label = new JLabel("<html><h1><strong><i>" + "Controlled Armies" + "</i></strong></h1><hr></html>");
     label.setBorder(new EmptyBorder(10, 10, 10, 10));
     armyPanel.add(label, BorderLayout.PAGE_START);
     JPanel panel = new JPanel();
@@ -142,43 +142,71 @@ public class WorldMapView extends JFrame {
 
   public void addCitiesPane(ActionListener a) {
     citiesPanel.setLayout(new BorderLayout());
-    ImagePanel cairoPanel = new ImagePanel(new ImageIcon("./assets/img/cities/cairo.jpg").getImage());
-    ImagePanel romePanel = new ImagePanel(new ImageIcon("./assets/img/cities/rome.jpg").getImage());
-    ImagePanel spartaPanel = new ImagePanel(new ImageIcon("./assets/img/cities/sparta.jpg").getImage());
+    //citiesPanel.setBackground(Color.decode("#C8AE81"));
+    ImagePanel cairoPanel = new ImagePanel(new ImageIcon("./assets/img/cities/cairo.png").getImage());
+    ImagePanel romePanel = new ImagePanel(new ImageIcon("./assets/img/cities/rome.png").getImage());
+    ImagePanel spartaPanel = new ImagePanel(new ImageIcon("./assets/img/cities/sparta.png").getImage());
 
     cairoPanel.setLayout(new BorderLayout());
-    cairoPanel.add(new StyledLabel("Cairo", 70, true), BorderLayout.LINE_START);
-    cairoButton = new CityButton("view", 20);
+    StyledLabel cairoName =  new StyledLabel("Cairo",70,true);
+    cairoButton = new CityButton("view", 15);
     cairoButton.addActionListener(a);
     JPanel buttonArea = new JPanel();
     buttonArea.setLayout(new BorderLayout());
     buttonArea.add(cairoButton, BorderLayout.EAST);
-    buttonArea.setOpaque(false);
-    cairoPanel.add(buttonArea, BorderLayout.SOUTH);
+    JPanel panel3 = new JPanel();
+    panel3.setLayout(new GridLayout(3,1));
+    panel3.add(cairoName) ;
+    panel3.add(new JLabel());
+    JPanel bottom = new JPanel();
+    bottom.setLayout(new BorderLayout());
+    bottom.add(buttonArea,BorderLayout.PAGE_END);
+    panel3.add(bottom);
+    cairoPanel.add(panel3, BorderLayout.SOUTH);
 
     spartaPanel.setLayout(new BorderLayout());
-    StyledLabel spartaName = new StyledLabel("Sparta", 70, true);
-    spartaName.setForeground(Color.WHITE);
-    spartaButton = new CityButton("view", 20);
+    StyledLabel spartaName =  new StyledLabel("Sparta",70,true);
+    //spartaName.setForeground(Color.WHITE);
+    spartaButton = new CityButton("view", 15);
     spartaButton.setActionCommand("sparta");
     spartaButton.addActionListener(a);
     JPanel buttonArea2 = new JPanel();
     buttonArea2.setLayout(new BorderLayout());
-    buttonArea2.add(spartaButton, BorderLayout.EAST);
+    spartaName.setOpaque(false);
+    buttonArea2.add(spartaButton,BorderLayout.EAST);
     buttonArea2.setOpaque(false);
-    spartaPanel.add(buttonArea2, BorderLayout.SOUTH);
-    spartaPanel.add(spartaName, BorderLayout.LINE_START);
+    JPanel panel1 = new JPanel();
+    panel1.setLayout(new GridLayout(3,1));
+    panel1.add(spartaName) ;
+    panel1.add(new JLabel(""));
+    JPanel bottom1 = new JPanel();
+    bottom1.setLayout(new BorderLayout());
+    bottom1.add(buttonArea2,BorderLayout.PAGE_END);
+    panel1.add(bottom1);
+    panel1.setOpaque(false);
+    spartaPanel.add(panel1, BorderLayout.SOUTH);
+   
+  
 
     romePanel.setLayout(new BorderLayout());
-    StyledLabel romeName = new StyledLabel("Rome", 70, true);
-    romeName.setForeground(Color.WHITE);
+    StyledLabel romeName =  new StyledLabel("Rome",70,true);
+    //romeName.setForeground(Color.WHITE);
     romePanel.add(romeName, BorderLayout.LINE_START);
-    romeButton = new CityButton("view", 20);
+    romeButton = new CityButton("view", 15);
     JPanel buttonArea3 = new JPanel();
     buttonArea3.setLayout(new BorderLayout());
     buttonArea3.add(romeButton, BorderLayout.EAST);
+   
     buttonArea3.setOpaque(false);
-    romePanel.add(buttonArea3, BorderLayout.SOUTH);
+    JPanel panel2 = new JPanel();
+    panel2.setLayout(new GridLayout(3,1));
+    panel2.add(romeName) ;
+    panel2.add(new JLabel(""));
+    JPanel bottom3 = new JPanel();
+    bottom3.setLayout(new BorderLayout());
+    bottom3.add(buttonArea3,BorderLayout.PAGE_END);
+    panel2.add(bottom3);
+    romePanel.add(panel2, BorderLayout.SOUTH);
     romeButton.addActionListener(a);
 
     romePanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
