@@ -216,11 +216,4 @@ public class BattleView extends JFrame {
 		}
 	}
 
-	public static void main(String[] args) throws IOException, InvalidUnitException {
-		Game test = new Game("ahmed", "cairo");
-		Army test1 = test.getAvailableCities().get(0).getDefendingArmy();
-		new BattleView(null, new PlayerPanel(null), test1, test1).setVisible(true);
-
-	}
-
 }
