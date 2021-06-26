@@ -2,15 +2,13 @@ package views.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
-import java.awt.GridLayout;
+
 import units.Archer;
 import units.Cavalry;
 import units.Unit;
@@ -81,11 +79,11 @@ public class DefendingUnitPanel extends JPanel {
 
   private String setUnitPanelTypeImage(Unit unit) {
     if (unit instanceof Archer) {
-      return "src/images/archer.png";
+      return "./assets/img/units/archer.png";
     } else if (unit instanceof Cavalry) {
-      return "src/images/cavalry.png";
+      return "./assets/img/units/cavalry.png";
     } else {
-      return "src/images/infantry.png";
+      return "./assets/img/units/infantry.png";
     }
 
   }
@@ -102,7 +100,7 @@ public class DefendingUnitPanel extends JPanel {
     relocate.setEnabled(true);
   }
 
-  public void disableRelocate(){
+  public void disableRelocate() {
     relocate.setEnabled(false);
   }
 }

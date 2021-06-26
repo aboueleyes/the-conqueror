@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
-import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,7 +16,6 @@ import units.Army;
 import units.Unit;
 import views.panel.BuildingPanel;
 import views.panel.CardsPanel;
-import views.panel.DefendingUnitPanel;
 import views.panel.EconomicalBuildingPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;

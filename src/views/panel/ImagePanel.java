@@ -1,4 +1,5 @@
 package views.panel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,7 +23,7 @@ public class ImagePanel extends JPanel {
     this.img = img;
     Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
     setPreferredSize(size);
-    setMinimumSize(new Dimension(50,50));
+    setMinimumSize(new Dimension(50, 50));
     setMaximumSize(size);
     setSize(size);
 
@@ -36,11 +37,13 @@ public class ImagePanel extends JPanel {
   public static void main(String[] args) {
     JFrame test = new JFrame();
     test.setVisible(true);
-    ImagePanel panel = new ImagePanel(new ImageIcon("src/images/archer.jpg").getImage());     test.setLayout(new BorderLayout());
+    ImagePanel panel = new ImagePanel(new ImageIcon("./assets/img/archer.jpg").getImage());
+    test.setLayout(new BorderLayout());
     JPanel p = new JPanel();
     p.add(panel);
-     panel.setLayout(new BorderLayout());
-     panel.add(new JLabel("fhif"),BorderLayout.PAGE_END); test.add(panel);
-     test.add(panel);
+    panel.setLayout(new BorderLayout());
+    panel.add(new JLabel("fhif"), BorderLayout.PAGE_END);
+    test.add(panel);
+    test.add(panel);
   }
 }

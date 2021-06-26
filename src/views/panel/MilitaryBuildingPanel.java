@@ -31,37 +31,37 @@ public class MilitaryBuildingPanel extends BuildingPanel {
 
     setRecruit(new CityButton("Recruit", 15));
     recruit.setEnabled(false);
-    JLabel label =new JLabel("<html><h2><strong><i>" + name + "</i></strong></h2><hr></html>");
+    JLabel label = new JLabel("<html><h2><strong><i>" + name + "</i></strong></h2><hr></html>");
     JPanel buttonPanel = new JPanel();
-    buttonPanel.setLayout(new GridLayout(2,1));
+    buttonPanel.setLayout(new GridLayout(2, 1));
     buttonPanel.add(getUpgrade());
     buttonPanel.add(recruit);
     JPanel panel = new JPanel();
-    panel.setLayout(new GridLayout(2,1));
+    panel.setLayout(new GridLayout(2, 1));
     panel.add(getInfo());
     JPanel panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
-    panel1.add(buttonPanel,BorderLayout.EAST);
+    panel1.add(buttonPanel, BorderLayout.EAST);
 
     panel.add(panel1);
-    background.add(label,BorderLayout.PAGE_START);
-    background.add(panel,BorderLayout.PAGE_END);
-   // add(recruit);
+    background.add(label, BorderLayout.PAGE_START);
+    background.add(panel, BorderLayout.PAGE_END);
+    // add(recruit);
     recruit.setCity(city);
     getRecruit().addActionListener(a);
     add(background);
   }
-  public String setImageType(String type){
-    if(type.equals("ArcheryRange")){
-      return "src/images/archeryRange.png";
-    }
-    else if (type.equals("Barracks")){
-      return "src/images/barracks.png";
-    }
-    else{
-      return "src/images/stable.png";
+
+  public String setImageType(String type) {
+    if (type.equals("ArcheryRange")) {
+      return "./assets/img/buildings/archeryRange.png";
+    } else if (type.equals("Barracks")) {
+      return "./assets/img/buildings/barracks.png";
+    } else {
+      return "./assets/img/buildings/stable.png";
     }
   }
+
   public CityButton getRecruit() {
     return recruit;
   }

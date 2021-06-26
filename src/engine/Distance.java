@@ -1,8 +1,5 @@
 package engine;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class Distance {
 
   private String from; // The name of the city that the army will begin moving from, READ ONLY

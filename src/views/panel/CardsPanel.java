@@ -1,5 +1,7 @@
 package views.panel;
 
+import java.awt.BorderLayout;
+
 //source ---> https://harmash.com/swing/swing-cardlayout/example-3.php
 
 import java.awt.CardLayout;
@@ -7,9 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +22,7 @@ public class CardsPanel extends JPanel implements ActionListener {
 	JPanel panel_L;
 	JPanel panel_R;
 	private JButton next;
+
 	public JButton getNext() {
 		return next;
 	}
@@ -43,7 +44,6 @@ public class CardsPanel extends JPanel implements ActionListener {
 	JButton last;
 	CardLayout card;
 	DefendingUnitPanel defendingUnitPanel;
-	
 
 	public DefendingUnitPanel getDefendingUnitPanel() {
 		return defendingUnitPanel;
@@ -58,7 +58,6 @@ public class CardsPanel extends JPanel implements ActionListener {
 		unit.setUnitPanel(defendingUnitPanel);
 		addCard(defendingUnitPanel);
 	}
-
 
 	public CardsPanel() {
 		super();
@@ -120,9 +119,11 @@ public class CardsPanel extends JPanel implements ActionListener {
 		}
 
 	}
-    public void clear(){
+
+	public void clear() {
 		panel_R.removeAll();
-    }
+	}
+
 	public static void main(String[] args) {
 		JFrame test = new JFrame();
 		test.setVisible(true);
@@ -136,9 +137,5 @@ public class CardsPanel extends JPanel implements ActionListener {
 		test.add(test2);
 
 	}
-
-	// public void selected() {
-	// 	panel_R.getComponents()
-	// }
 
 }

@@ -192,6 +192,7 @@ public class BattleView extends JFrame {
 		battleLog.add(head, BorderLayout.PAGE_START);
 		battleLog.add(log, BorderLayout.CENTER);
 		battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
+		log.setEditable(false);
 	}
 
 	public void handleAttackerPanel(CardsPanel attackerPanel, ActionListener a) {

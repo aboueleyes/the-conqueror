@@ -16,6 +16,7 @@ public class StationaryArmyPanel extends JPanel {
   private Army army;
   private JTextArea info = new JTextArea();
   private ArmyButton selectArmy;
+
   public ArmyButton getSelectArmy() {
     return selectArmy;
   }
@@ -28,7 +29,7 @@ public class StationaryArmyPanel extends JPanel {
 
   public StationaryArmyPanel(ActionListener a, Army army) {
     this.army = army;
-    ImagePanel background = new ImagePanel(new ImageIcon("src/images/army.png").getImage());
+    ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/armies/army.png").getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
     selectArmy = new ArmyButton("Select", 15);
@@ -40,7 +41,7 @@ public class StationaryArmyPanel extends JPanel {
     background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText("");
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
-    background.add(info,BorderLayout.EAST);
+    background.add(info, BorderLayout.EAST);
     add(background);
     info.setOpaque(false);
     info.setEditable(false);
@@ -54,6 +55,7 @@ public class StationaryArmyPanel extends JPanel {
   public void setCity(City city) {
     this.city = city;
   }
+
   public Army getArmy() {
     return army;
   }
