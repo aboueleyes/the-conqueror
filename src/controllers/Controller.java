@@ -143,8 +143,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   private void startGame(ActionEvent e) throws NullPointerException {
     if (e.getActionCommand().equals("Start")) {
-      //String level = "hbd";
-       String level = startView.getLevel();
+      String level = startView.getLevel();
       String playerName = startView.getNameOfPlayer().getText();
       String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
       try {
