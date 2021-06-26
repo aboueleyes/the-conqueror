@@ -2,17 +2,14 @@ package views.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.awt.font.*;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import java.awt.GridLayout;
+
 import engine.City;
 import units.Army;
 import views.button.ArmyButton;
@@ -48,7 +45,7 @@ public class ArmyPanel extends JPanel {
   public ArmyPanel(ActionListener a, Army army) {
     this.army = army;
 
-    ImagePanel background = new ImagePanel(new ImageIcon("src/images/army.png").getImage());
+    ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/army.png").getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
     action1 = new ArmyButton("TargetCity", 15);
@@ -64,7 +61,7 @@ public class ArmyPanel extends JPanel {
     panel1.setLayout(new BorderLayout());
     panel1.add(cities, BorderLayout.NORTH);
     background.setOpaque(false);
-    buttonPanel.setLayout(new GridLayout(1,4));
+    buttonPanel.setLayout(new GridLayout(1, 4));
     buttonPanel.add(action1);
     buttonPanel.add(action2);
     buttonPanel.add(startBattle);
@@ -76,7 +73,7 @@ public class ArmyPanel extends JPanel {
     info.setText("");
     info.setEditable(false);
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
-    background.add(info,BorderLayout.EAST);
+    background.add(info, BorderLayout.EAST);
     action1.addActionListener(a);
     action2.addActionListener(a);
     startBattle.addActionListener(a);

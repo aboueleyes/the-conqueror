@@ -23,7 +23,6 @@ import exceptions.BuildingInCoolDownException;
 import exceptions.FriendlyCityException;
 import exceptions.FriendlyFireException;
 import exceptions.InvalidBuildingException;
-import exceptions.InvalidUnitException;
 import exceptions.MaxCapacityException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
@@ -37,7 +36,6 @@ import views.button.ArmyButton;
 import views.button.CityButton;
 import views.button.UnitButton;
 import views.panel.ArmyPanel;
-import views.panel.DefendingUnitPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
 import views.panel.StationaryArmyPanel;
@@ -227,7 +225,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setStartBattleButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Start Battle")) {
       ArmyButton button = (ArmyButton) e.getSource();
-      City city = cityNameToObject((String)button.getArmy().getArmyPanel().getCities().getSelectedItem());
+      City city = cityNameToObject((String) button.getArmy().getArmyPanel().getCities().getSelectedItem());
       try {
         game.startBattle(button.getArmy(), city);
         battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
@@ -248,6 +246,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       String city = unit.getParentArmy().getCurrentLocation();
       System.out.println(unit.getParentArmy().getCurrentLocation());
       Army army = cityViews[getIndexOfCity(city)].getSelected();
+      if (army == null) {
+        unitButton.setEnabled(false);
+      }
       try {
         army.relocateUnit(unit);
       } catch (MaxCapacityException e1) {
@@ -511,7 +512,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       battleView.getAttackerPanel().removeCard(unit.getBattleUnitPanel());
     } else {
       battleView.getDefenderPanel().removeCard(unit.getBattleUnitPanel());
-    } // cityViews[getIndexOfCity(unit.getParentArmy().getCurrentLocation())].getUnitsCards().remove(unit.getUnitPanel());
+    }
     updateComponentTreeUI(battleView);
 
   }
@@ -533,8 +534,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private CityView getCityView(String name) {
-    if(getIndexOfCity(name)>=0){
-    return cityViews[getIndexOfCity(name)];
+    if (getIndexOfCity(name) >= 0) {
+      return cityViews[getIndexOfCity(name)];
     }
     return null;
   }
@@ -620,9 +621,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void OnUpdateSoldierCount(Unit unit) {
-    if(unit.getUnitPanel()!=null&& unit.getInfoUnitPanel()!=null){
-    unit.getUnitPanel().getInfo().setText(unit.toString());
-    unit.getInfoUnitPanel().getInfo().setText(unit.toString());
+    if (unit.getUnitPanel() != null && unit.getInfoUnitPanel() != null) {
+      unit.getUnitPanel().getInfo().setText(unit.toString());
+      unit.getInfoUnitPanel().getInfo().setText(unit.toString());
     }
   }
 }

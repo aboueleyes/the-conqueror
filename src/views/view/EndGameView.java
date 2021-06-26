@@ -12,15 +12,15 @@ import javax.swing.JPanel;
 import views.button.StyledButton;
 import views.panel.ImagePanel;
 
-public class EndGameView extends JFrame{
-	
+public class EndGameView extends JFrame {
+
 	ImagePanel background;
 	StyledButton endGame;
 	StyledButton playAgain;
-	
+
 	public EndGameView(ActionListener a) {
 		super();
-		background = new ImagePanel("src/images/endGame.jpg");
+		background = new ImagePanel("./assets/img/endGame.jpg");
 		this.setSize(500, 300);
 		JPanel buttonPanel = new JPanel();
 		this.add(background);
@@ -37,11 +37,11 @@ public class EndGameView extends JFrame{
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
-	
+
 	public void addLabel(JLabel text) {
 		this.background.add(text, BorderLayout.CENTER);
 	}
-	
+
 	public static void main(String[] args) {
 		EndGameView test = new EndGameView(null);
 		JLabel text = new JLabel("text");

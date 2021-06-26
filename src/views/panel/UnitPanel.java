@@ -38,34 +38,34 @@ public class UnitPanel extends JPanel {
     this.unit = unit;
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
     setLayout(new BorderLayout());
-     background.setLayout(new BorderLayout());
+    background.setLayout(new BorderLayout());
     action1 = new UnitButton("Select", 20);
     action1.setUnit(unit);
-    
+
     JPanel buttonPanel = new JPanel();
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(action1);
     buttonPanel.setOpaque(false);
-    
+
     background.add(buttonPanel, BorderLayout.PAGE_END);
     info.setText(unit.toString());
     info.setOpaque(false);
     info.setEditable(false);
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
 
-    background.add(info,BorderLayout.EAST);
+    background.add(info, BorderLayout.EAST);
     action1.addActionListener(a);
     add(background);
   }
 
   private String setUnitPanelTypeImage(Unit unit) {
     if (unit instanceof Archer) {
-      return "src/images/archer.png";
+      return "./assets/img/archer.png";
     } else if (unit instanceof Cavalry) {
-      return "src/images/cavalry.png";
+      return "./assets/img/cavalry.png";
     } else {
-      return "src/images/infantry.png";
+      return "./assets/img/infantry.png";
     }
 
   }

@@ -28,6 +28,7 @@ public class WorldMapView extends JFrame {
   private CityButton spartaButton;
   private CardsPanel armyCards;
   private CardsPanel unitsCard;
+
   public CardsPanel getArmyCards() {
     return armyCards;
   }
@@ -122,11 +123,11 @@ public class WorldMapView extends JFrame {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     armyPanel.setBackground(Color.decode(COLOR_BEIGE));
-    StyledLabel label =  new StyledLabel("Controlled Armies", 25, true);
-     label.setBorder(new EmptyBorder(10,10,10,10));
+    StyledLabel label = new StyledLabel("Controlled Armies", 25, true);
+    label.setBorder(new EmptyBorder(10, 10, 10, 10));
     armyPanel.add(label, BorderLayout.PAGE_START);
     JPanel panel = new JPanel();
-    panel.setLayout(new GridLayout(1,3));
+    panel.setLayout(new GridLayout(1, 3));
     unitsCard = new CardsPanel();
     unitsCard.setVisible(false);
     armyCards = new CardsPanel();
@@ -136,16 +137,14 @@ public class WorldMapView extends JFrame {
     panel.add(unitsCard);
     panel.setOpaque(false);
     armyPanel.add(panel);
-   
-    
 
   }
 
   public void addCitiesPane(ActionListener a) {
     citiesPanel.setLayout(new BorderLayout());
-    ImagePanel cairoPanel = new ImagePanel(new ImageIcon("src/images/maxresdefault.jpg").getImage());
-    ImagePanel romePanel = new ImagePanel(new ImageIcon("src/images/rome.jpg").getImage());
-    ImagePanel spartaPanel = new ImagePanel(new ImageIcon("src/images/gdfg.jpg").getImage());
+    ImagePanel cairoPanel = new ImagePanel(new ImageIcon("./assets/img/maxresdefault.jpg").getImage());
+    ImagePanel romePanel = new ImagePanel(new ImageIcon("./assets/img/rome.jpg").getImage());
+    ImagePanel spartaPanel = new ImagePanel(new ImageIcon("./assets/img/gdfg.jpg").getImage());
 
     cairoPanel.setLayout(new BorderLayout());
     cairoPanel.add(new StyledLabel("Cairo", 70, true), BorderLayout.LINE_START);

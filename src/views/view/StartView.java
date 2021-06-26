@@ -50,7 +50,7 @@ public class StartView extends JFrame {
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
         setCityOfPlayer(new JComboBox<>(Controller.CITIES_NAMES));
         setStart(new StyledButton("Start", 16));
-        panel = new ImagePanel(new ImageIcon("src/images/1110988.jpg").getImage());
+        panel = new ImagePanel(new ImageIcon("./assets/img/1110988.jpg").getImage());
     }
 
     private void addComponents() {
