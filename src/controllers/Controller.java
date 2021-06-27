@@ -562,6 +562,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     String toBeLogged = "Attacked unit lose " + killedSoldiers + " Soldiers" + "\n";
     battleView.getLog().setText(battleView.getLog().getText() + toBeLogged);
     defenderUnit.getBattleUnitPanel().getInfo().setText(defenderUnit.toString());
+    SwingUtilities.updateComponentTreeUI(battleView);
+
 
   }
 

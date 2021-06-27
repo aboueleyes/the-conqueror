@@ -53,6 +53,7 @@ public class UnitPanel extends JPanel {
     info.setOpaque(false);
     info.setEditable(false);
     info.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
+    setOpaque(false);
 
     background.add(info, BorderLayout.EAST);
     action1.addActionListener(a);
