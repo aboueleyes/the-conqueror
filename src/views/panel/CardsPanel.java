@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 //source ---> https://harmash.com/swing/swing-cardlayout/example-3.php
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -73,15 +74,16 @@ public class CardsPanel extends JPanel implements ActionListener {
 		add(panel_L, BorderLayout.PAGE_END);
 		gbc.weightx = 10;
 		add(panel_R, BorderLayout.CENTER);
-		panel_L.setLayout(new GridLayout(1, 2));
+		panel_L.setLayout(new GridLayout(1, 4));
 
 		next = new JButton("Next");
 		previous = new JButton("Previous");
 		first = new JButton("First");
-		last = new JButton("Last");
-
+	    last = new JButton("Last");
 		panel_L.add(next);
 		panel_L.add(previous);
+	
+
 
 		card = new CardLayout();
 		panel_R.setLayout(card);
@@ -91,6 +93,10 @@ public class CardsPanel extends JPanel implements ActionListener {
 		first.addActionListener(this);
 		last.addActionListener(this);
 		panel_R.setOpaque(false);
+		next.setBackground(Color.decode("#C8AE81"));
+		//next.setForeground(Color.white);
+		previous.setBackground(Color.decode("#C8AE81"));
+		//previous.setForeground(Color.white);
 
 	}
 

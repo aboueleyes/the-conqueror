@@ -1,12 +1,15 @@
 package views.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import javax.swing.border.EmptyBorder;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +24,10 @@ import units.Army;
 import units.ArmyListener;
 import units.Unit;
 import units.UnitListener;
+import views.button.StyledButton;
 import views.panel.CardsPanel;
+import views.panel.DefendingUnitPanel;
+import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 import views.panel.UnitPanel;
 
@@ -129,11 +135,11 @@ public class BattleView extends JFrame {
 		this.attackerArmy = attackerArmy;
 		this.defenderArmy = defenderArmy;
 		this.battleLog = new JPanel();
-		this.attack = new JButton("Attack");
+		this.attack = new StyledButton("Attack",20);
 		attack.addActionListener(a);
-		this.attack.setFont(new Font("Dialog", Font.PLAIN, 20));
-		this.autoResolve = new JButton("Auto Resolve");
-		this.autoResolve.setFont(new Font("Dialog", Font.PLAIN, 20));
+		
+		this.autoResolve = new StyledButton("Auto Resolve",20);
+		
 		this.setLayout(new BorderLayout());
 		autoResolve.addActionListener(a);
 		setExtendedState(MAXIMIZED_BOTH);
@@ -150,9 +156,7 @@ public class BattleView extends JFrame {
 		defenderArmy.setArmyListener((ArmyListener) a);
 		attackerArmy.setArmyListener((ArmyListener) a);
 		attack.setEnabled(false);
-		JScrollPane scroll = new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		battleLog.add(scroll);
+		
 	}
 
 	public Unit getDefendingUnit() {
@@ -173,26 +177,56 @@ public class BattleView extends JFrame {
 
 	public void handleCentre(JPanel centre) {
 		centre.setLayout(new BorderLayout());
+        JLabel label1 = new JLabel("<html><h1><strong><i>" + "Your Army" + "</i></strong></h1><hr></html>");
+		JLabel label2 = new JLabel("<html><h1><strong><i>" + "Defending Army" + "</i></strong></h1><hr></html>");
+		JPanel right = new JPanel();
+		right.setLayout(new BorderLayout());
+		JPanel left = new JPanel();
+		left.setLayout(new BorderLayout());
+		right.add(label1,BorderLayout.PAGE_START);
+		right.add(attackerPanel);
+		left.add(label2,BorderLayout.PAGE_START);
+		left.add(defenderPanel);
+
 		JPanel south = new JPanel();
 		JPanel north = new JPanel();
 		north.setLayout(new GridLayout(1, 2));
-		north.add(attack);
-		north.add(autoResolve);
-		north.setPreferredSize(new Dimension(100, 100));
-		centre.add(north, BorderLayout.PAGE_START);
-		centre.add(south, BorderLayout.CENTER);
-		south.setLayout(new GridLayout(1, 2));
-		south.add(attackerPanel);
-		south.add(defenderPanel);
+		north.add(right);
+		north.add(left);
+		//north.setPreferredSize(new Dimension(100, 100));
+		centre.add(north);
+		centre.add(south, BorderLayout.SOUTH);
+		south.setLayout(new GridLayout(1, 6));
+		south.add(new JLabel());
+		south.add(new JLabel());
+		south.add(attack);
+		south.add(autoResolve);
+		south.add(new JLabel());
+		south.add(new JLabel());
 	}
 
 	public void handleBattlelog(JPanel battleLog) {
 		battleLog.setLayout(new BorderLayout());
-		JLabel head = new JLabel("Battle Log");
-		battleLog.add(head, BorderLayout.PAGE_START);
-		battleLog.add(log, BorderLayout.CENTER);
+		JLabel head = new JLabel("<html><h1><strong><i>" + "Battle Log" + "</i></strong></h1><hr></html>");
+		ImagePanel background = new ImagePanel(new ImageIcon("./assets/img/windows/battlelog.png").getImage());
+		
+		//JPanel background = new JPanel();
+		background.setLayout(new BorderLayout());
+		//background.setBackground(Color.black);
+		battleLog.add(head, BorderLayout.NORTH);
+		//battleLog.add(background,BorderLayout.CENTER);
 		battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
 		log.setEditable(false);
+		log.setOpaque(false);
+		JScrollPane scroll = new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setOpaque(false);	
+		        scroll.getViewport().setOpaque(false);
+		background.add(scroll,BorderLayout.CENTER);
+		battleLog.add(background,BorderLayout.CENTER);
+		log.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 13));
+		log.setBorder(new EmptyBorder(50,50,50,50));
+		//battleLog.setOpaque(false);
 	}
 
 	public void handleAttackerPanel(CardsPanel attackerPanel, ActionListener a) {
@@ -217,9 +251,9 @@ public class BattleView extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException, InvalidUnitException {
-		//Game test = new Game("ahmed", "cairo");
-		//Army test1 = test.getAvailableCities().get(0).getDefendingArmy();
-		//new BattleView(null, new PlayerPanel(null), test1, test1).setVisible(true);
+		Game test = new Game("ahmed", "cairo","easy");
+		Army test1 = test.getAvailableCities().get(0).getDefendingArmy();
+		new BattleView(null, new PlayerPanel(null), test1, test1).setVisible(true);
 
 	}
 
