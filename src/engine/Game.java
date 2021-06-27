@@ -114,6 +114,7 @@ public class Game {
     if (currentCity != null) {
       currentCity.setDefendingArmy(army);
     }
+    System.out.println(currentCity.getDefendingArmy().getUnits().size());
   }
 
   private void readUnitValues(ArrayList<Unit> unitList, List<List<String>> data, Army army) {
