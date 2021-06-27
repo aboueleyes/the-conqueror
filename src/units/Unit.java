@@ -133,4 +133,11 @@ public Army getParentArmy() {
     InfoUnitPanel infoUnitPanel = new InfoUnitPanel(a, this);
     setInfoUnitPanel(infoUnitPanel);
   }
+  public String getType (){
+    return this.getClass().getName().substring(6);
+  }
+  public static void main(String[] args) {
+    Unit Archer = new Archer(1);
+    System.out.println(Archer.getType());
+  }
 }

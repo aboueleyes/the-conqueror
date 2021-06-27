@@ -563,7 +563,15 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void UnitOnattack(Unit attackerUnit, Unit defenderUnit, int killedSoldiers) {
-    String toBeLogged = "Attacked unit lose " + killedSoldiers + " Soldiers" + "\n";
+    String toBeLogged; 
+    if(game.getPlayer().getControlledArmies().contains(attackerUnit.getParentArmy())){
+      toBeLogged = "Your " + attackerUnit.getType() + " level " +attackerUnit.getLevel()+" attacked "+defenderUnit.getType()+" level " +defenderUnit.getLevel()+", "+killedSoldiers+ " soldiers were killed"+"\n";
+    }
+    else{
+      toBeLogged = "Defending "+ attackerUnit.getType() + " level " +attackerUnit.getLevel()+" attacked your "+defenderUnit.getType()+" level " +defenderUnit.getLevel()+", "+killedSoldiers+ " soldiers were killed"+"\n";
+
+    }
+    
     battleView.getLog().setText(battleView.getLog().getText() + toBeLogged);
     defenderUnit.getBattleUnitPanel().getInfo().setText(defenderUnit.toString());
     SwingUtilities.updateComponentTreeUI(battleView);
