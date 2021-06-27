@@ -219,13 +219,14 @@ public class BattleView extends JFrame {
 		log.setEditable(false);
 		log.setOpaque(false);
 		JScrollPane scroll = new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 				scroll.setOpaque(false);	
 		        scroll.getViewport().setOpaque(false);
 		background.add(scroll,BorderLayout.CENTER);
 		battleLog.add(background,BorderLayout.CENTER);
 		log.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 13));
-		log.setBorder(new EmptyBorder(50,50,50,50));
+		log.setBorder(new EmptyBorder(50,50,0,10));
+		scroll.setBorder(new EmptyBorder(50,50,10,10));
 		//battleLog.setOpaque(false);
 	}
 

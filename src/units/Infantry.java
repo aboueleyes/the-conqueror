@@ -30,7 +30,7 @@ public class Infantry extends Unit {
   
   @Override
   public String toString() {
-  	return "type : Infantry" + "\n" + super.toString();
+  	return "Type : Infantry" + "\n" + super.toString();
   }
   
   public static void main(String[] argas) {

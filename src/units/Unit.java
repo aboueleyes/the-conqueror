@@ -98,7 +98,7 @@ public Army getParentArmy() {
 
   @Override
   public String toString() {
-    return ("level : " + this.getLevel() + "\n" + "current Soldier Count : " + this.getCurrentSoldierCount() + "\n"+"Max Soldier Count : "+this.getMaxSoldierCount()+"\n");
+    return ("Level : " + this.getLevel() + "\n" + "Current Soldier Count : " + this.getCurrentSoldierCount() + "\n"+"Max Soldier Count : "+this.getMaxSoldierCount()+"\n");
   }
 
   public Unit() {

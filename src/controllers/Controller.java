@@ -26,6 +26,7 @@ import exceptions.InvalidBuildingException;
 import exceptions.MaxCapacityException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
+import exceptions.MaxSiegeException;
 import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
 import units.Army;
@@ -179,6 +180,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   private void setAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Attack")) {
+      battleView.getAutoResolve().setEnabled(false);
+      if(battleView.getDefendingUnit()!=null){
+        battleView.getDefendingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
+      }
+      if(battleView.getAttackingUnit()!=null){
+        battleView.getAttackingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
+      }
       try {
         battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
 
@@ -206,6 +214,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectDefenderButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("selectDefender")) {
       UnitButton button = (UnitButton) e.getSource();
+      if(battleView.getDefendingUnit()!=null){
+        battleView.getDefendingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
+      }
+      button.setEnabled(false);
       battleView.setDefendingUnit(button.getUnit());
       if (battleView.getAttackingUnit() != null) {
         battleView.getAttack().setEnabled(true);
@@ -216,6 +228,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("selectAttacker")) {
       UnitButton button = (UnitButton) e.getSource();
+      if(battleView.getAttackingUnit()!=null){
+        battleView.getAttackingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
+      }
+      button.setEnabled(false);
       battleView.setAttackingUnit(button.getUnit());
       if (battleView.getDefendingUnit() != null) {
         battleView.getAttack().setEnabled(true);
@@ -281,7 +297,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       String targetName = (String) armyButton.getArmy().getArmyPanel().getCities().getSelectedItem();
       try {
         game.getPlayer().laySiege(army, cityNameToObject(targetName));
-      } catch (TargetNotReachedException | FriendlyCityException | NullPointerException e1) {
+      } catch (TargetNotReachedException | FriendlyCityException | NullPointerException | MaxSiegeException e1) {
         showErrorMessage(e1);
       }
     }
@@ -356,6 +372,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
           Building building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
           try {
             game.getPlayer().upgradeBuilding(building, button.getCity());
+            if(building.getLevel() == building.getMaxLevel()){
+              button.setEnabled(false);
+            }
           } catch (NotEnoughGoldException | BuildingInCoolDownException | MaxLevelException e1) {
             showErrorMessage(e1);
           }
@@ -495,7 +514,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     worldMapView.enableButton(city);
     worldMapView.getArmyCards().removeCard(army.getArmyPanel());
     for (Unit unit : army.getUnits()) {
+      unit.getUnitPanel().getRelocate().setEnabled(false);
       getCityView(city).getUnitsCards().addCard(unit.getUnitPanel());
+
     }
   }
 

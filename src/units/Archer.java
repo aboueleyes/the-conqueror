@@ -30,6 +30,6 @@ public class Archer extends Unit {
 
   @Override
   public String toString() {
-    return "type : Archer" + "\n" + super.toString();
+    return "Type : Archer" + "\n" + super.toString();
   }
 }

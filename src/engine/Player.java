@@ -15,6 +15,7 @@ import exceptions.FriendlyCityException;
 import exceptions.InvalidBuildingException;
 import exceptions.MaxLevelException;
 import exceptions.MaxRecruitedException;
+import exceptions.MaxSiegeException;
 import exceptions.NotEnoughFoodException;
 import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
@@ -32,6 +33,14 @@ public class Player {
   private double treasury; // The amount of gold the player has
   private double food; // The amount of food the player has
   private PlayerListener playerListener;
+  private int currentSiege = 0;
+  public int getCurrentSiege() {
+    return currentSiege;
+  }
+
+  public void setCurrentSiege(int currentSiege) {
+    this.currentSiege = currentSiege;
+  }
 
   public String getName() {
     return this.name;
@@ -194,7 +203,7 @@ public class Player {
     }
   }
 
-  public void laySiege(Army army, City city) throws TargetNotReachedException, FriendlyCityException {
+  public void laySiege(Army army, City city) throws TargetNotReachedException, FriendlyCityException ,MaxSiegeException{
 
     if (controlledCities.contains(city)) {
       throw new FriendlyCityException("You cannot attack a friend city");
@@ -202,10 +211,13 @@ public class Player {
     if (!army.getCurrentLocation().equals(city.getName())) {
       throw new TargetNotReachedException("The army hasn't arrived yet");
     }
+    if(currentSiege == 1){
+      throw new MaxSiegeException("You reached max siege per turn");
+    }
     army.setCurrentStatus(Status.BESIEGING);
     city.setUnderSiege(true);
     city.setTurnsUnderSiege(city.getTurnsUnderSiege() + 1);
-
+    currentSiege ++;
     if (playerListener != null) {
       playerListener.onSiegeing(army, city);
     }
