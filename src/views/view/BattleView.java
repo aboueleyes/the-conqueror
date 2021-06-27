@@ -226,6 +226,7 @@ public class BattleView extends JFrame {
 		battleLog.add(background,BorderLayout.CENTER);
 		log.setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 13));
 		log.setBorder(new EmptyBorder(50,50,50,50));
+		scroll.setBorder(new EmptyBorder(50,50,0,0));
 		//battleLog.setOpaque(false);
 	}
 
