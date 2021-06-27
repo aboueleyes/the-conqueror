@@ -8,10 +8,19 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import buildings.Building;
@@ -54,11 +63,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   CityView[] cityViews = new CityView[3];
   BattleView battleView;
   EndGameView endGameView;
+  private Clip c;
   public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
   protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
   public Controller() {
     startView = new StartView(this);
+    playMusic("./assets/sounds/start-music.wav");
     endGameView = new EndGameView(this);
     for (int i = 0; i < playerPanels.length; i++) {
       playerPanels[i] = new PlayerPanel(this);
@@ -181,17 +192,21 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Attack")) {
       battleView.getAutoResolve().setEnabled(false);
-      if(battleView.getDefendingUnit()!=null){
+      if (battleView.getDefendingUnit() != null) {
         battleView.getDefendingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
       }
-      if(battleView.getAttackingUnit()!=null){
+      if (battleView.getAttackingUnit() != null) {
         battleView.getAttackingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
       }
       try {
         battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
+        playSound("./assets/sounds/attack.wav");
 
       } catch (FriendlyFireException e1) {
         showErrorMessage(e1);
+      } catch (IOException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
       }
       Unit defender = battleView.getDefenderArmy().getRandomUnit();
       Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
@@ -214,7 +229,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectDefenderButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("selectDefender")) {
       UnitButton button = (UnitButton) e.getSource();
-      if(battleView.getDefendingUnit()!=null){
+      if (battleView.getDefendingUnit() != null) {
         battleView.getDefendingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
       }
       button.setEnabled(false);
@@ -228,7 +243,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("selectAttacker")) {
       UnitButton button = (UnitButton) e.getSource();
-      if(battleView.getAttackingUnit()!=null){
+      if (battleView.getAttackingUnit() != null) {
         battleView.getAttackingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
       }
       button.setEnabled(false);
@@ -362,17 +377,20 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         if (!button.isBuilt()) {
           try {
             buildUpgrade(i, button);
+            playSound("./assets/sounds/build.wav");
             if (i >= 2) {
               enableRecuritButton(i, button);
             }
           } catch (NotEnoughGoldException e1) {
             showErrorMessage(e1);
+          } catch (IOException e1) {
+            e1.printStackTrace();
           }
         } else {
           Building building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
           try {
             game.getPlayer().upgradeBuilding(building, button.getCity());
-            if(building.getLevel() == building.getMaxLevel()){
+            if (building.getLevel() == building.getMaxLevel()) {
               button.setEnabled(false);
             }
           } catch (NotEnoughGoldException | BuildingInCoolDownException | MaxLevelException e1) {
@@ -550,6 +568,37 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   /**
    * Helper Methods
    */
+
+  private void playMusic(String path) {
+
+    try {
+      AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+      c = AudioSystem.getClip();
+      c.open(a);
+      FloatControl gainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+      gainControl.setValue(-10.0f);
+      c.start();
+      c.loop(Clip.LOOP_CONTINUOUSLY);
+    } catch (UnsupportedAudioFileException | LineUnavailableException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+
+    }
+  }
+
+  private long playSound(String path) throws IOException {
+
+    try {
+      AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+      Clip c = AudioSystem.getClip();
+      c.open(a);
+      c.start();
+      return c.getMicrosecondLength();
+    } catch (UnsupportedAudioFileException | LineUnavailableException e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
 
   private CityView getCityView(City city) {
     return cityViews[getIndexOfCity(city.getName())];
