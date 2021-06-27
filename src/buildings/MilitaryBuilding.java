@@ -44,7 +44,7 @@ public abstract class MilitaryBuilding extends Building {
 
   @Override
   public String toString() {
-    return super.toString() + "recruitmentCost : " + this.getRecruitmentCost() + "\n";
+    return super.toString() + "RecruitmentCost : " + this.getRecruitmentCost() + "\n";
   }
 
   public void clear() {

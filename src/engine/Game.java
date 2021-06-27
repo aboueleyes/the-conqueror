@@ -189,6 +189,7 @@ public class Game {
 
   public void endTurn() {
     currentTurnCount++;
+    player.setCurrentSiege(0);
     clearBuildings();
     handleTarget();
     feedArmy();
@@ -373,13 +374,13 @@ public class Game {
   }
 
   public String toString(Army army) {
-    String r = "current location : " + army.getCurrentLocation() + "\n" + "current status : " + army.getCurrentStatus()
+    String r = "Current location : " + army.getCurrentLocation() + "\n" + "Current status : " + army.getCurrentStatus()
         + "\n" + NUMBER_OF_UNITS + army.getUnits().size() + "\n";
     if (army.getCurrentStatus().equals(Status.MARCHING))
-      r += "target : " + army.getTarget() + "\n" + "no of turns till reach : " + army.getDistancetoTarget() + "\n"
+      r += "Target : " + army.getTarget() + "\n" + "No of turns till reach : " + army.getDistancetoTarget() + "\n"
           + "\n";
     if (army.getCurrentStatus().equals(Status.BESIEGING))
-      r += "besieged city : " + army.getCurrentLocation() + "\n" + "turns under siege : "
+      r += "Besieged city : " + army.getCurrentLocation() + "\n" + "Turns under siege : "
           + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n" + "\n";
     return r;
   }
