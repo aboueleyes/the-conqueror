@@ -9,7 +9,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
@@ -20,10 +19,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import buildings.Building;
+import buildings.Farm;
 import engine.City;
 import engine.Game;
 import engine.GameListener;
@@ -63,7 +62,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   CityView[] cityViews = new CityView[3];
   BattleView battleView;
   EndGameView endGameView;
-  private Clip c;
   public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
   protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
 
@@ -205,7 +203,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       } catch (FriendlyFireException e1) {
         showErrorMessage(e1);
       } catch (IOException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
       Unit defender = battleView.getDefenderArmy().getRandomUnit();
@@ -388,6 +385,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
           }
         } else {
           Building building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
+          if (building instanceof Farm) {
+            try {
+              playSound("./assets/sounds/farm.wav");
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            }
+          }
           try {
             game.getPlayer().upgradeBuilding(building, button.getCity());
             if (building.getLevel() == building.getMaxLevel()) {
@@ -575,6 +579,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
     try {
       AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+      Clip c;
       c = AudioSystem.getClip();
       c.open(a);
       FloatControl gainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
@@ -663,9 +668,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void endGame(boolean youWon) {
     JLabel text;
     if (youWon)
-      text = new JLabel("congrantulations, you won the game");
+      text = new JLabel("congratulations, you won the game");
     else
-      text = new JLabel("opps, you lost the game");
+      text = new JLabel("oops, you lost the game");
     text.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
     text.setOpaque(false);
     endGameView.addLabel(text);
@@ -681,6 +686,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void OnBattleEnded(Army attacker, Army defender, boolean win) {
     if (win) {
       showMessageDialog(null, "You won The battle");
+      try {
+        playSound("./assets/sounds//victory.wav");
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
     } else {
       worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
