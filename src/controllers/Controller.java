@@ -37,7 +37,6 @@ import exceptions.MaxRecruitedException;
 import exceptions.MaxSiegeException;
 import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
-import jdk.javadoc.internal.doclets.toolkit.builders.BuilderFactory;
 import units.Army;
 import units.ArmyListener;
 import units.Unit;
@@ -685,7 +684,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void OnBattleEnded(Army attacker, Army defender, boolean win) {
     if (win) {
       showMessageDialog(null, "You won The battle");
-      playSound("./assets/sounds//victory.wav")
+      try {
+        playSound("./assets/sounds//victory.wav");
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
     } else {
       worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
