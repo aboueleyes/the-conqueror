@@ -134,9 +134,13 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setAutoResolveButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Auto Resolve")) {
       try {
+        playSound("./assets/sounds/attack.wav");
         game.autoResolve(battleView.getAttackerArmy(), battleView.getDefenderArmy());
       } catch (FriendlyFireException e1) {
         showErrorMessage(e1);
+      } catch (IOException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
       }
 
     }
@@ -568,7 +572,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     defenderUnit.getBattleUnitPanel().getInfo().setText(defenderUnit.toString());
     SwingUtilities.updateComponentTreeUI(battleView);
 
-
   }
 
   /**
@@ -578,14 +581,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void playMusic(String path) {
 
     try {
-      AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
-      Clip c;
-      c = AudioSystem.getClip();
-      c.open(a);
-      FloatControl gainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+      AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+      Clip clip;
+      clip = AudioSystem.getClip();
+      clip.open(audio);
+      FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
       gainControl.setValue(-10.0f);
-      c.start();
-      c.loop(Clip.LOOP_CONTINUOUSLY);
+      clip.start();
+      clip.loop(Clip.LOOP_CONTINUOUSLY);
     } catch (UnsupportedAudioFileException | LineUnavailableException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -596,11 +599,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private long playSound(String path) throws IOException {
 
     try {
-      AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
-      Clip c = AudioSystem.getClip();
-      c.open(a);
-      c.start();
-      return c.getMicrosecondLength();
+      AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audio);
+      clip.start();
+      return clip.getMicrosecondLength();
     } catch (UnsupportedAudioFileException | LineUnavailableException e) {
       e.printStackTrace();
     }
@@ -687,9 +690,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (win) {
       showMessageDialog(null, "You won The battle");
       try {
-        playSound("./assets/sounds//victory.wav");
+        playSound("./assets/sounds/victory.wav");
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
