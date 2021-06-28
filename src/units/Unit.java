@@ -5,6 +5,7 @@ import views.panel.DefendingUnitPanel;
 import views.panel.InfoUnitPanel;
 import views.panel.UnitPanel;
 import java.awt.event.*;
+
 public abstract class Unit {
 
   private int level; // The current level of a unit. READ ONLY.
@@ -18,11 +19,12 @@ public abstract class Unit {
   private UnitPanel battleUnitPanel;
   private InfoUnitPanel infoUnitPanel;
   UnitListener unitListener;
+
   public UnitListener getUnitListener() {
     return unitListener;
-}
+  }
 
-public InfoUnitPanel getInfoUnitPanel() {
+  public InfoUnitPanel getInfoUnitPanel() {
     return infoUnitPanel;
   }
 
@@ -30,11 +32,11 @@ public InfoUnitPanel getInfoUnitPanel() {
     this.infoUnitPanel = infoUnitPanel;
   }
 
-public void setUnitListener(UnitListener unitListener) {
+  public void setUnitListener(UnitListener unitListener) {
     this.unitListener = unitListener;
-}
+  }
 
-public Army getParentArmy() {
+  public Army getParentArmy() {
     return parentArmy;
   }
 
@@ -79,7 +81,7 @@ public Army getParentArmy() {
 
   public void decCurrentSoldierCount() {
     setCurrentSoldierCount(currentSoldierCount - (int) (currentSoldierCount * 0.1));
-    if(unitListener!=null){
+    if (unitListener != null) {
       unitListener.OnUpdateSoldierCount(this);
     }
   }
@@ -98,7 +100,8 @@ public Army getParentArmy() {
 
   @Override
   public String toString() {
-    return ("Level : " + this.getLevel() + "\n" + "Current Soldier Count : " + this.getCurrentSoldierCount() + "\n"+"Max Soldier Count : "+this.getMaxSoldierCount()+"\n");
+    return ("Level : " + this.getLevel() + "\n" + "Current Soldier Count : " + this.getCurrentSoldierCount() + "\n"
+        + "Max Soldier Count : " + this.getMaxSoldierCount() + "\n");
   }
 
   public Unit() {
@@ -124,20 +127,26 @@ public Army getParentArmy() {
       target.setCurrentSoldierCount(
           target.currentSoldierCount - (int) (this.currentSoldierCount * this.unitFactor(target, level)));
       target.getParentArmy().handleAttackedUnit(target);
-      if(unitListener!=null){
-        unitListener.UnitOnattack(this, target,currentSoldierBeforeAttack-target.getCurrentSoldierCount() );
+      if (unitListener != null) {
+        unitListener.UnitOnattack(this, target, currentSoldierBeforeAttack - target.getCurrentSoldierCount());
       }
     }
   }
-  public void addInfoUnitPanel(ActionListener a){
+
+  public void addInfoUnitPanel(ActionListener a) {
     InfoUnitPanel infoUnitPanel = new InfoUnitPanel(a, this);
     setInfoUnitPanel(infoUnitPanel);
   }
-  public String getType (){
+
+  public String getType() {
     return this.getClass().getName().substring(6);
   }
-  public static void main(String[] args) {
-    Unit Archer = new Archer(1);
-    System.out.println(Archer.getType());
+
+  public String getCurrentLocation() {
+    return parentArmy.getCurrentLocation();
+  }
+
+  public void enableSelect() {
+    battleUnitPanel.getSelect().setEnabled(true);
   }
 }

@@ -103,4 +103,5 @@ public class DefendingUnitPanel extends JPanel {
   public void disableRelocate() {
     relocate.setEnabled(false);
   }
+  
 }

@@ -45,6 +45,7 @@ import views.button.ArmyButton;
 import views.button.CityButton;
 import views.button.UnitButton;
 import views.panel.ArmyPanel;
+import views.panel.CardsPanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
 import views.panel.StationaryArmyPanel;
@@ -69,11 +70,21 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     startView = new StartView(this);
     playMusic("./assets/sounds/start-music.wav");
     endGameView = new EndGameView(this);
+    addPlayerPanels();
+    worldMapView = new WorldMapView(this, playerPanels[0]);
+    removeBackButtonWorldMap();
+  }
+
+  private void removeBackButtonWorldMap() {
+     playerPanels[0].getBack().setVisible(false);
+    
+  }
+
+  private void addPlayerPanels() {
     for (int i = 0; i < playerPanels.length; i++) {
       playerPanels[i] = new PlayerPanel(this);
     }
-    worldMapView = new WorldMapView(this, playerPanels[0]);
-    playerPanels[0].getBack().setVisible(false);
+
   }
 
   @Override
@@ -99,36 +110,43 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       setAutoResolveButtonAction(e);
     }
     endGame(e);
-
   }
 
   public void endGame(ActionEvent e) {
     if (e.getActionCommand().equals("end game"))
-      System.exit(0);
+      exitGracefully();
     if (e.getActionCommand().equals("play again")) {
-      startView.dispose();
-      endGameView.dispose();
-      new Controller();
+      restartGame();
     }
+  }
+
+  private void restartGame() {
+    startView.dispose();
+    endGameView.dispose();
+    new Controller();
+  }
+
+  private void exitGracefully() {
+    System.exit(0);
   }
 
   private void setNextAndPreviousButtonsAction(ActionEvent e) {
     if (e.getActionCommand().equals("Next") || e.getActionCommand().equals("Previous")) {
       worldMapView.getUnitsCard().clear();
       worldMapView.getUnitsCard().setVisible(false);
-      
     }
   }
 
   private void setViewButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("view")) {
-      worldMapView.getUnitsCard().clear();
+      CardsPanel worldMapCards = worldMapView.getUnitsCard();
+      worldMapCards.clear();
       ArmyButton button = (ArmyButton) e.getSource();
       Army army = button.getArmy();
       for (Unit unit : army.getUnits()) {
-        worldMapView.getUnitsCard().addCard(unit.getInfoUnitPanel());
+        worldMapCards.addCard(unit.getInfoUnitPanel());
       }
-      worldMapView.getUnitsCard().setVisible(true);
+      worldMapCards.setVisible(true);
     }
   }
 
@@ -140,7 +158,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       } catch (FriendlyFireException e1) {
         showErrorMessage(e1);
       } catch (IOException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
 
@@ -151,7 +168,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("Initiate Army")) {
       UnitButton unitButton = (UnitButton) e.getSource();
       Unit unit = unitButton.getUnit();
-      City city = cityNameToObject(unit.getParentArmy().getCurrentLocation());
+      City city = cityNameToObject(unit.getCurrentLocation());
       game.getPlayer().initiateArmy(city, unit);
     }
   }
@@ -165,7 +182,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         game = new Game(playerName, cityName, level);
       } catch (IOException e1) {
         showMessageDialog(null, "Error in csv files Existing!!");
-        System.exit(1);
+        exitWithError();
       }
       game.setGameListener(this);
       game.getPlayer().setPlayerListener(this);
@@ -173,9 +190,17 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       startView.dispose();
       worldMapView.setVisible(true);
       setPlayer();
-      for (int i = 0; i < CITIES_NAMES.length; i++) {
-        cityViews[i] = new CityView(this, playerPanels[i + 1], cityNameToObject(CITIES_NAMES[i]));
-      }
+      addCityViews();
+    }
+  }
+
+  private void exitWithError() {
+    System.exit(1);
+  }
+
+  private void addCityViews() {
+    for (int i = 0; i < CITIES_NAMES.length; i++) {
+      cityViews[i] = new CityView(this, playerPanels[i + 1], cityNameToObject(CITIES_NAMES[i]));
     }
   }
 
@@ -195,37 +220,52 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setAttackButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Attack")) {
       battleView.getAutoResolve().setEnabled(false);
-      if (battleView.getDefendingUnit() != null) {
-        battleView.getDefendingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
-      }
-      if (battleView.getAttackingUnit() != null) {
-        battleView.getAttackingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
-      }
-      try {
-        battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
-        playSound("./assets/sounds/attack.wav");
+      enableSelected();
+      playerAttack();
 
-      } catch (FriendlyFireException e1) {
-        showErrorMessage(e1);
-      } catch (IOException e1) {
-        e1.printStackTrace();
-      }
-     // game.battleEnded(battleView.getAttackerArmy(), battleView.getDefenderArmy());
-      
       if (!battleView.getDefenderArmy().getUnits().isEmpty()) {
-        Unit defender = battleView.getDefenderArmy().getRandomUnit();
-        Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
-        try {
-          defender.attack(playerUnit);
-        } catch (FriendlyFireException e1) {
-          showErrorMessage(e1);
-        }
+        enemyAttack();
       }
       game.battleEnded(battleView.getAttackerArmy(), battleView.getDefenderArmy());
-      battleView.setDefendingUnit(null);
-      battleView.setAttackingUnit(null);
+      nullifyAttackers();
       JButton button = (JButton) e.getSource();
       button.setEnabled(false);
+    }
+  }
+
+  private void enemyAttack() {
+    Unit defender = battleView.getDefenderArmy().getRandomUnit();
+    Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
+    try {
+      defender.attack(playerUnit);
+    } catch (FriendlyFireException e1) {
+      showErrorMessage(e1);
+    }
+  }
+
+  private void playerAttack() {
+    try {
+      battleView.getAttackingUnit().attack(battleView.getDefendingUnit());
+      playSound("./assets/sounds/attack.wav");
+
+    } catch (FriendlyFireException e1) {
+      showErrorMessage(e1);
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
+  }
+
+  private void nullifyAttackers() {
+    battleView.setDefendingUnit(null);
+    battleView.setAttackingUnit(null);
+  }
+
+  private void enableSelected() {
+    if (battleView.getDefendingUnit() != null) {
+      battleView.getDefendingUnit().enableSelect();
+    }
+    if (battleView.getAttackingUnit() != null) {
+      battleView.getAttackingUnit().enableSelect();
     }
   }
 
@@ -233,7 +273,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("selectDefender")) {
       UnitButton button = (UnitButton) e.getSource();
       if (battleView.getDefendingUnit() != null) {
-        battleView.getDefendingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
+        battleView.getDefendingUnit().enableSelect();
       }
       button.setEnabled(false);
       battleView.setDefendingUnit(button.getUnit());
@@ -247,7 +287,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("selectAttacker")) {
       UnitButton button = (UnitButton) e.getSource();
       if (battleView.getAttackingUnit() != null) {
-        battleView.getAttackingUnit().getBattleUnitPanel().getAction1().setEnabled(true);
+        battleView.getAttackingUnit().enableSelect();
       }
       button.setEnabled(false);
       battleView.setAttackingUnit(button.getUnit());
@@ -263,10 +303,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       City city = cityNameToObject((String) button.getArmy().getArmyPanel().getCities().getSelectedItem());
       try {
         game.startBattle(button.getArmy(), city);
-        battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
-        battleView.setVisible(true);
-        worldMapView.setVisible(false);
-        playerPanels[4].getBack().setEnabled(false);
+        initializeBattleView(button, city);
       } catch (FriendlyFireException | TargetNotReachedException e1) {
         showErrorMessage(e1);
       }
@@ -274,12 +311,18 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   }
 
+  private void initializeBattleView(ArmyButton button, City city) {
+    battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
+    battleView.setVisible(true);
+    worldMapView.setVisible(false);
+    playerPanels[4].getBack().setEnabled(false);
+  }
+
   private void setRelocateButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Relocate")) {
       UnitButton unitButton = (UnitButton) e.getSource();
       Unit unit = unitButton.getUnit();
       String city = unit.getParentArmy().getCurrentLocation();
-      System.out.println(unit.getParentArmy().getCurrentLocation());
       Army army = cityViews[getIndexOfCity(city)].getSelected();
       if (army == null) {
         unitButton.setEnabled(false);
@@ -569,15 +612,18 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
   @Override
   public void UnitOnattack(Unit attackerUnit, Unit defenderUnit, int killedSoldiers) {
-    String toBeLogged; 
-    if(game.getPlayer().getControlledArmies().contains(attackerUnit.getParentArmy())){
-      toBeLogged = "Your " + attackerUnit.getType() + " level " +attackerUnit.getLevel()+" attacked "+defenderUnit.getType()+" level " +defenderUnit.getLevel()+", "+killedSoldiers+ " soldiers were killed"+"\n";
-    }
-    else{
-      toBeLogged = "Defending "+ attackerUnit.getType() + " level " +attackerUnit.getLevel()+" attacked your "+defenderUnit.getType()+" level " +defenderUnit.getLevel()+", "+killedSoldiers+ " soldiers were killed"+"\n";
+    String toBeLogged;
+    if (game.getPlayer().getControlledArmies().contains(attackerUnit.getParentArmy())) {
+      toBeLogged = "Your " + attackerUnit.getType() + " level " + attackerUnit.getLevel() + " attacked "
+          + defenderUnit.getType() + " level " + defenderUnit.getLevel() + ", " + killedSoldiers
+          + " soldiers were killed" + "\n";
+    } else {
+      toBeLogged = "Defending " + attackerUnit.getType() + " level " + attackerUnit.getLevel() + " attacked your "
+          + defenderUnit.getType() + " level " + defenderUnit.getLevel() + ", " + killedSoldiers
+          + " soldiers were killed" + "\n";
 
     }
-    
+
     battleView.getLog().setText(battleView.getLog().getText() + toBeLogged);
     defenderUnit.getBattleUnitPanel().getInfo().setText(defenderUnit.toString());
     SwingUtilities.updateComponentTreeUI(battleView);

@@ -16,7 +16,7 @@ import views.button.UnitButton;
 public class UnitPanel extends JPanel {
   Unit unit;
   private JTextArea info = new JTextArea();
-  private UnitButton action1;
+  private UnitButton select;
 
   public JTextArea getInfo() {
     return info;
@@ -26,12 +26,12 @@ public class UnitPanel extends JPanel {
     this.info = info;
   }
 
-  public UnitButton getAction1() {
-    return action1;
+  public UnitButton getSelect() {
+    return select;
   }
 
-  public void setAction1(UnitButton action1) {
-    this.action1 = action1;
+  public void setSelect(UnitButton action1) {
+    this.select = action1;
   }
 
   public UnitPanel(ActionListener a, Unit unit) {
@@ -39,13 +39,13 @@ public class UnitPanel extends JPanel {
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
-    action1 = new UnitButton("Select", 20);
-    action1.setUnit(unit);
+    select = new UnitButton("Select", 20);
+    select.setUnit(unit);
 
     JPanel buttonPanel = new JPanel();
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-    buttonPanel.add(action1);
+    buttonPanel.add(select);
     buttonPanel.setOpaque(false);
 
     background.add(buttonPanel, BorderLayout.PAGE_END);
@@ -56,7 +56,7 @@ public class UnitPanel extends JPanel {
     setOpaque(false);
 
     background.add(info, BorderLayout.EAST);
-    action1.addActionListener(a);
+    select.addActionListener(a);
     add(background);
   }
 
