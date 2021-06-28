@@ -113,9 +113,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void setNextAndPreviousButtonsAction(ActionEvent e) {
-    if (e.getActionCommand().equals("next") || e.getActionCommand().equals("previous")) {
+    if (e.getActionCommand().equals("Next") || e.getActionCommand().equals("Previous")) {
       worldMapView.getUnitsCard().clear();
       worldMapView.getUnitsCard().setVisible(false);
+      
     }
   }
 
@@ -209,10 +210,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       } catch (IOException e1) {
         e1.printStackTrace();
       }
-      Unit defender = battleView.getDefenderArmy().getRandomUnit();
-      Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
-      if (!battleView.getAttackerArmy().getUnits().isEmpty()) {
-
+     // game.battleEnded(battleView.getAttackerArmy(), battleView.getDefenderArmy());
+      
+      if (!battleView.getDefenderArmy().getUnits().isEmpty()) {
+        Unit defender = battleView.getDefenderArmy().getRandomUnit();
+        Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
         try {
           defender.attack(playerUnit);
         } catch (FriendlyFireException e1) {
@@ -696,6 +698,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void OnBattleEnded(Army attacker, Army defender, boolean win) {
     if (win) {
+      game.occupy(attacker, attacker.getCurrentLocation());
       showMessageDialog(null, "You won The battle");
       try {
         playSound("./assets/sounds/victory.wav");

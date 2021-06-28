@@ -290,7 +290,7 @@ public class Game {
       attackerTurn = alternateAttacking(attacker, defender, attackerTurn);
     }
     if (defender.didWinTheBattle()) {
-      occupy(attacker, defender.getCurrentLocation());
+      //occupy(attacker, defender.getCurrentLocation());
       if (gameListener != null) {
         gameListener.OnBattleEnded(attacker, defender, true);
       }
