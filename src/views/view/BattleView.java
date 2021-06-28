@@ -234,7 +234,7 @@ public class BattleView extends JFrame {
 		for (Unit unit : attackerArmy.getUnits()) {
 			UnitPanel info = new UnitPanel(a, unit);
 			unit.setBattleUnitPanel(info);
-			info.getAction1().setActionCommand("selectAttacker");
+			info.getSelect().setActionCommand("selectAttacker");
 			attackerPanel.addCard(info);
 			unit.setUnitListener((UnitListener) a);
 		}
@@ -244,7 +244,7 @@ public class BattleView extends JFrame {
 		for (Unit unit : defenderArmy.getUnits()) {
 			UnitPanel info = new UnitPanel(a, unit);
 			unit.setBattleUnitPanel(info);
-			info.getAction1().setActionCommand("selectDefender");
+			info.getSelect().setActionCommand("selectDefender");
 			defenderPanel.addCard(info);
 			unit.setUnitListener((UnitListener) a);
 
