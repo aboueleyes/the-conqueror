@@ -73,7 +73,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       playerPanels[i] = new PlayerPanel(this);
     }
     worldMapView = new WorldMapView(this, playerPanels[0]);
-    playerPanels[0].remove(playerPanels[0].getBack());
+    playerPanels[0].getBack().setVisible(false);
   }
 
   @Override
