@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import buildings.EconomicBuilding;
+import exceptions.BuildingInCoolDownException;
 import exceptions.FriendlyFireException;
+import exceptions.InvalidBuildingException;
+import exceptions.MaxRecruitedException;
+import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
 import units.Archer;
 import units.Army;
@@ -246,6 +250,7 @@ public class Game {
     double foodNeeded = 0;
     foodNeeded += player.attackingArmyFeeding(foodNeeded);
     foodNeeded += player.defendingArmyFeeding(foodNeeded);
+    System.out.println(foodNeeded);
     if (!player.isFoodEnough(foodNeeded)) {
       player.loseAttackingArmies();
       player.loseDefendingArmies();
@@ -384,5 +389,4 @@ public class Game {
           + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n" + "\n";
     return r;
   }
-
 }

@@ -76,13 +76,15 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void removeBackButtonWorldMap() {
-    playerPanels[0].remove(playerPanels[0].getBack());
+     playerPanels[0].getBack().setVisible(false);
+    
   }
 
   private void addPlayerPanels() {
     for (int i = 0; i < playerPanels.length; i++) {
       playerPanels[i] = new PlayerPanel(this);
     }
+
   }
 
   @Override

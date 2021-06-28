@@ -2,7 +2,7 @@ package views.panel;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
-
+import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -23,13 +23,12 @@ public class PlayerPanel extends JPanel {
 
     public PlayerPanel(ActionListener a) {
 
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new BorderLayout());
         setPreferredSize(new DimensionUIResource(7, PLAYER_PANEL_HEIGHT));
         setBackground(Color.decode("#C8AE81"));
         StyledLabel name = new StyledLabel("Player Name :", PLAYER_LABEL_SIZE, true);
         playerName = new StyledLabel("", PLAYER_LABEL_SIZE, false);
-        add(name);
-        add(playerName);
+        
         name.setBorder(new EmptyBorder(10, 10, 10, 10));
         playerName.setBorder(new EmptyBorder(10, 10, 10, 50));
         StyledLabel gold = new StyledLabel("Gold :", PLAYER_LABEL_SIZE, true);
@@ -43,20 +42,32 @@ public class PlayerPanel extends JPanel {
         playerFood.setBorder(new EmptyBorder(10, 10, 10, 50));
         turns.setBorder(new EmptyBorder(10, 10, 10, 10));
         numOfTurns = new StyledLabel("", PLAYER_LABEL_SIZE, true);
-        numOfTurns.setBorder(new EmptyBorder(10, 10, 10, 800));
+        numOfTurns.setBorder(new EmptyBorder(10, 10, 10, 10));
         endTurn = new StyledButton("End Turn", PLAYER_LABEL_SIZE);
         endTurn.addActionListener(a);
         back = new StyledButton("Back", PLAYER_LABEL_SIZE);
         back.addActionListener(a);
+        JPanel infoJPanel = new JPanel();
+        infoJPanel.setLayout(new BoxLayout(infoJPanel,BoxLayout.X_AXIS));
+        infoJPanel.add(name);
+        infoJPanel.add(playerName);
+        infoJPanel.add(gold);
+        infoJPanel.add(playerGold);
+        infoJPanel.add(food);
+        infoJPanel.add(playerFood);
+        infoJPanel.add(turns);
+        infoJPanel.add(numOfTurns);
+        JPanel buttonJPanel =  new JPanel();
+        buttonJPanel.setLayout(new BoxLayout(buttonJPanel, BoxLayout.X_AXIS));
+        buttonJPanel.add(endTurn);
+        buttonJPanel.add(back);
+        add(infoJPanel,BorderLayout.WEST);
+        add(buttonJPanel,BorderLayout.EAST);
+        buttonJPanel.setOpaque(false);
+        infoJPanel.setOpaque(false);
+        buttonJPanel.setBorder(new EmptyBorder(5,10,5,10));
 
-        add(gold);
-        add(playerGold);
-        add(food);
-        add(playerFood);
-        add(turns);
-        add(numOfTurns);
-        add(endTurn);
-        add(back);
+
 
     }
 
