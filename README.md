@@ -17,44 +17,30 @@ src/
 │   ├── Barracks.java
 │   ├── Building.java
 │   ├── EconomicBuilding.java
-│   ├── Farm.java
 │   ├── Market.java
-│   ├── MilitaryBuilding.java
-│   └── Stable.java
+│   └── ..............
 ├── controllers
 │   └── Controller.java
 ├── engine
 │   ├── City.java
 │   ├── Distance.java
 │   ├── Game.java
-│   ├── GameListener.java
 │   ├── Player.java
-│   └── PlayerListener.java
+│   └── ............
 ├── exceptions
 │   ├── ArmyException.java
 │   ├── BuildingException.java
 │   ├── BuildingInCoolDownException.java
-│   ├── EmpireException.java
 │   ├── FriendlyCityException.java
 │   ├── FriendlyFireException.java
-│   ├── InvalidBuildingException.java
-│   ├── InvalidUnitException.java
-│   ├── MaxCapacityException.java
-│   ├── MaxLevelException.java
-│   ├── MaxRecruitedException.java
-│   ├── MaxSiegeException.java
-│   ├── NotEnoughFoodException.java
-│   ├── NotEnoughGoldException.java
-│   └── TargetNotReachedException.java
+│   └── .......................
 ├── units
 │   ├── Archer.java
 │   ├── Army.java
-│   ├── ArmyListener.java
 │   ├── Cavalry.java
 │   ├── Infantry.java
 │   ├── Status.java
-│   ├── Unit.java
-│   └── UnitListener.java
+│   └── ................
 ├── utlis
 │   └── ReadingCSVFile.java
 └── views
@@ -68,22 +54,16 @@ src/
     │   ├── ArmyPanel.java
     │   ├── BuildingPanel.java
     │   ├── CardsPanel.java
-    │   ├── DefendingUnitPanel.java
-    │   ├── EconomicalBuildingPanel.java
-    │   ├── ImagePanel.java
-    │   ├── InfoUnitPanel.java
     │   ├── MilitaryBuildingPanel.java
     │   ├── PlayerPanel.java
-    │   ├── StationaryArmyPanel.java
-    │   └── UnitPanel.java
+    │   └── .....................
     ├── RXCardLayout.java
     └── view
         ├── BattleView.java
         ├── CityView.java
         ├── EndGameView.java
         ├── StartView.java
-        ├── StyledLabel.java
-        └── WorldMapView.java
+        └── ..............
 
 ```
 
