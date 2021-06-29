@@ -9,7 +9,9 @@ achieve this goal, the player have the option of building various types of build
 2. Exception Handling.
 3. GUI 
 
-## Structure 
+## Project Structure
+<details>
+    
 ```bash
 src/
 ├── buildings
@@ -30,14 +32,12 @@ src/
 ├── exceptions
 │   ├── ArmyException.java
 │   ├── BuildingException.java
-│   ├── BuildingInCoolDownException.java
 │   ├── FriendlyCityException.java
 │   ├── FriendlyFireException.java
 │   └── .......................
 ├── units
 │   ├── Archer.java
 │   ├── Army.java
-│   ├── Cavalry.java
 │   ├── Infantry.java
 │   ├── Status.java
 │   └── ................
@@ -45,14 +45,12 @@ src/
 │   └── ReadingCSVFile.java
 └── views
     ├── button
-    │   ├── ArmyButton.java
     │   ├── CityButton.java
     │   ├── StyledButton.java
     │   └── UnitButton.java
     ├── MyInputVerifier.java
     ├── panel
     │   ├── ArmyPanel.java
-    │   ├── BuildingPanel.java
     │   ├── CardsPanel.java
     │   ├── MilitaryBuildingPanel.java
     │   ├── PlayerPanel.java
@@ -66,6 +64,7 @@ src/
         └── ..............
 
 ```
+</details>
 
 ## Authors 
 1. [Shimaa Ahmed](https://github.com/ShimaaBetah)
