@@ -9,6 +9,10 @@ achieve this goal, the player have the option of building various types of build
 2. Exception Handling.
 3. GUI 
 
+### Who is this game for
+  - For anyone who wants to learn about OOP, MVC, Swing. 
+  - For anyone who might find this game fun :relieved:.
+  - For my future employer who will accept my resume when he sees this wonderful clean code game :"D.
 ## Project Structure
 <details>
     
