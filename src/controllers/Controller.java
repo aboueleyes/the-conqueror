@@ -380,8 +380,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       ArmyButton button = (ArmyButton) e.getSource();
       String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
       CityView cityView = getCityView(button.getArmy().getCurrentLocation());
+      Boolean targetSameCity = (button.getArmy().getCurrentLocation().equals(targetName));
       game.targetCity(button.getArmy(), targetName);
-      if (cityView != null && cityView.getSelected() != null) {
+      if (cityView != null && cityView.getSelected() != null&&!targetSameCity) {
         if (cityView.getSelected().equals(button.getArmy())) {
           cityView.setSelected(null);
         }
@@ -562,6 +563,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void armyArrived(Army army) {
     updateArmyInformation(army);
+    City city = game.searchForCity(army.getCurrentLocation(), game.getAvailableCities());
+    if(game.getPlayer().getControlledCities().contains(city)){
+      getCityView(city).getArmyCards().addCard(army.getStationaryArmyPanel());
+      army.getStationaryArmyPanel().getSelectArmy().setEnabled(true);
+    }
   }
 
   @Override
@@ -624,6 +630,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
     battleView.getLog().setText(battleView.getLog().getText() + toBeLogged);
     defenderUnit.getBattleUnitPanel().getInfo().setText(defenderUnit.toString());
+    if(defenderUnit.getUnitPanel()!=null){
+     defenderUnit.getUnitPanel().getInfo().setText(defenderUnit.toString());
+    }
     SwingUtilities.updateComponentTreeUI(battleView);
 
   }
@@ -700,6 +709,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void updateArmyInformation(Army army) {
     army.getArmyPanel().getInfo().setText(game.toString(army));
     army.getStationaryArmyPanel().getInfo().setText(game.toString(army));
+
   }
 
   private City cityNameToObject(String cityName) {
@@ -742,7 +752,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void OnBattleEnded(Army attacker, Army defender, boolean win) {
     if (win) {
-      game.occupy(attacker, attacker.getCurrentLocation());
       showMessageDialog(null, "You won The battle");
       try {
         playSound("./assets/sounds/victory.wav");

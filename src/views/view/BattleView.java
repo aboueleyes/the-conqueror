@@ -147,8 +147,11 @@ public class BattleView extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("The Conqueror");
 		getContentPane().add(playerPanel, BorderLayout.PAGE_START);
-		getContentPane().add(battleLog, BorderLayout.PAGE_END);
-		getContentPane().add(centre, BorderLayout.CENTER);
+		JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2,1));
+		panel.add(centre);
+		panel.add(battleLog);
+		getContentPane().add(panel);
 		handleCentre(centre);
 		handleBattlelog(battleLog);
 		handleAttackerPanel(attackerPanel, a);
@@ -215,7 +218,7 @@ public class BattleView extends JFrame {
 		//background.setBackground(Color.black);
 		battleLog.add(head, BorderLayout.NORTH);
 		//battleLog.add(background,BorderLayout.CENTER);
-		battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
+		//battleLog.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
 		log.setEditable(false);
 		log.setOpaque(false);
 		JScrollPane scroll = new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
