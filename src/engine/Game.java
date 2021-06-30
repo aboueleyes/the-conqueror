@@ -321,13 +321,13 @@ public class Game {
   }
 
   public void battleEnded(Army attacker, Army defender) {
-    if (attacker.didWinTheBattle()) {
+    if (attacker.didWinTheBattle()&& !defender.didWinTheBattle()) {
       occupy(attacker, defender.getCurrentLocation());
 
       if (gameListener != null) {
         gameListener.OnBattleEnded(attacker, defender, true);
       }
-    } else if (defender.didWinTheBattle()) {
+    } else if (defender.didWinTheBattle()&&!attacker.didWinTheBattle()) {
       removeTheAttack(attacker, defender);
       gameListener.OnBattleEnded(attacker, defender, false);
     }
