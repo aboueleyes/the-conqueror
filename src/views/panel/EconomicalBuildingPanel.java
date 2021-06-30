@@ -45,7 +45,6 @@ public class EconomicalBuildingPanel extends BuildingPanel {
     panel.add(panel1);
     background.add(label, BorderLayout.PAGE_START);
     background.add(panel, BorderLayout.PAGE_END);
-
     add(background);
   }
 
