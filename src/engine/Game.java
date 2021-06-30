@@ -321,9 +321,7 @@ public class Game {
   }
 
   private void removeTheAttack(Army attacker, Army defender) {
-    player.getControlledArmies().remove(attacker);
-    City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
-    currentCity.removeSieging();
+    
     if (gameListener != null) {
       gameListener.OnBattleEnded(attacker, defender, false);
     }
@@ -335,6 +333,9 @@ public class Game {
         gameListener.OnBattleEnded(attacker, defender, false);
       }
     } else if (defender.didWinTheBattle()) {
+      player.getControlledArmies().remove(attacker);
+    City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
+    currentCity.removeSieging();
       gameListener.OnBattleEnded(attacker, defender, true);
     }
   }
