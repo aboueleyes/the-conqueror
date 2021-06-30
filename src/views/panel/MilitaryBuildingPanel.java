@@ -42,7 +42,6 @@ public class MilitaryBuildingPanel extends BuildingPanel {
     JPanel panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
     panel1.add(buttonPanel, BorderLayout.EAST);
-
     panel.add(panel1);
     background.add(label, BorderLayout.PAGE_START);
     background.add(panel, BorderLayout.PAGE_END);
@@ -50,6 +49,7 @@ public class MilitaryBuildingPanel extends BuildingPanel {
     recruit.setCity(city);
     getRecruit().addActionListener(a);
     add(background);
+    getInfo().setVisible(false);
   }
 
   public String setImageType(String type) {

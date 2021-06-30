@@ -2,25 +2,32 @@ package views.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseListener;
+import java.util.concurrent.TimeUnit;
+import java.awt.event.MouseAdapter;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
 
 import engine.City;
+import java.awt.event.MouseEvent;
 import units.Army;
 import units.Unit;
 import views.panel.BuildingPanel;
 import views.panel.CardsPanel;
 import views.panel.EconomicalBuildingPanel;
+import views.panel.ImagePanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
 
-public class CityView extends JFrame {
+public class CityView extends JFrame   {
   private PlayerPanel playerPanel;
   private JPanel buildingsPanel = new JPanel();
   private JPanel armyPanel = new JPanel();
@@ -30,6 +37,14 @@ public class CityView extends JFrame {
   private BuildingPanel[] buildlingsSlavePanels = new BuildingPanel[5];
   public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "ArcheryRange" };
   private Army selected;
+  private JTextArea infoArea;
+  public JTextArea getInfoArea() {
+    return infoArea;
+  }
+
+  public void setInfoArea(JTextArea infoArea) {
+    this.infoArea = infoArea;
+  }
 
   public JPanel getBuildingsPanel() {
     return buildingsPanel;
@@ -124,8 +139,17 @@ public class CityView extends JFrame {
     panel2.add(label2, BorderLayout.PAGE_START);
     panel2.add(armyCards);
     armyPanel.add(panel1, BorderLayout.WEST);
-    armyPanel.add(new JLabel());
+    ImagePanel infoPanel = new ImagePanel(new ImageIcon("./assets/img/windows/info.png").getImage());
+    infoPanel.setLayout(new BorderLayout()); 
+    infoArea= new JTextArea();
+    infoPanel.add(infoArea);
+    infoArea.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
+    infoArea.setEditable(false);
+    infoArea.setBorder(new EmptyBorder(150,180,150,150));
+    infoArea.setOpaque(false);
+    armyPanel.add(infoPanel);
     armyPanel.add(panel2, BorderLayout.EAST);
+    
 
   }
 
@@ -168,6 +192,25 @@ public class CityView extends JFrame {
     buildlingsSlavePanels[2] = new MilitaryBuildingPanel(a, BUILDING_NAMES[2], city);
     buildlingsSlavePanels[3] = new MilitaryBuildingPanel(a, BUILDING_NAMES[3], city);
     buildlingsSlavePanels[4] = new MilitaryBuildingPanel(a, BUILDING_NAMES[4], city);
+    buildlingsSlavePanels[0].addMouseListener(mouseListener);
+    buildlingsSlavePanels[1].addMouseListener(mouseListener);
+    buildlingsSlavePanels[2].addMouseListener(mouseListener);
+    buildlingsSlavePanels[3].addMouseListener(mouseListener);
+    buildlingsSlavePanels[4].addMouseListener(mouseListener);
+
+  }
+  MouseListener mouseListener = new MouseAdapter(){
+    @Override
+    public void mousePressed(MouseEvent e){
+         BuildingPanel panel = (BuildingPanel) e.getSource();
+         infoArea.setText(panel.getInfo().getText());
+        
+    }
+  };
+  public void redWarning (BuildingPanel buildingPanel) throws InterruptedException{
+    buildingPanel.setBackground(Color.red);
+    TimeUnit.SECONDS.sleep(1);
+    buildingPanel.setBackground(Color.white);
   }
 
 }

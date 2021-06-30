@@ -445,6 +445,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
             game.getPlayer().upgradeBuilding(building, button.getCity());
             if (building.getLevel() == building.getMaxLevel()) {
               button.setEnabled(false);
+              button.setVisible(false);
             }
           } catch (NotEnoughGoldException | BuildingInCoolDownException | MaxLevelException e1) {
             showErrorMessage(e1);
@@ -483,8 +484,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void onBuild(Building building, City city, String type) {
     for (int i = 0; i < CITIES_NAMES.length; i++) {
       if (city.getName().equals(CITIES_NAMES[i])) {
-        cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
         cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+        cityViews[i].getInfoArea().setText(cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().getText());
       }
     }
   }
@@ -507,12 +508,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void buildingUpgraded(Building building, City city) {
     String type = building.getType();
-    for (int i = 0; i < CITIES_NAMES.length; i++) {
-      if (city.getName().equals(CITIES_NAMES[i])) {
-        cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setVisible(true);
-        cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
-      }
-    }
+    CityView cityview = getCityView(city);
+    cityview.getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
+    cityview.getInfoArea().setText(building.toString());
   }
 
   @Override
