@@ -294,14 +294,7 @@ public class Game {
     while (theBattleIsGoing(attacker, defender)) {
       attackerTurn = alternateAttacking(attacker, defender, attackerTurn);
     }
-    if (defender.didWinTheBattle()) {
-      //occupy(attacker, defender.getCurrentLocation());
-      if (gameListener != null) {
-        gameListener.OnBattleEnded(attacker, defender, true);
-      }
-    } else {
-      removeTheAttack(attacker, defender);
-    }
+   battleEnded(attacker, defender);
   }
 
   private boolean alternateAttacking(Army attacker, Army defender, boolean attackerTurn) throws FriendlyFireException {
@@ -317,25 +310,26 @@ public class Game {
   }
 
   private boolean theBattleIsGoing(Army attacker, Army defender) {
-    return !attacker.didWinTheBattle() && !defender.didWinTheBattle();
+    return attacker.didWinTheBattle() && defender.didWinTheBattle();
   }
 
   private void removeTheAttack(Army attacker, Army defender) {
     player.getControlledArmies().remove(attacker);
     City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
     currentCity.removeSieging();
-    if (gameListener != null) {
-      gameListener.OnBattleEnded(attacker, defender, false);
-    }
+   
   }
 
   public void battleEnded(Army attacker, Army defender) {
-    if (attacker.didWinTheBattle()) {
+    if (attacker.didWinTheBattle()&& !defender.didWinTheBattle()) {
+      occupy(attacker, defender.getCurrentLocation());
+
       if (gameListener != null) {
-        gameListener.OnBattleEnded(attacker, defender, false);
+        gameListener.OnBattleEnded(attacker, defender, true);
       }
-    } else if (defender.didWinTheBattle()) {
-      gameListener.OnBattleEnded(attacker, defender, true);
+    } else if (defender.didWinTheBattle()&&!attacker.didWinTheBattle()) {
+      removeTheAttack(attacker, defender);
+      gameListener.OnBattleEnded(attacker, defender, false);
     }
   }
 

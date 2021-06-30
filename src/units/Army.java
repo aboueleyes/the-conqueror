@@ -159,6 +159,6 @@ public class Army {
   }
 
   public boolean didWinTheBattle() {
-    return units.isEmpty();
+    return !units.isEmpty();
   }
 }
