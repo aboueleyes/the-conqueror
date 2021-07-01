@@ -170,6 +170,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       Unit unit = unitButton.getUnit();
       City city = cityNameToObject(unit.getCurrentLocation());
       game.getPlayer().initiateArmy(city, unit);
+      getCityView(city).getInfoArea().setText("");
     }
   }
 
@@ -324,6 +325,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       Unit unit = unitButton.getUnit();
       String city = unit.getParentArmy().getCurrentLocation();
       Army army = cityViews[getIndexOfCity(city)].getSelected();
+      cityViews [getIndexOfCity(city)].getInfoArea().setText("");
       if (army == null) {
         unitButton.setEnabled(false);
       }
@@ -339,6 +341,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (e.getActionCommand().equals("Select")) {
       ArmyButton armyButton = (ArmyButton) e.getSource();
       CityView cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
+      cityView.getInfoArea().setText("");
       if (cityView.getSelected() != null) {
         cityView.getSelected().getStationaryArmyPanel().getSelectArmy().setEnabled(true);
       }
@@ -371,7 +374,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       }
       worldMapView.setVisible(true);
       worldMapView.getUnitsCard().setVisible(false);
+      clearInfoArea();
     }
+    
 
   }
 
@@ -399,7 +404,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       for (PlayerPanel playerPanel : playerPanels) {
         playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
       }
+      clearInfoArea();
     }
+   
   }
 
   private void setRecruitButtonsAction(ActionEvent e) {
@@ -413,8 +420,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
             | InvalidBuildingException e1) {
           showErrorMessage(e1);
         }
+        clearInfoArea();
       }
     }
+    
   }
 
   private void setBuildButtonsAction(ActionEvent e) {
@@ -774,6 +783,12 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
     if (unit.getUnitPanel() != null && unit.getInfoUnitPanel() != null) {
       unit.getUnitPanel().getInfo().setText(unit.toString());
       unit.getInfoUnitPanel().getInfo().setText(unit.toString());
+    }  
+  }
+
+  public void clearInfoArea(){
+    for(CityView cityView : cityViews){
+      cityView.getInfoArea().setText("");
     }
   }
 }
