@@ -869,6 +869,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			try {
 				playSound("./assets/sounds/victory.wav");
 			} catch (IOException e) {
+
 				e.printStackTrace();
 			}
 			worldMapView.getArmyCards().removeCard(attacker.getArmyPanel());
@@ -895,4 +896,5 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			cityView.getInfoArea().setText("");
 		}
 	}
+	
 }
