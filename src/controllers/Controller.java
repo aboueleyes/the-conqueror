@@ -64,7 +64,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	EndGameView endGameView;
 	public static final String[] CITIES_NAMES = { "Cairo", "Rome", "Sparta" };
 	protected static final String[] UNITS_NAMES = { "Infantry", "Cavalry", "Archer" };
-
+   
 	public Controller() {
 		startView = new StartView(this);
 		playMusic("./assets/sounds/start-music.wav");
@@ -88,11 +88,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
-			playSound("./assets/sounds/click.wav");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		setInitiateButtonAction(e);
 		startGame(e);
 		setBackButtonActionResponse(e);
@@ -115,6 +110,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 		}
 		endGame(e);
 	}
+
+  private void playClickSound() {
+    try {
+			playSound("./assets/sounds/click.wav");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+  }
 
 	public void endGame(ActionEvent e) {
 		if (e.getActionCommand().equals("end game"))
@@ -143,6 +146,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setViewButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("view")) {
+      playClickSound();
 			CardsPanel worldMapCards = worldMapView.getUnitsCard();
 			worldMapCards.clear();
 			ArmyButton button = (ArmyButton) e.getSource();
@@ -175,6 +179,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setInitiateButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Initiate Army")) {
+            playClickSound();
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
 			City city = cityNameToObject(unit.getCurrentLocation());
@@ -185,6 +190,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void startGame(ActionEvent e) throws NullPointerException {
 		if (e.getActionCommand().equals("Start")) {
+      playClickSound();
 			String level = startView.getLevel();
 			String playerName = startView.getNameOfPlayer().getText();
 			String cityName = (String) startView.getCityOfPlayer().getSelectedItem();
@@ -296,6 +302,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setSelectDefenderButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("selectDefender")) {
+            playClickSound();
 			UnitButton button = (UnitButton) e.getSource();
 			if (battleView.getDefendingUnit() != null) {
 				battleView.getDefendingUnit().enableSelect();
@@ -310,6 +317,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setSelectAttackButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("selectAttacker")) {
+            playClickSound();
 			UnitButton button = (UnitButton) e.getSource();
 			if (battleView.getAttackingUnit() != null) {
 				battleView.getAttackingUnit().enableSelect();
@@ -324,11 +332,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setStartBattleButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Start Battle")) {
-			try {
-				playSound("./assets/sounds/battle.wav");
-			} catch (IOException e2) {
-				e2.printStackTrace();
-			}
 			ArmyButton button = (ArmyButton) e.getSource();
 			City city = cityNameToObject((String) button.getArmy().getArmyPanel().getCities().getSelectedItem());
 			try {
@@ -349,18 +352,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 						e2.printStackTrace();
 					}
 				}
-				showErrorMessage(e1);
+			//	showErrorMessage(e1);
 			}
 		}
 
 	}
 
 	private void initializeBattleView(ArmyButton button, City city) {
-		try {
-			playSound("./assets/sounds/battle.wav");
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
+         	
 		battleView = new BattleView(this, playerPanels[4], button.getArmy(), city.getDefendingArmy());
 		battleView.setVisible(true);
 		worldMapView.setVisible(false);
@@ -369,6 +368,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setRelocateButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Relocate")) {
+            playClickSound();     
 			UnitButton unitButton = (UnitButton) e.getSource();
 			Unit unit = unitButton.getUnit();
 			String city = unit.getParentArmy().getCurrentLocation();
@@ -385,13 +385,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
-				showErrorMessage(e1);
+				//showErrorMessage(e1);
 			}
 		}
 	}
 
 	private void setSelectButttonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("Select")) {
+            playClickSound();
 			ArmyButton armyButton = (ArmyButton) e.getSource();
 			CityView cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
 			cityView.getInfoArea().setText("");
@@ -409,6 +410,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setSeigeingButtonAction(ActionEvent e) {
 		if (e.getActionCommand().equals("SiegeCity")) {
+      playClickSound();
 			ArmyButton armyButton = (ArmyButton) e.getSource();
 			Army army = armyButton.getArmy();
 			String targetName = (String) armyButton.getArmy().getArmyPanel().getCities().getSelectedItem();
@@ -429,13 +431,14 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 						e2.printStackTrace();
 					}
 				}
-				showErrorMessage(e1);
+			//	showErrorMessage(e1);
 			}
 		}
 	}
 
 	private void setBackButtonActionResponse(ActionEvent e) {
 		if (e.getActionCommand().equals("Back")) {
+            playClickSound();
 			for (Window window : Window.getWindows()) {
 				window.setVisible(false);
 			}
@@ -471,6 +474,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 	private void setEndTurnButton(ActionEvent e) {
 		if (e.getActionCommand().equals("End Turn")) {
+          playClickSound();
 			game.endTurn();
 			for (PlayerPanel playerPanel : playerPanels) {
 				playerPanel.getNumOfTurns().setText("" + game.getCurrentTurnCount());
@@ -485,51 +489,32 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 			if (e.getActionCommand().equals("r" + BUILDING_NAMES[i])) {
 				CityButton button = (CityButton) e.getSource();
 				String unitType = UNITS_NAMES[i - 2];
-				if (unitType.equals("Infantry")) {
-					try {
-						playSound("./assets/sounds/barracks.wav");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				} else if (unitType.equals("Cavalry")) {
-					try {
-						playSound("./assets/sounds/stable.wav");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-				if (unitType.equals("Archer")) {
-					try {
-						playSound("./assets/sounds/archer.wav");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
+				
 				try {
+         
 					game.getPlayer().recruitUnit(unitType, button.getCity().getName());
+          if (unitType.equals("Infantry")) {
+            try {
+              playSound("./assets/sounds/barracks.wav");
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            }
+          } else if (unitType.equals("Cavalry")) {
+            try {
+              playSound("./assets/sounds/stable.wav");
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            }
+          }
+          if (unitType.equals("Archer")) {
+            try {
+              playSound("./assets/sounds/archer.wav");
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            }
+          }
 				} catch (BuildingInCoolDownException | MaxRecruitedException | NotEnoughGoldException
 						| InvalidBuildingException e1) {
-					if(e1 instanceof BuildingInCoolDownException) {
-						try {
-							playSound("./assets/sounds/Building is cooling down.wav");
-						} catch (IOException e2) {
-							e2.printStackTrace();
-						}
-					}
-					else if(e1 instanceof MaxRecruitedException) {
-						try {
-							playSound("./assets/sounds/You_have_reached_the_max_recruit.wav");
-						} catch (IOException e2) {
-							e2.printStackTrace();
-						}
-					}
-					else if(e1 instanceof NotEnoughGoldException) {
-						try {
-							playSound("./assets/sounds/NOT_ENOUGH_GOLD.wav");
-						} catch (IOException e2) {
-							e2.printStackTrace();
-						}
-					}
 					showErrorMessage(e1);
 				}
 				clearInfoArea();
@@ -550,6 +535,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 							enableRecuritButton(i, button);
 						}
 					} catch (NotEnoughGoldException e1) {
+            
 						showErrorMessage(e1);
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -590,6 +576,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	private void setViewButtonsAction(ActionEvent e) {
 		for (int i = 0; i < CITIES_NAMES.length; i++) {
 			if (e.getActionCommand().equals(CITIES_NAMES[i])) {
+        playClickSound();
 				worldMapView.setVisible(false);
 				cityViews[i].setVisible(true);
 			}
@@ -599,7 +586,6 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 	/**
 	 * Listeners Methods
 	 */
-
 	@Override
 	public void onBuild(Building building, City city, String type) {
 		for (int i = 0; i < CITIES_NAMES.length; i++) {
@@ -783,9 +769,11 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
 
 		try {
 			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
-			Clip clip = AudioSystem.getClip();
+		Clip clip = AudioSystem.getClip();
+			clip.close();
 			clip.open(audio);
 			clip.start();
+	
 			return clip.getMicrosecondLength();
 		} catch (UnsupportedAudioFileException | LineUnavailableException e) {
 			e.printStackTrace();

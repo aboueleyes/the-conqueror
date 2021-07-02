@@ -20,7 +20,7 @@ public class EndGameView extends JFrame {
 
 	public EndGameView(ActionListener a) {
 		super();
-		background = new ImagePanel("./assets/img/windows/endGame.jpg");
+		background = new ImagePanel("./assets/img/windows/startGame.jpg");
 		this.setSize(500, 300);
 		JPanel buttonPanel = new JPanel();
 		this.add(background);
