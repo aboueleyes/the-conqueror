@@ -6,9 +6,9 @@ import java.util.List;
 import buildings.ArcheryRange;
 import buildings.Barracks;
 import buildings.Building;
+import buildings.BuildingFactory;
 import buildings.EconomicBuilding;
 import buildings.Farm;
-import buildings.Market;
 import buildings.MilitaryBuilding;
 import buildings.Stable;
 import exceptions.BuildingInCoolDownException;
@@ -102,12 +102,10 @@ public class Player {
 
   public static MilitaryBuilding searchForBuilding(String type, List<MilitaryBuilding> list)
       throws InvalidBuildingException {
+    BuildingFactory buildingFactory = new BuildingFactory();
+    MilitaryBuilding building = (MilitaryBuilding) buildingFactory.createBuilding(type);
     for (MilitaryBuilding militaryBuilding : list) {
-      if (type.equals("Archer") && militaryBuilding instanceof ArcheryRange)
-        return militaryBuilding;
-      if (type.equals("Infantry") && militaryBuilding instanceof Barracks)
-        return militaryBuilding;
-      if (type.equals("Cavalry") && militaryBuilding instanceof Stable)
+      if (building.equals(militaryBuilding))
         return militaryBuilding;
     }
     throw new InvalidBuildingException("Error in CSV files");
@@ -146,7 +144,8 @@ public class Player {
     if (playerCity == null) {
       return;
     }
-    var building = setBuildingType(type);
+    var buildingFactory = new BuildingFactory();
+    var building = buildingFactory.createBuilding(type);
     if (buildingExist(playerCity, building)) {
       return;
     }
@@ -164,19 +163,6 @@ public class Player {
       playerListener.onBuild(building, playerCity, type);
       playerListener.onTreasuryUpdate();
     }
-  }
-
-  private Building setBuildingType(String type) {
-    if (type.equals("Farm"))
-      return new Farm();
-    if (type.equals("Stable"))
-      return new Stable();
-    if (type.equals("Market"))
-      return new Market();
-    if (type.equals("Barracks"))
-      return new Barracks();
-    else
-      return new ArcheryRange();
   }
 
   public void upgradeBuilding(Building building, City city)
