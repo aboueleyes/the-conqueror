@@ -19,9 +19,7 @@ public class ArcheryRange extends MilitaryBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    if (this.getLevel() < 3)
-      setUpgradeCost(ARCHERY_RANGE_UPGRADE_COST[getLevel() - 1]);
-    setRecruitmentCost(ARCHERY_RANGE_RECRUITMENT_COST[getLevel() - 1]);
+    updateCosts(ARCHERY_RANGE_UPGRADE_COST, ARCHERY_RANGE_RECRUITMENT_COST);
   }
 
   @Override
@@ -30,11 +28,16 @@ public class ArcheryRange extends MilitaryBuilding {
       throw new BuildingInCoolDownException("Building is cooling down");
     }
 
-    else if (getCurrentRecruit() == getMaxRecruit()) {
+    if (isMaxRecruited()) {
       throw new MaxRecruitedException("You have reached the max recruit");
-    } else {
-      setCurrentRecruit(getCurrentRecruit() + 1);
-      return new Archer(getLevel());
     }
+
+    setCurrentRecruit(getCurrentRecruit() + 1);
+    return new Archer(getLevel());
+
+  }
+
+  private boolean isMaxRecruited() {
+    return getCurrentRecruit() == getMaxRecruit();
   }
 }

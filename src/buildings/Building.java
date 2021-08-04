@@ -9,14 +9,18 @@ public abstract class Building {
   private int level = 1; // The current level of the building.
   private int upgradeCost; // The cost for upgrading buildings level.
   private boolean coolDown = true; // variable stating if the building is cooling down.
-  private final int maxLevel = 3;
+  private static final int MAX_LEVEL = 3;
 
   public int getCost() {
     return cost;
   }
 
+  public boolean reachedMaxLevel() {
+    return this.getLevel() == MAX_LEVEL;
+  }
+
   public int getMaxLevel() {
-    return maxLevel;
+    return MAX_LEVEL;
   }
 
   public int getLevel() {
@@ -56,7 +60,7 @@ public abstract class Building {
     if (isCoolDown()) {
       throw new BuildingInCoolDownException("Building is cooling down");
     }
-    if (getLevel() == maxLevel) {
+    if (getLevel() == MAX_LEVEL) {
       throw new MaxLevelException("You have reached the max recruit");
     }
     setLevel(getLevel() + 1);
@@ -83,4 +87,5 @@ public abstract class Building {
   public String getType() {
     return this.getClass().getName().substring(10);
   }
+
 }

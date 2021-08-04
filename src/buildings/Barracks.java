@@ -19,9 +19,7 @@ public class Barracks extends MilitaryBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    if (getLevel() < 3)
-      setUpgradeCost(BARRACKS_UPGRADE_COST[getLevel() - 1]);
-    setRecruitmentCost(BARRACKS_RECRUITMENT_COST[getLevel() - 1]);
+    updateCosts(BARRACKS_UPGRADE_COST, BARRACKS_RECRUITMENT_COST);
   }
 
   @Override

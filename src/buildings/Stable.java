@@ -19,9 +19,7 @@ public class Stable extends MilitaryBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    if (this.getLevel() < 3)
-      setUpgradeCost(STABLE_UPGRADE_COST[getLevel() - 1]);
-    setRecruitmentCost(STABLE_RECRUITMENT_COST[getLevel() - 1]);
+    updateCosts(STABLE_UPGRADE_COST, STABLE_RECRUITMENT_COST);
   }
 
   @Override
@@ -30,11 +28,12 @@ public class Stable extends MilitaryBuilding {
       throw new BuildingInCoolDownException("Building is cooling down");
     }
 
-    else if (getCurrentRecruit() == getMaxRecruit()) {
+    if (getCurrentRecruit() == getMaxRecruit()) {
       throw new MaxRecruitedException("You have reached the max recruit");
-    } else {
-      setCurrentRecruit(getCurrentRecruit() + 1);
-      return new Cavalry(getLevel());
     }
+
+    setCurrentRecruit(getCurrentRecruit() + 1);
+    return new Cavalry(getLevel());
+
   }
 }
