@@ -53,9 +53,10 @@ public abstract class MilitaryBuilding extends Building {
   }
 
   public void updateCosts(int[] upgradeCosts, int[] recruitCosts) {
-    if (!reachedMaxLevel()) {
-      setUpgradeCost(upgradeCosts[getLevel() - 1]);
+    if (reachedMaxLevel()) {
+      return;
     }
+    setUpgradeCost(upgradeCosts[getLevel() - 1]);
     setRecruitmentCost(recruitCosts[getLevel() - 1]);
   }
 }

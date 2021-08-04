@@ -2,20 +2,21 @@ package buildings;
 
 public abstract class EconomicBuilding extends Building {
 
-  public EconomicBuilding() {
+  protected EconomicBuilding() {
 
   }
 
-  public EconomicBuilding(int cost, int upgradeCost) {
+  protected EconomicBuilding(int cost, int upgradeCost) {
     super(cost, upgradeCost);
   }
 
   public abstract int harvest();
 
   public void upgradeCost(int[] upgradeCost) {
-    if (!reachedMaxLevel()) {
-      setUpgradeCost(upgradeCost[getLevel() - 1]);
+    if (reachedMaxLevel()) {
+      return;
     }
+    setUpgradeCost(upgradeCost[getLevel() - 1]);
   }
 
 }

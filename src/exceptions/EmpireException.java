@@ -1,11 +1,11 @@
 package exceptions;
 
 public abstract class EmpireException extends Exception {
-  public EmpireException() {
+  protected EmpireException() {
     super();
   }
 
-  public EmpireException(String s) {
+  protected EmpireException(String s) {
     super(s);
   }
 }

@@ -94,7 +94,7 @@ public class Game {
     for (List<String> line : data) {
       String from = line.get(0);
       String to = line.get(1);
-      int distance = Integer.parseInt(line.get(2));
+      var distance = Integer.parseInt(line.get(2));
       distances.add(new Distance(from, to, distance));
       addToSet(new City(to));
       addToSet(new City(from));
@@ -110,8 +110,8 @@ public class Game {
   public void loadArmy(String cityName, String path) throws IOException {
     ArrayList<Unit> unitList = new ArrayList<>();
     List<List<String>> data = ReadingCSVFile.readFile(path);
-    City currentCity = searchForCity(cityName, availableCities);
-    Army army = new Army(cityName);
+    var currentCity = searchForCity(cityName, availableCities);
+    var army = new Army(cityName);
     readUnitValues(unitList, data, army);
     army.setUnits(unitList);
     if (currentCity != null) {
@@ -136,7 +136,7 @@ public class Game {
   }
 
   private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army) {
-    Unit unit = unitFactory.createUnit(unitName, level);
+    var unit = unitFactory.createUnit(unitName, level);
     addUnitToUnits(unitList, army, unit);
   }
 
@@ -158,8 +158,8 @@ public class Game {
     if (army.getCurrentLocation().equals(targetName)) {
       return;
     }
-    String currentCity = army.getCurrentLocation();
-    City previousCity = searchForCity(army.getCurrentLocation(), availableCities);
+    var currentCity = army.getCurrentLocation();
+    var previousCity = searchForCity(army.getCurrentLocation(), availableCities);
     int distance = searchForDistance(currentCity, targetName);
 
     if (army.getCurrentLocation().equals(ON_ROAD)) {
@@ -194,7 +194,7 @@ public class Game {
   private void updateSiege() {
     for (City city : availableCities) {
       if (city.isUnderSiege()) {
-        Army army = searchForArmy(city.getName(), player.getControlledArmies());
+        var army = searchForArmy(city.getName(), player.getControlledArmies());
         if (city.reachedMaxSiege()) {
           forceAttack(city, army);
         } else {
@@ -264,7 +264,7 @@ public class Game {
   }
 
   public void occupy(Army army, String cityName) {
-    City city = searchForCity(cityName, availableCities);
+    var city = searchForCity(cityName, availableCities);
     player.getControlledArmies().remove(army);
     player.addControlCity(city);
     city.setDefendingArmy(army);
@@ -279,7 +279,7 @@ public class Game {
     if (player.isFriend(attacker) && player.isFriend(defender)) {
       throw new FriendlyFireException();
     }
-    boolean attackerTurn = true;
+    var attackerTurn = true;
     while (theBattleIsGoing(attacker, defender)) {
       attackerTurn = alternateAttacking(attacker, defender, attackerTurn);
     }
@@ -287,8 +287,8 @@ public class Game {
   }
 
   private boolean alternateAttacking(Army attacker, Army defender, boolean attackerTurn) throws FriendlyFireException {
-    Unit attackerUnit = attacker.getRandomUnit();
-    Unit defenderUnit = defender.getRandomUnit();
+    var attackerUnit = attacker.getRandomUnit();
+    var defenderUnit = defender.getRandomUnit();
     if (attackerTurn) {
       attackerUnit.attack(defenderUnit);
     } else {

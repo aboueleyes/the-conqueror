@@ -5,10 +5,10 @@ import exceptions.MaxLevelException;
 
 public abstract class Building {
 
-  private int cost; // The cost for creating a building. READ ONLY
-  private int level = 1; // The current level of the building.
-  private int upgradeCost; // The cost for upgrading buildings level.
-  private boolean coolDown = true; // variable stating if the building is cooling down.
+  private int cost;
+  private int level = 1;
+  private int upgradeCost;
+  private boolean coolDown = true;
   private static final int MAX_LEVEL = 3;
 
   public int getCost() {

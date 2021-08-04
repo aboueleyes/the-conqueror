@@ -8,12 +8,12 @@ import java.awt.event.*;
 
 public abstract class Unit {
 
-  private int level; // The current level of a unit. READ ONLY.
-  private int maxSoldierCount; // The maximum number of soldiers a unit can hold
-  private int currentSoldierCount; // the current number of soldiers inside a unit
-  private double idleUpkeep; // the amount of food a unit consume when being idle
-  private double marchingUpkeep; // the amount of food a unit consume when marching to another city
-  private double siegeUpkeep; // the amount of food a unit consume when laying siege
+  private int level;
+  private int maxSoldierCount;
+  private int currentSoldierCount;
+  private double idleUpkeep;
+  private double marchingUpkeep;
+  private double siegeUpkeep;
   private Army parentArmy;
   private DefendingUnitPanel unitPanel;
   private UnitPanel battleUnitPanel;

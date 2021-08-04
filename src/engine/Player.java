@@ -115,7 +115,7 @@ public class Player {
 
   public void recruitUnit(String type, String cityName)
       throws BuildingInCoolDownException, MaxRecruitedException, NotEnoughGoldException, InvalidBuildingException {
-    City playerCity = Game.searchForCity(cityName, controlledCities);
+    var playerCity = Game.searchForCity(cityName, controlledCities);
     if (playerCity == null)
       return;
     MilitaryBuilding targetBuilding;
@@ -127,7 +127,7 @@ public class Player {
     if (targetBuilding.getRecruitmentCost() > treasury) {
       throw new NotEnoughGoldException(NOT_ENOUGH_GOLD);
     }
-    Unit recruitedUnit = targetBuilding.recruit();
+    var recruitedUnit = targetBuilding.recruit();
     playerCity.getDefendingArmy().getUnits().add(recruitedUnit);
     treasury -= targetBuilding.getRecruitmentCost();
     recruitedUnit.setParentArmy(playerCity.getDefendingArmy());
@@ -142,11 +142,11 @@ public class Player {
   }
 
   public void build(String type, String cityName) throws NotEnoughGoldException {
-    City playerCity = Game.searchForCity(cityName, controlledCities);
+    var playerCity = Game.searchForCity(cityName, controlledCities);
     if (playerCity == null) {
       return;
     }
-    Building building = setBuildingType(type);
+    var building = setBuildingType(type);
     if (buildingExist(playerCity, building)) {
       return;
     }
@@ -196,7 +196,7 @@ public class Player {
 
   public void initiateArmy(City city, Unit unit) {
     city.getDefendingArmy().getUnits().remove(unit);
-    Army attackingArmy = new Army(city.getName());
+    var attackingArmy = new Army(city.getName());
     attackingArmy.getUnits().add(unit);
     unit.setParentArmy(attackingArmy);
     getControlledArmies().add(attackingArmy);
