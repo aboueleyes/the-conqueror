@@ -1,6 +1,7 @@
 package engine;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,8 @@ public class Game {
   private void loadCitiesFiles(String cityName, String level) throws IOException {
     for (City city : availableCities) {
       if (!city.getName().equals(cityName)) {
-        String path = "assets/csv/" + level + "/" + city.getName().toLowerCase() + "_army.csv";
+        String fileName = city.getName().toLowerCase() + "_army.csv";
+        var path = Path.of("assets", "csv", level, fileName).toFile().toString();
         loadArmy(city.getName(), path);
       } else {
         player.addControlCity(city);
@@ -122,7 +124,7 @@ public class Game {
   private void readUnitValues(ArrayList<Unit> unitList, List<List<String>> data, Army army) {
     for (List<String> line : data) {
       String unitName = line.get(0);
-      int level = Integer.parseInt(line.get(1));
+      var level = Integer.parseInt(line.get(1));
       setUnitType(unitList, unitName, level, army);
     }
   }
@@ -132,7 +134,7 @@ public class Game {
   }
 
   public static City searchForCity(String cityName, List<City> availableCities) throws NullPointerException {
-    return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst().orElse(null);
+    return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst().orElse(new City(cityName));
   }
 
   private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army) {
@@ -304,7 +306,7 @@ public class Game {
 
   private void removeTheAttack(Army attacker, Army defender) {
     player.getControlledArmies().remove(attacker);
-    City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
+    var currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
     currentCity.removeSieging();
 
   }

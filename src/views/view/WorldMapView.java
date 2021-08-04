@@ -18,7 +18,6 @@ import views.panel.ImagePanel;
 import views.panel.PlayerPanel;
 
 public class WorldMapView extends JFrame {
-  private static final String COLOR_BEIGE = "#C8AE81";
   private JPanel armyPanel = new JPanel();
   private JPanel citiesPanel = new JPanel();
   private PlayerPanel playerPanel;
@@ -122,7 +121,6 @@ public class WorldMapView extends JFrame {
   public void addArmyPane() {
     armyPanel.setLayout(new BorderLayout());
     armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
-    //armyPanel.setBackground(Color.decode(COLOR_BEIGE));
     JLabel label = new JLabel("<html><h1><strong><i>" + "Controlled Armies" + "</i></strong></h1><hr></html>");
     label.setBorder(new EmptyBorder(10, 10, 10, 10));
     armyPanel.add(label, BorderLayout.PAGE_START);
@@ -142,55 +140,50 @@ public class WorldMapView extends JFrame {
 
   public void addCitiesPane(ActionListener a) {
     citiesPanel.setLayout(new BorderLayout());
-    //citiesPanel.setBackground(Color.decode("#C8AE81"));
     ImagePanel cairoPanel = new ImagePanel(new ImageIcon("./assets/img/cities/cairo.png").getImage());
     ImagePanel romePanel = new ImagePanel(new ImageIcon("./assets/img/cities/rome.png").getImage());
     ImagePanel spartaPanel = new ImagePanel(new ImageIcon("./assets/img/cities/sparta.png").getImage());
 
     cairoPanel.setLayout(new BorderLayout());
-    StyledLabel cairoName =  new StyledLabel("Cairo",70,true);
+    StyledLabel cairoName = new StyledLabel("Cairo", 70, true);
     cairoButton = new CityButton("view", 15);
     cairoButton.addActionListener(a);
     JPanel buttonArea = new JPanel();
     buttonArea.setLayout(new BorderLayout());
     buttonArea.add(cairoButton, BorderLayout.EAST);
     JPanel panel3 = new JPanel();
-    panel3.setLayout(new GridLayout(3,1));
-    panel3.add(cairoName) ;
+    panel3.setLayout(new GridLayout(3, 1));
+    panel3.add(cairoName);
     panel3.add(new JLabel());
     JPanel bottom = new JPanel();
     bottom.setLayout(new BorderLayout());
-    bottom.add(buttonArea,BorderLayout.PAGE_END);
+    bottom.add(buttonArea, BorderLayout.PAGE_END);
     panel3.add(bottom);
     cairoPanel.add(panel3, BorderLayout.SOUTH);
 
     spartaPanel.setLayout(new BorderLayout());
-    StyledLabel spartaName =  new StyledLabel("Sparta",70,true);
-    //spartaName.setForeground(Color.WHITE);
+    StyledLabel spartaName = new StyledLabel("Sparta", 70, true);
     spartaButton = new CityButton("view", 15);
     spartaButton.setActionCommand("sparta");
     spartaButton.addActionListener(a);
     JPanel buttonArea2 = new JPanel();
     buttonArea2.setLayout(new BorderLayout());
     spartaName.setOpaque(false);
-    buttonArea2.add(spartaButton,BorderLayout.EAST);
+    buttonArea2.add(spartaButton, BorderLayout.EAST);
     buttonArea2.setOpaque(false);
     JPanel panel1 = new JPanel();
-    panel1.setLayout(new GridLayout(3,1));
-    panel1.add(spartaName) ;
+    panel1.setLayout(new GridLayout(3, 1));
+    panel1.add(spartaName);
     panel1.add(new JLabel(""));
     JPanel bottom1 = new JPanel();
     bottom1.setLayout(new BorderLayout());
-    bottom1.add(buttonArea2,BorderLayout.PAGE_END);
+    bottom1.add(buttonArea2, BorderLayout.PAGE_END);
     panel1.add(bottom1);
     panel1.setOpaque(false);
     spartaPanel.add(panel1, BorderLayout.SOUTH);
 
-
-
     romePanel.setLayout(new BorderLayout());
-    StyledLabel romeName =  new StyledLabel("Rome",70,true);
-    //romeName.setForeground(Color.WHITE);
+    StyledLabel romeName = new StyledLabel("Rome", 70, true);
     romePanel.add(romeName, BorderLayout.LINE_START);
     romeButton = new CityButton("view", 15);
     JPanel buttonArea3 = new JPanel();
@@ -199,12 +192,12 @@ public class WorldMapView extends JFrame {
 
     buttonArea3.setOpaque(false);
     JPanel panel2 = new JPanel();
-    panel2.setLayout(new GridLayout(3,1));
-    panel2.add(romeName) ;
+    panel2.setLayout(new GridLayout(3, 1));
+    panel2.add(romeName);
     panel2.add(new JLabel(""));
     JPanel bottom3 = new JPanel();
     bottom3.setLayout(new BorderLayout());
-    bottom3.add(buttonArea3,BorderLayout.PAGE_END);
+    bottom3.add(buttonArea3, BorderLayout.PAGE_END);
     panel2.add(bottom3);
     romePanel.add(panel2, BorderLayout.SOUTH);
     romeButton.addActionListener(a);

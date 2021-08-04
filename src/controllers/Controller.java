@@ -164,11 +164,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
         playSound("./assets/sounds/attack.wav");
         game.autoResolve(battleView.getAttackerArmy(), battleView.getDefenderArmy());
       } catch (FriendlyFireException e1) {
-        try {
-          playSound("./assets/sounds/You_cannot_attack_a_friend_city.wav");
-        } catch (IOException e2) {
-          e2.printStackTrace();
-        }
+        // playSound("./assets/sounds/You_cannot_attack_a_friend_city.wav");
         showErrorMessage(e1);
       } catch (IOException e1) {
         e1.printStackTrace();
@@ -180,9 +176,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setInitiateButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Initiate Army")) {
       playClickSound();
-      UnitButton unitButton = (UnitButton) e.getSource();
-      Unit unit = unitButton.getUnit();
-      City city = cityNameToObject(unit.getCurrentLocation());
+      var unitButton = (UnitButton) e.getSource();
+      var unit = unitButton.getUnit();
+      var city = cityNameToObject(unit.getCurrentLocation());
       game.getPlayer().initiateArmy(city, unit);
       getCityView(city).getInfoArea().setText("");
     }
@@ -390,8 +386,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSelectButttonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Select")) {
       playClickSound();
-      ArmyButton armyButton = (ArmyButton) e.getSource();
-      CityView cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
+      var armyButton = (ArmyButton) e.getSource();
+      var cityView = cityViews[getIndexOfCity(armyButton.getArmy().getCurrentLocation())];
       cityView.getInfoArea().setText("");
       if (cityView.getSelected() != null) {
         cityView.getSelected().getStationaryArmyPanel().getSelectArmy().setEnabled(true);
@@ -408,9 +404,9 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setSeigeingButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("SiegeCity")) {
       playClickSound();
-      ArmyButton armyButton = (ArmyButton) e.getSource();
-      Army army = armyButton.getArmy();
-      String targetName = (String) armyButton.getArmy().getArmyPanel().getCities().getSelectedItem();
+      var armyButton = (ArmyButton) e.getSource();
+      var army = armyButton.getArmy();
+      var targetName = (String) armyButton.getArmy().getArmyPanel().getCities().getSelectedItem();
       try {
         game.getPlayer().laySiege(army, cityNameToObject(targetName));
       } catch (TargetNotReachedException | FriendlyCityException | NullPointerException | MaxSiegeException e1) {
@@ -453,7 +449,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       }
       ArmyButton button = (ArmyButton) e.getSource();
       String targetName = (String) button.getArmy().getArmyPanel().getCities().getSelectedItem();
-      CityView cityView = getCityView(button.getArmy().getCurrentLocation());
+      var cityView = getCityView(button.getArmy().getCurrentLocation());
       boolean targetSameCity = (button.getArmy().getCurrentLocation().equals(targetName));
       game.targetCity(button.getArmy(), targetName);
       if (cityView != null && cityView.getSelected() != null && !targetSameCity) {
@@ -519,7 +515,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void setBuildButtonsAction(ActionEvent e) {
-    for (int i = 0; i < BUILDING_NAMES.length; i++) {
+    for (var i = 0; i < BUILDING_NAMES.length; i++) {
       if (e.getActionCommand().equals(BUILDING_NAMES[i])) {
         CityButton button = (CityButton) e.getSource();
         if (!button.isBuilt()) {
