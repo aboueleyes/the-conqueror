@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import buildings.ArcheryRange;
 import buildings.Barracks;
@@ -14,13 +15,12 @@ import units.*;
 
 public class City {
 
-  private String name; // The name of the city, READ ONLY
-  private ArrayList<EconomicBuilding> economicalBuildings; // ArrayList containing the economical building in the
-                                                           // city,READ
-  private ArrayList<MilitaryBuilding> militaryBuildings; // ArrayList containing the military building in the city, READ
-  private Army defendingArmy; // The defending army of the city
-  private int turnsUnderSiege = -1; // Number of turns the city has been siege
-  private boolean underSiege = false; // Variable checking if the is under siege or not
+  private String name;
+  private ArrayList<EconomicBuilding> economicalBuildings;
+  private ArrayList<MilitaryBuilding> militaryBuildings;
+  private Army defendingArmy;
+  private int turnsUnderSiege = -1;
+  private boolean underSiege = false;
 
   private static final int MAX_TURNS_UNDER_SEIGE = 3;
 
@@ -28,11 +28,11 @@ public class City {
     return this.name;
   }
 
-  public ArrayList<EconomicBuilding> getEconomicalBuildings() {
+  public List<EconomicBuilding> getEconomicalBuildings() {
     return this.economicalBuildings;
   }
 
-  public ArrayList<MilitaryBuilding> getMilitaryBuildings() {
+  public List<MilitaryBuilding> getMilitaryBuildings() {
     return this.militaryBuildings;
   }
 

@@ -6,10 +6,10 @@ import units.Unit;
 
 public abstract class MilitaryBuilding extends Building {
 
-  private int recruitmentCost; // The cost for recruiting a unit.
-  private int currentRecruit; // Current number of units recruited by a building inside a turn
+  private int recruitmentCost;
+  private int currentRecruit;
 
-  private final int maxRecruit = 3; // Maximum number of units a building can recruit per turn
+  private static final int MAX_RECRUIT = 3;
 
   public int getRecruitmentCost() {
     return recruitmentCost;
@@ -28,14 +28,14 @@ public abstract class MilitaryBuilding extends Building {
   }
 
   public int getMaxRecruit() {
-    return maxRecruit;
+    return MAX_RECRUIT;
   }
 
-  public MilitaryBuilding() {
+  protected MilitaryBuilding() {
 
   }
 
-  public MilitaryBuilding(int cost, int upgradeCost, int recruitmentCost) {
+  protected MilitaryBuilding(int cost, int upgradeCost, int recruitmentCost) {
     super(cost, upgradeCost);
     this.recruitmentCost = recruitmentCost;
   }

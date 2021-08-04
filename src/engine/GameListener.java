@@ -23,5 +23,6 @@ public interface GameListener {
   public void playerWon();
 
   public void playerLost();
-  public void OnBattleEnded(Army attacker,Army Defender,boolean win);
+
+  public void onBattleEnded(Army attacker, Army defender, boolean win);
 }

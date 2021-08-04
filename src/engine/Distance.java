@@ -2,9 +2,9 @@ package engine;
 
 public class Distance {
 
-  private String from; // The name of the city that the army will begin moving from, READ ONLY
-  private String to; // The name of the city that the army will move to, READ ONLY
-  private int distance; // The distance between the two cities, READ ONLY
+  private String from;
+  private String to;
+  private int distance;
 
   public String getFrom() {
     return this.from;

@@ -82,7 +82,7 @@ public abstract class Unit {
   public void decCurrentSoldierCount() {
     setCurrentSoldierCount(currentSoldierCount - (int) (currentSoldierCount * 0.1));
     if (unitListener != null) {
-      unitListener.OnUpdateSoldierCount(this);
+      unitListener.onUpdateSoldierCount(this);
     }
   }
 
@@ -104,11 +104,11 @@ public abstract class Unit {
         + "Max Soldier Count : " + this.getMaxSoldierCount() + "\n");
   }
 
-  public Unit() {
+  protected Unit() {
 
   }
 
-  public Unit(int level, int maxSoldierCount, double idleUpkeep, double marchingUpkeep, double siegeUpkeep) {
+  protected Unit(int level, int maxSoldierCount, double idleUpkeep, double marchingUpkeep, double siegeUpkeep) {
     this.level = level;
     this.maxSoldierCount = maxSoldierCount;
     this.idleUpkeep = idleUpkeep;
@@ -128,7 +128,7 @@ public abstract class Unit {
           target.currentSoldierCount - (int) (this.currentSoldierCount * this.unitFactor(target, level)));
       target.getParentArmy().handleAttackedUnit(target);
       if (unitListener != null) {
-        unitListener.UnitOnattack(this, target, currentSoldierBeforeAttack - target.getCurrentSoldierCount());
+        unitListener.unitOnattack(this, target, currentSoldierBeforeAttack - target.getCurrentSoldierCount());
       }
     }
   }

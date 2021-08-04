@@ -1,9 +1,9 @@
 package views.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionListener;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -185,8 +185,8 @@ public class WorldMapView extends JFrame {
     panel1.add(bottom1);
     panel1.setOpaque(false);
     spartaPanel.add(panel1, BorderLayout.SOUTH);
-   
-  
+
+
 
     romePanel.setLayout(new BorderLayout());
     StyledLabel romeName =  new StyledLabel("Rome",70,true);
@@ -196,7 +196,7 @@ public class WorldMapView extends JFrame {
     JPanel buttonArea3 = new JPanel();
     buttonArea3.setLayout(new BorderLayout());
     buttonArea3.add(romeButton, BorderLayout.EAST);
-   
+
     buttonArea3.setOpaque(false);
     JPanel panel2 = new JPanel();
     panel2.setLayout(new GridLayout(3,1));
@@ -209,8 +209,8 @@ public class WorldMapView extends JFrame {
     romePanel.add(panel2, BorderLayout.SOUTH);
     romeButton.addActionListener(a);
 
-    romePanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
-    spartaPanel.setPreferredSize(new DimensionUIResource(600, JFrame.HEIGHT));
+    romePanel.setPreferredSize(new DimensionUIResource(600, HEIGHT));
+    spartaPanel.setPreferredSize(new DimensionUIResource(600, HEIGHT));
     citiesPanel.add(romePanel, BorderLayout.WEST);
     citiesPanel.add(cairoPanel, BorderLayout.CENTER);
     citiesPanel.add(spartaPanel, BorderLayout.EAST);

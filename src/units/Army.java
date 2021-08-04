@@ -1,6 +1,7 @@
 package units;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import engine.City;
@@ -10,12 +11,12 @@ import views.panel.StationaryArmyPanel;
 
 public class Army {
 
-  private Status currentStatus = Status.IDLE; // the current status of an army initially being idle .READ ONLY
-  private ArrayList<Unit> units; // a list containing the units of an army
-  private int distancetoTarget = -1; // the distance needed to reach target city
-  private String target = ""; // the target city
-  private String currentLocation; // the current location of the army either in a city or road to another
-  private final int maxToHold = 10;
+  private Status currentStatus = Status.IDLE;
+  private List<Unit> units;
+  private int distancetoTarget = -1;
+  private String target = "";
+  private String currentLocation;
+  private static final int MAX_TO_HOLD = 10;
   private ArmyPanel armyPanel;
   private StationaryArmyPanel stationaryArmyPanel;
   private ArmyListener armyListener;
@@ -45,7 +46,7 @@ public class Army {
   }
 
   public int getMaxToHold() {
-    return maxToHold;
+    return MAX_TO_HOLD;
   }
 
   public Status getCurrentStatus() {
@@ -56,11 +57,11 @@ public class Army {
     this.currentStatus = currentStatus;
   }
 
-  public ArrayList<Unit> getUnits() {
+  public List<Unit> getUnits() {
     return units;
   }
 
-  public void setUnits(ArrayList<Unit> units) {
+  public void setUnits(List<Unit> units) {
     this.units = units;
   }
 

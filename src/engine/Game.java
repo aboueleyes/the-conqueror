@@ -5,36 +5,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import buildings.EconomicBuilding;
-import exceptions.BuildingInCoolDownException;
 import exceptions.FriendlyFireException;
-import exceptions.InvalidBuildingException;
-import exceptions.MaxRecruitedException;
-import exceptions.NotEnoughGoldException;
 import exceptions.TargetNotReachedException;
-import units.Archer;
 import units.Army;
-import units.Cavalry;
-import units.Infantry;
 import units.Status;
 import units.Unit;
+import units.UnitFactory;
 import utlis.ReadingCSVFile;
 
 public class Game {
 
   private static final String NUMBER_OF_UNITS = "Number Of Units: ";
 
-  private Player player; // The current player of the game
+  private Player player;
 
-  private ArrayList<City> availableCities; // An ArrayList containing the cities in the game, READ ONLY
-  private ArrayList<Distance> distances; // An ArrayList containing the distances between the cities, READ ONLY
-  private final int maxTurnCount = 50; // Maximum number of turns in the Game
-  private int currentTurnCount = 1; // Current number of turns, READ ONLY
+  private UnitFactory unitFactory = new UnitFactory();
+  private ArrayList<City> availableCities;
+  private ArrayList<Distance> distances;
+  private static final int MAX_TURN_COUNT = 50;
+  private int currentTurnCount = 1;
   private static final double INITIAL_TREASURY = 5000;
   private static final String ON_ROAD = "OnRoad";
   private GameListener gameListener;
 
   public Player getPlayer() {
     return player;
+  }
+
+  public UnitFactory getUnitFactory() {
+    return unitFactory;
+  }
+
+  public void setUnitFactory(UnitFactory unitFactory) {
+    this.unitFactory = unitFactory;
   }
 
   public GameListener getGameListener() {
@@ -49,16 +52,12 @@ public class Game {
     this.player = player;
   }
 
-  public ArrayList<City> getAvailableCities() {
+  public List<City> getAvailableCities() {
     return this.availableCities;
   }
 
-  public ArrayList<Distance> getDistances() {
+  public List<Distance> getDistances() {
     return this.distances;
-  }
-
-  public int getMaxTurnCount() {
-    return this.maxTurnCount;
   }
 
   public int getCurrentTurnCount() {
@@ -118,7 +117,6 @@ public class Game {
     if (currentCity != null) {
       currentCity.setDefendingArmy(army);
     }
-    System.out.println(currentCity.getDefendingArmy().getUnits().size());
   }
 
   private void readUnitValues(ArrayList<Unit> unitList, List<List<String>> data, Army army) {
@@ -129,25 +127,17 @@ public class Game {
     }
   }
 
-  public static Army searchForArmy(String cityName, ArrayList<Army> armies) {
-    return armies.stream().filter(army -> army.getCurrentLocation().equals(cityName)).findFirst().orElse(null);
+  public static Army searchForArmy(String cityName, List<Army> list) {
+    return list.stream().filter(army -> army.getCurrentLocation().equals(cityName)).findFirst().orElse(null);
   }
 
-  public static City searchForCity(String cityName, ArrayList<City> availableCities) throws NullPointerException {
+  public static City searchForCity(String cityName, List<City> availableCities) throws NullPointerException {
     return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst().orElse(null);
   }
 
   private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army) {
-    if (unitName.equals("Archer")) {
-      Unit archer = new Archer(level);
-      addUnitToUnits(unitList, army, archer);
-    } else if (unitName.equals("Infantry")) {
-      Unit infantry = new Infantry(level);
-      addUnitToUnits(unitList, army, infantry);
-    } else {
-      Unit cavalry = new Cavalry(level);
-      addUnitToUnits(unitList, army, cavalry);
-    }
+    Unit unit = unitFactory.createUnit(unitName, level);
+    addUnitToUnits(unitList, army, unit);
   }
 
   private void addUnitToUnits(ArrayList<Unit> unitList, Army army, Unit archer) {
@@ -250,7 +240,6 @@ public class Game {
     double foodNeeded = 0;
     foodNeeded += player.attackingArmyFeeding(foodNeeded);
     foodNeeded += player.defendingArmyFeeding(foodNeeded);
-    System.out.println(foodNeeded);
     if (!player.isFoodEnough(foodNeeded)) {
       player.loseAttackingArmies();
       player.loseDefendingArmies();
@@ -294,7 +283,7 @@ public class Game {
     while (theBattleIsGoing(attacker, defender)) {
       attackerTurn = alternateAttacking(attacker, defender, attackerTurn);
     }
-   battleEnded(attacker, defender);
+    battleEnded(attacker, defender);
   }
 
   private boolean alternateAttacking(Army attacker, Army defender, boolean attackerTurn) throws FriendlyFireException {
@@ -317,19 +306,19 @@ public class Game {
     player.getControlledArmies().remove(attacker);
     City currentCity = searchForCity(defender.getCurrentLocation(), availableCities);
     currentCity.removeSieging();
-   
+
   }
 
   public void battleEnded(Army attacker, Army defender) {
-    if (attacker.didWinTheBattle()&& !defender.didWinTheBattle()) {
+    if (attacker.didWinTheBattle() && !defender.didWinTheBattle()) {
       occupy(attacker, defender.getCurrentLocation());
 
       if (gameListener != null) {
-        gameListener.OnBattleEnded(attacker, defender, true);
+        gameListener.onBattleEnded(attacker, defender, true);
       }
-    } else if (defender.didWinTheBattle()&&!attacker.didWinTheBattle()) {
+    } else if (defender.didWinTheBattle() && !attacker.didWinTheBattle()) {
       removeTheAttack(attacker, defender);
-      gameListener.OnBattleEnded(attacker, defender, false);
+      gameListener.onBattleEnded(attacker, defender, false);
     }
   }
 
@@ -352,7 +341,7 @@ public class Game {
   }
 
   private boolean isTurnsOver() {
-    return currentTurnCount > maxTurnCount;
+    return currentTurnCount > MAX_TURN_COUNT;
   }
 
   private boolean isThePlayerWon() {
@@ -365,8 +354,6 @@ public class Game {
     }
 
     if (player.isFriend(city)) {
-      System.out.println(player.getControlledCities().size());
-      System.out.println(city.getName());
       throw new FriendlyFireException("you can't attack a friend");
     }
 

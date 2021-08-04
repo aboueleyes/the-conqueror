@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import buildings.ArcheryRange;
 import buildings.Barracks;
@@ -27,13 +28,14 @@ public class Player {
 
   private static final String NOT_ENOUGH_FOOD = "Not Enough Food";
   private static final String NOT_ENOUGH_GOLD = "Not Enough Gold";
-  private String name; // Variable representing the name of the player, READ ONLY
-  private ArrayList<City> controlledCities; // An ArrayList containing the players controlled cities, READ ONLY
-  private ArrayList<Army> controlledArmies; // An ArrayList containing the players controlled armies, READ ONLY
-  private double treasury; // The amount of gold the player has
-  private double food; // The amount of food the player has
+  private String name;
+  private ArrayList<City> controlledCities;
+  private ArrayList<Army> controlledArmies;
+  private double treasury;
+  private double food;
   private PlayerListener playerListener;
   private int currentSiege = 0;
+
   public int getCurrentSiege() {
     return currentSiege;
   }
@@ -54,11 +56,11 @@ public class Player {
     this.playerListener = playerListener;
   }
 
-  public ArrayList<City> getControlledCities() {
+  public List<City> getControlledCities() {
     return this.controlledCities;
   }
 
-  public ArrayList<Army> getControlledArmies() {
+  public List<Army> getControlledArmies() {
     return this.controlledArmies;
   }
 
@@ -98,9 +100,9 @@ public class Player {
     controlledArmies = new ArrayList<>();
   }
 
-  public static MilitaryBuilding searchForBuilding(String type, ArrayList<MilitaryBuilding> militaryBuildings)
+  public static MilitaryBuilding searchForBuilding(String type, List<MilitaryBuilding> list)
       throws InvalidBuildingException {
-    for (MilitaryBuilding militaryBuilding : militaryBuildings) {
+    for (MilitaryBuilding militaryBuilding : list) {
       if (type.equals("Archer") && militaryBuilding instanceof ArcheryRange)
         return militaryBuilding;
       if (type.equals("Infantry") && militaryBuilding instanceof Barracks)
@@ -203,7 +205,8 @@ public class Player {
     }
   }
 
-  public void laySiege(Army army, City city) throws TargetNotReachedException, FriendlyCityException ,MaxSiegeException{
+  public void laySiege(Army army, City city)
+      throws TargetNotReachedException, FriendlyCityException, MaxSiegeException {
 
     if (controlledCities.contains(city)) {
       throw new FriendlyCityException("You cannot attack a friend city");
@@ -211,13 +214,13 @@ public class Player {
     if (!army.getCurrentLocation().equals(city.getName())) {
       throw new TargetNotReachedException("The army hasn't arrived yet");
     }
-    if(currentSiege == 1){
+    if (currentSiege == 1) {
       throw new MaxSiegeException("You reached max siege per turn");
     }
     army.setCurrentStatus(Status.BESIEGING);
     city.setUnderSiege(true);
     city.setTurnsUnderSiege(city.getTurnsUnderSiege() + 1);
-    currentSiege ++;
+    currentSiege++;
     if (playerListener != null) {
       playerListener.onSiegeing(army, city);
     }

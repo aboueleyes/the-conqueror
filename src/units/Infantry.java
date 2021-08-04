@@ -27,13 +27,10 @@ public class Infantry extends Unit {
     }
     return CAVALRY_TARGET_FACTORS[level - 1];
   }
-  
+
   @Override
   public String toString() {
-  	return "Type : Infantry" + "\n" + super.toString();
+    return "Type : Infantry" + "\n" + super.toString();
   }
-  
-  public static void main(String[] argas) {
-  	Infantry test = new Infantry(1);
-  }
+
 }

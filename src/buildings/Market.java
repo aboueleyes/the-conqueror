@@ -16,13 +16,12 @@ public class Market extends EconomicBuilding {
   @Override
   public void upgrade() throws BuildingInCoolDownException, MaxLevelException {
     super.upgrade();
-    if (this.getLevel() < 3)
-      setUpgradeCost(MARKET_UPGRADE_COST[getLevel() - 1]);
+    upgradeCost(MARKET_UPGRADE_COST);
   }
 
   @Override
   public int harvest() {
     return HARVEST_VALUES[getLevel() - 1];
   }
-  
+
 }

@@ -12,4 +12,10 @@ public abstract class EconomicBuilding extends Building {
 
   public abstract int harvest();
 
+  public void upgradeCost(int[] upgradeCost) {
+    if (!reachedMaxLevel()) {
+      setUpgradeCost(upgradeCost[getLevel() - 1]);
+    }
+  }
+
 }

@@ -47,11 +47,11 @@ public abstract class Building {
     this.coolDown = coolDown;
   }
 
-  public Building() {
+  protected Building() {
 
   }
 
-  public Building(int cost, int upgradeCost) {
+  protected Building(int cost, int upgradeCost) {
     this.cost = cost;
     this.upgradeCost = upgradeCost;
   }
