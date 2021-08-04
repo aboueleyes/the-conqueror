@@ -1,4 +1,7 @@
 # TheConqueror
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fedd9f7938f14125ae98f4c33dd8d0d7)](https://app.codacy.com/gh/aboueleyes/the-conqueror?utm_source=github.com&utm_medium=referral&utm_content=aboueleyes/the-conqueror&utm_campaign=Badge_Grade_Settings)
+
 A single player turn-based empire building game. A player
 initially chooses one historical city to start his empire with. The goal is to conquer the whole
 world by taking control over every other city under a certain amount of turns. In order to
