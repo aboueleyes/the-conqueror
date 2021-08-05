@@ -27,7 +27,7 @@ import views.panel.ImagePanel;
 import views.panel.MilitaryBuildingPanel;
 import views.panel.PlayerPanel;
 
-public class CityView extends JFrame   {
+public class CityView extends JFrame {
   private PlayerPanel playerPanel;
   private JPanel buildingsPanel = new JPanel();
   private JPanel armyPanel = new JPanel();
@@ -38,6 +38,7 @@ public class CityView extends JFrame   {
   public static final String[] BUILDING_NAMES = { "Market", "Farm", "Barracks", "Stable", "ArcheryRange" };
   private Army selected;
   private JTextArea infoArea;
+
   public JTextArea getInfoArea() {
     return infoArea;
   }
@@ -123,38 +124,37 @@ public class CityView extends JFrame   {
     armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
     unitsCards = new CardsPanel();
     armyCards = new CardsPanel();
-    JPanel panel1 = new JPanel();
+    var panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
 
-    JLabel label1 = new JLabel("<html><h1><strong><i>" + "Defending Army" + "</i></strong></h1><hr></html>");
+    var label1 = new JLabel("<html><h1><strong><i>" + "Defending Army" + "</i></strong></h1><hr></html>");
 
     label1.setBorder(new EmptyBorder(5, 5, 5, 5));
     panel1.add(label1, BorderLayout.PAGE_START);
     panel1.add(unitsCards);
 
-    JPanel panel2 = new JPanel();
+    var panel2 = new JPanel();
     panel2.setLayout(new BorderLayout());
-    JLabel label2 = new JLabel("<html><h1><strong><i>" + "Stationary Armies" + "</i></strong></h1><hr></html>");
+    var label2 = new JLabel("<html><h1><strong><i>" + "Stationary Armies" + "</i></strong></h1><hr></html>");
     label2.setBorder(new EmptyBorder(5, 5, 5, 5));
     panel2.add(label2, BorderLayout.PAGE_START);
     panel2.add(armyCards);
     armyPanel.add(panel1, BorderLayout.WEST);
-    ImagePanel infoPanel = new ImagePanel(new ImageIcon("./assets/img/windows/info.png").getImage());
-    infoPanel.setLayout(new BorderLayout()); 
-    infoArea= new JTextArea();
+    var infoPanel = new ImagePanel(new ImageIcon("./assets/img/windows/info.png").getImage());
+    infoPanel.setLayout(new BorderLayout());
+    infoArea = new JTextArea();
     infoPanel.add(infoArea);
     infoArea.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
     infoArea.setEditable(false);
-    infoArea.setBorder(new EmptyBorder(150,180,150,150));
+    infoArea.setBorder(new EmptyBorder(150, 180, 150, 150));
     infoArea.setOpaque(false);
     armyPanel.add(infoPanel);
     armyPanel.add(panel2, BorderLayout.EAST);
-    
 
   }
 
   public void addBuildingsPanel(ActionListener a) {
-    GridLayout gridLayout = new GridLayout(1, 5);
+    var gridLayout = new GridLayout(1, 5);
     gridLayout.setHgap(10);
     setBackground(Color.decode("#C8AE81"));
     buildingsPanel.setLayout(gridLayout);
@@ -167,13 +167,13 @@ public class CityView extends JFrame   {
   }
 
   private void setActionBuildingsButtons() {
-    for (int i = 0; i < BUILDING_NAMES.length; i++) {
+    for (var i = 0; i < BUILDING_NAMES.length; i++) {
       buildlingsSlavePanels[i].getUpgrade().setActionCommand(BUILDING_NAMES[i]);
     }
   }
 
   private void setActionBuildingsRecruitButtons() {
-    for (int i = 2; i < BUILDING_NAMES.length; i++) {
+    for (var i = 2; i < BUILDING_NAMES.length; i++) {
       MilitaryBuildingPanel panel = (MilitaryBuildingPanel) buildlingsSlavePanels[i];
       panel.getRecruit().setActionCommand("r" + BUILDING_NAMES[i]);
     }
@@ -187,27 +187,22 @@ public class CityView extends JFrame   {
   }
 
   private void setBuildingPanels(ActionListener a) {
-    buildlingsSlavePanels[0] = new EconomicalBuildingPanel(a, BUILDING_NAMES[0], city);
-    buildlingsSlavePanels[1] = new EconomicalBuildingPanel(a, BUILDING_NAMES[1], city);
-    buildlingsSlavePanels[2] = new MilitaryBuildingPanel(a, BUILDING_NAMES[2], city);
-    buildlingsSlavePanels[3] = new MilitaryBuildingPanel(a, BUILDING_NAMES[3], city);
-    buildlingsSlavePanels[4] = new MilitaryBuildingPanel(a, BUILDING_NAMES[4], city);
-    buildlingsSlavePanels[0].addMouseListener(mouseListener);
-    buildlingsSlavePanels[1].addMouseListener(mouseListener);
-    buildlingsSlavePanels[2].addMouseListener(mouseListener);
-    buildlingsSlavePanels[3].addMouseListener(mouseListener);
-    buildlingsSlavePanels[4].addMouseListener(mouseListener);
-
+    for (var i = 0; i < 5; i++) {
+      buildlingsSlavePanels[i] = new EconomicalBuildingPanel(a, BUILDING_NAMES[i], city);
+      buildlingsSlavePanels[i].addMouseListener(mouseListener);
+    }
   }
-  MouseListener mouseListener = new MouseAdapter(){
+
+  MouseListener mouseListener = new MouseAdapter() {
     @Override
-    public void mousePressed(MouseEvent e){
-         BuildingPanel panel = (BuildingPanel) e.getSource();
-         infoArea.setText(panel.getInfo().getText());
-        
+    public void mousePressed(MouseEvent e) {
+      BuildingPanel panel = (BuildingPanel) e.getSource();
+      infoArea.setText(panel.getInfo().getText());
+
     }
   };
-  public void redWarning (BuildingPanel buildingPanel) throws InterruptedException{
+
+  public void redWarning(BuildingPanel buildingPanel) throws InterruptedException {
     buildingPanel.setBackground(Color.red);
     TimeUnit.SECONDS.sleep(1);
     buildingPanel.setBackground(Color.white);

@@ -22,7 +22,7 @@ public class EndGameView extends JFrame {
 		super();
 		background = new ImagePanel("./assets/img/windows/startGame.jpg");
 		this.setSize(500, 300);
-		JPanel buttonPanel = new JPanel();
+		var buttonPanel = new JPanel();
 		this.add(background);
 		buttonPanel.setLayout(new FlowLayout());
 		endGame = new StyledButton("end game", 20);
@@ -44,7 +44,7 @@ public class EndGameView extends JFrame {
 
 	public static void main(String[] args) {
 		EndGameView test = new EndGameView(null);
-		JLabel text = new JLabel("text");
+		var text = new JLabel("text");
 		text.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
 		test.addLabel(text);
 		test.setVisible(true);

@@ -26,15 +26,15 @@ public class PlayerPanel extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(new DimensionUIResource(7, PLAYER_PANEL_HEIGHT));
         setBackground(Color.decode("#C8AE81"));
-        StyledLabel name = new StyledLabel("Player Name :", PLAYER_LABEL_SIZE, true);
+        var name = new StyledLabel("Player Name :", PLAYER_LABEL_SIZE, true);
         playerName = new StyledLabel("", PLAYER_LABEL_SIZE, false);
-        
+
         name.setBorder(new EmptyBorder(10, 10, 10, 10));
         playerName.setBorder(new EmptyBorder(10, 10, 10, 50));
-        StyledLabel gold = new StyledLabel("Gold :", PLAYER_LABEL_SIZE, true);
+        var gold = new StyledLabel("Gold :", PLAYER_LABEL_SIZE, true);
         playerGold = new StyledLabel("", PLAYER_LABEL_SIZE, true);
-        StyledLabel food = new StyledLabel("Food :", PLAYER_LABEL_SIZE, true);
-        StyledLabel turns = new StyledLabel("Current Turn :", PLAYER_LABEL_SIZE, true);
+        var food = new StyledLabel("Food :", PLAYER_LABEL_SIZE, true);
+        var turns = new StyledLabel("Current Turn :", PLAYER_LABEL_SIZE, true);
         playerFood = new StyledLabel("", PLAYER_LABEL_SIZE, true);
         gold.setBorder(new EmptyBorder(10, 10, 10, 10));
         playerGold.setBorder(new EmptyBorder(10, 10, 10, 50));
@@ -47,7 +47,7 @@ public class PlayerPanel extends JPanel {
         endTurn.addActionListener(a);
         back = new StyledButton("Back", PLAYER_LABEL_SIZE);
         back.addActionListener(a);
-        JPanel infoJPanel = new JPanel();
+        var infoJPanel = new JPanel();
         infoJPanel.setLayout(new BoxLayout(infoJPanel,BoxLayout.X_AXIS));
         infoJPanel.add(name);
         infoJPanel.add(playerName);
@@ -57,7 +57,7 @@ public class PlayerPanel extends JPanel {
         infoJPanel.add(playerFood);
         infoJPanel.add(turns);
         infoJPanel.add(numOfTurns);
-        JPanel buttonJPanel =  new JPanel();
+        var buttonJPanel =  new JPanel();
         buttonJPanel.setLayout(new BoxLayout(buttonJPanel, BoxLayout.X_AXIS));
         buttonJPanel.add(endTurn);
         buttonJPanel.add(back);

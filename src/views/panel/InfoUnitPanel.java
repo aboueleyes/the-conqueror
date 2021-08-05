@@ -24,7 +24,7 @@ public class InfoUnitPanel extends JPanel {
     this.info = info;
   }
 
-  public InfoUnitPanel(ActionListener a, Unit unit) {
+  public InfoUnitPanel(Unit unit) {
     this.unit = unit;
     setLayout(new BorderLayout());
     ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());

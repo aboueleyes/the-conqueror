@@ -17,7 +17,7 @@ public class MilitaryBuildingPanel extends BuildingPanel {
   public MilitaryBuildingPanel(ActionListener a, String name, City city) {
     super(a, name, city);
     setLayout(new BorderLayout());
-    ImagePanel background = new ImagePanel(new ImageIcon(setImageType(name)).getImage());
+    var background = new ImagePanel(new ImageIcon(setImageType(name)).getImage());
     background.setLayout(new BorderLayout());
     setUpgrade(new CityButton("Build", 15));
     getUpgrade().setEnabled(true);
@@ -31,21 +31,20 @@ public class MilitaryBuildingPanel extends BuildingPanel {
 
     setRecruit(new CityButton("Recruit", 15));
     recruit.setEnabled(false);
-    JLabel label = new JLabel("<html><h2><strong><i>" + name + "</i></strong></h2><hr></html>");
-    JPanel buttonPanel = new JPanel();
+    var label = new JLabel("<html><h2><strong><i>" + name + "</i></strong></h2><hr></html>");
+    var buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridLayout(2, 1));
     buttonPanel.add(getUpgrade());
     buttonPanel.add(recruit);
-    JPanel panel = new JPanel();
+    var panel = new JPanel();
     panel.setLayout(new GridLayout(2, 1));
     panel.add(getInfo());
-    JPanel panel1 = new JPanel();
+    var panel1 = new JPanel();
     panel1.setLayout(new BorderLayout());
     panel1.add(buttonPanel, BorderLayout.EAST);
     panel.add(panel1);
     background.add(label, BorderLayout.PAGE_START);
     background.add(panel, BorderLayout.PAGE_END);
-    // add(recruit);
     recruit.setCity(city);
     getRecruit().addActionListener(a);
     add(background);

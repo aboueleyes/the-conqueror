@@ -47,7 +47,7 @@ public class DefendingUnitPanel extends JPanel {
   public DefendingUnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
     setLayout(new BorderLayout());
-    ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
+    var background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
 
     background.setLayout(new BorderLayout());
     initiate = new UnitButton("Initiate Army", 15);
@@ -55,9 +55,9 @@ public class DefendingUnitPanel extends JPanel {
     relocate = new UnitButton("Relocate", 15);
     relocate.setUnit(unit);
     setLayout(new BorderLayout());
-    JPanel container = new JPanel();
+    var container = new JPanel();
 
-    JPanel buttonPanel = new JPanel();
+    var buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridLayout(2, 1));
     buttonPanel.add(initiate);
     buttonPanel.add(relocate);
@@ -103,5 +103,5 @@ public class DefendingUnitPanel extends JPanel {
   public void disableRelocate() {
     relocate.setEnabled(false);
   }
-  
+
 }

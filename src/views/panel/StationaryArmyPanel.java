@@ -60,10 +60,6 @@ public class StationaryArmyPanel extends JPanel {
     return army;
   }
 
-  public ArmyButton getAction1() {
-    return selectArmy;
-  }
-
   public void setAction(ArmyButton action) {
     this.selectArmy = action;
   }

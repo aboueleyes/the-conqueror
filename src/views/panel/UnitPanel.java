@@ -36,13 +36,13 @@ public class UnitPanel extends JPanel {
 
   public UnitPanel(ActionListener a, Unit unit) {
     this.unit = unit;
-    ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
+    var background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
     setLayout(new BorderLayout());
     background.setLayout(new BorderLayout());
     select = new UnitButton("Select", 20);
     select.setUnit(unit);
 
-    JPanel buttonPanel = new JPanel();
+    var buttonPanel = new JPanel();
 
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     buttonPanel.add(select);

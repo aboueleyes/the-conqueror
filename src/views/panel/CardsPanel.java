@@ -20,8 +20,8 @@ import units.Unit;
 
 public class CardsPanel extends JPanel implements ActionListener {
 
-	JPanel panel_L;
-	JPanel panel_R;
+	JPanel panelLeft;
+	JPanel panelRight;
 	private JButton next;
 
 	public JButton getNext() {
@@ -64,70 +64,66 @@ public class CardsPanel extends JPanel implements ActionListener {
 		super();
 		this.setLayout(new BorderLayout());
 		this.setVisible(true);
-		panel_L = new JPanel();
-		panel_R = new JPanel();
+		panelLeft = new JPanel();
+		panelRight = new JPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.5;
 		gbc.weighty = 1;
 
-		add(panel_L, BorderLayout.PAGE_END);
+		add(panelLeft, BorderLayout.PAGE_END);
 		gbc.weightx = 10;
-		add(panel_R, BorderLayout.CENTER);
-		panel_L.setLayout(new GridLayout(1, 4));
+		add(panelRight, BorderLayout.CENTER);
+		panelLeft.setLayout(new GridLayout(1, 4));
 
 		next = new JButton("Next");
 		previous = new JButton("Previous");
 		first = new JButton("First");
-	    last = new JButton("Last");
-		panel_L.add(next);
-		panel_L.add(previous);
-	
-
+		last = new JButton("Last");
+		panelLeft.add(next);
+		panelLeft.add(previous);
 
 		card = new CardLayout();
-		panel_R.setLayout(card);
+		panelRight.setLayout(card);
 
 		next.addActionListener(this);
 		previous.addActionListener(this);
 		first.addActionListener(this);
 		last.addActionListener(this);
-		panel_R.setOpaque(false);
+		panelRight.setOpaque(false);
 		next.setBackground(Color.decode("#C8AE81"));
-		//next.setForeground(Color.white);
 		previous.setBackground(Color.decode("#C8AE81"));
-		//previous.setForeground(Color.white);
 
 	}
 
 	public void addCard(JPanel unit) {
-		panel_R.add(unit);
-		card.last(panel_R);
+		panelRight.add(unit);
+		card.last(panelRight);
 	}
 
 	public void removeCard(JPanel unit) {
-		panel_R.remove(unit);
+		panelRight.remove(unit);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(next))
-			card.next(panel_R);
+			card.next(panelRight);
 		else {
 			if (e.getSource().equals(previous))
-				card.previous(panel_R);
+				card.previous(panelRight);
 			else {
 				if (e.getSource().equals(first))
-					card.first(panel_R);
+					card.first(panelRight);
 				else
-					card.last(panel_R);
+					card.last(panelRight);
 			}
 		}
 
 	}
 
 	public void clear() {
-		panel_R.removeAll();
+		panelRight.removeAll();
 	}
 
 	public static void main(String[] args) {
