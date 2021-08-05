@@ -188,7 +188,11 @@ public class CityView extends JFrame {
 
   private void setBuildingPanels(ActionListener a) {
     for (var i = 0; i < 5; i++) {
-      buildlingsSlavePanels[i] = new EconomicalBuildingPanel(a, BUILDING_NAMES[i], city);
+      if (i < 2) {
+        buildlingsSlavePanels[i] = new EconomicalBuildingPanel(a, BUILDING_NAMES[i], city);
+      } else {
+        buildlingsSlavePanels[i] = new MilitaryBuildingPanel(a, BUILDING_NAMES[i], city);
+      }
       buildlingsSlavePanels[i].addMouseListener(mouseListener);
     }
   }
