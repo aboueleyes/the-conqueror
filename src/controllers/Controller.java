@@ -80,7 +80,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void addPlayerPanels() {
-    for (int i = 0; i < playerPanels.length; i++) {
+    for (var i = 0; i < playerPanels.length; i++) {
       playerPanels[i] = new PlayerPanel(this);
     }
 
@@ -150,7 +150,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
       CardsPanel worldMapCards = worldMapView.getUnitsCard();
       worldMapCards.clear();
       ArmyButton button = (ArmyButton) e.getSource();
-      Army army = button.getArmy();
+      var army = button.getArmy();
       for (Unit unit : army.getUnits()) {
         worldMapCards.addCard(unit.getInfoUnitPanel());
       }
@@ -216,7 +216,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void addCityViews() {
-    for (int i = 0; i < CITIES_NAMES.length; i++) {
+    for (var i = 0; i < CITIES_NAMES.length; i++) {
       cityViews[i] = new CityView(this, playerPanels[i + 1], cityNameToObject(CITIES_NAMES[i]));
     }
   }
@@ -251,8 +251,8 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void enemyAttack() {
-    Unit defender = battleView.getDefenderArmy().getRandomUnit();
-    Unit playerUnit = battleView.getAttackerArmy().getRandomUnit();
+    var defender = battleView.getDefenderArmy().getRandomUnit();
+    var playerUnit = battleView.getAttackerArmy().getRandomUnit();
     try {
       defender.attack(playerUnit);
     } catch (FriendlyFireException e1) {
@@ -329,7 +329,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setStartBattleButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Start Battle")) {
       ArmyButton button = (ArmyButton) e.getSource();
-      City city = cityNameToObject((String) button.getArmy().getArmyPanel().getCities().getSelectedItem());
+      var city = cityNameToObject((String) button.getArmy().getArmyPanel().getCities().getSelectedItem());
       try {
         game.startBattle(button.getArmy(), city);
         initializeBattleView(button, city);
@@ -363,10 +363,10 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void setRelocateButtonAction(ActionEvent e) {
     if (e.getActionCommand().equals("Relocate")) {
       playClickSound();
-      UnitButton unitButton = (UnitButton) e.getSource();
-      Unit unit = unitButton.getUnit();
+      var unitButton = (UnitButton) e.getSource();
+      var unit = unitButton.getUnit();
       String city = unit.getParentArmy().getCurrentLocation();
-      Army army = cityViews[getIndexOfCity(city)].getSelected();
+      var army = cityViews[getIndexOfCity(city)].getSelected();
       cityViews[getIndexOfCity(city)].getInfoArea().setText("");
       if (army == null) {
         unitButton.setEnabled(false);
@@ -532,7 +532,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
             e1.printStackTrace();
           }
         } else {
-          Building building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
+          var building = button.getCity().searchForBuilding(BUILDING_NAMES[i]);
           try {
             game.getPlayer().upgradeBuilding(building, button.getCity());
             if (building.getLevel() == building.getMaxLevel()) {
@@ -565,7 +565,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   private void setViewButtonsAction(ActionEvent e) {
-    for (int i = 0; i < CITIES_NAMES.length; i++) {
+    for (var i = 0; i < CITIES_NAMES.length; i++) {
       if (e.getActionCommand().equals(CITIES_NAMES[i])) {
         playClickSound();
         worldMapView.setVisible(false);
@@ -579,7 +579,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
    */
   @Override
   public void onBuild(Building building, City city, String type) {
-    for (int i = 0; i < CITIES_NAMES.length; i++) {
+    for (var i = 0; i < CITIES_NAMES.length; i++) {
       if (city.getName().equals(CITIES_NAMES[i])) {
         cityViews[i].getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
         cityViews[i].getInfoArea()
@@ -599,23 +599,23 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   public void unitRecruited(Unit unit, City city) {
     getCityView(city).addDefendingPanel(unit, this);
     unit.setUnitListener(this);
-    unit.addInfoUnitPanel(this);
+    unit.addInfoUnitPanel();
 
   }
 
   @Override
   public void buildingUpgraded(Building building, City city) {
     String type = building.getType();
-    CityView cityview = getCityView(city);
+    var cityview = getCityView(city);
     cityview.getBuildlingsSlavePanels()[getIndexOfBuilding(type)].getInfo().setText(building.toString());
     cityview.getInfoArea().setText(building.toString());
   }
 
   @Override
   public void onInitiated(City city, Unit unit, Army army) {
-    ArmyPanel armyPanel = new ArmyPanel(this, army);
+    var armyPanel = new ArmyPanel(this, army);
     army.setArmyListener(this);
-    StationaryArmyPanel stationaryArmyPanel = new StationaryArmyPanel(this, army);
+    var stationaryArmyPanel = new StationaryArmyPanel(this, army);
     getCityView(city).getArmyCards().addCard(stationaryArmyPanel);
     worldMapView.getArmyCards().addCard(armyPanel);
     armyPanel.getInfo().setText(game.toString(army));
@@ -676,7 +676,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   @Override
   public void onFeedUpdated() {
     for (PlayerPanel playerPanel : playerPanels) {
-      String food = String.format("$%.2f", game.getPlayer().getFood());
+      var food = String.format("$%.2f", game.getPlayer().getFood());
       playerPanel.getPlayerFood().setText(food);
     }
   }
@@ -741,7 +741,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   private void playMusic(String path) {
 
     try {
-      AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+      var audio = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
       Clip clip;
       clip = AudioSystem.getClip();
       clip.open(audio);
@@ -784,7 +784,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   public int getIndexOfBuilding(String type) {
-    for (int i = 0; i < BUILDING_NAMES.length; i++) {
+    for (var i = 0; i < BUILDING_NAMES.length; i++) {
       if (type.equals(BUILDING_NAMES[i])) {
         return i;
       }
@@ -793,7 +793,7 @@ public class Controller implements ActionListener, GameListener, PlayerListener,
   }
 
   public int getIndexOfCity(String name) {
-    for (int i = 0; i < CITIES_NAMES.length; i++) {
+    for (var i = 0; i < CITIES_NAMES.length; i++) {
       if (CITIES_NAMES[i].equals(name)) {
         return i;
       }

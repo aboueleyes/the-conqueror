@@ -45,10 +45,6 @@ public class Army {
     this.armyListener = armyListener;
   }
 
-  public int getMaxToHold() {
-    return MAX_TO_HOLD;
-  }
-
   public Status getCurrentStatus() {
     return currentStatus;
   }
@@ -99,8 +95,9 @@ public class Army {
   }
 
   public void relocateUnit(Unit unit) throws MaxCapacityException {
-    if (this.getUnits().size() == this.getMaxToHold())
+    if (this.getUnits().size() == MAX_TO_HOLD) {
       throw new MaxCapacityException("You have reached the max capacity");
+    }
     this.getUnits().add(unit);
     unit.getParentArmy().getUnits().remove(unit);
     unit.setParentArmy(this);
@@ -110,27 +107,31 @@ public class Army {
   }
 
   public void handleAttackedUnit(Unit unit) {
-    if (unit.getCurrentSoldierCount() == 0) {
-      if (armyListener != null) {
-        armyListener.onRemovedUnit(this, unit);
-      }
-      this.getUnits().remove(unit);
-
+    if (unit.getCurrentSoldierCount() != 0) {
+      return;
+    }
+    this.getUnits().remove(unit);
+    if (armyListener != null) {
+      armyListener.onRemovedUnit(this, unit);
     }
   }
 
   public double foodNeeded() {
     double foodNeeded = 0;
     for (Unit unit : this.getUnits()) {
-      if (this.getCurrentStatus().equals(Status.IDLE)) {
-        foodNeeded += unit.getCurrentSoldierCount() * unit.getIdleUpkeep();
-      } else if (this.getCurrentStatus().equals(Status.BESIEGING)) {
-        foodNeeded += unit.getCurrentSoldierCount() * unit.getSiegeUpkeep();
-      } else {
-        foodNeeded += unit.getCurrentSoldierCount() * unit.getMarchingUpkeep();
-      }
+      foodNeeded += calcluateFood(unit);
     }
     return foodNeeded;
+  }
+
+  private double calcluateFood(Unit unit) {
+    if (currentStatus.equals(Status.IDLE)) {
+      return unit.getCurrentSoldierCount() * unit.getIdleUpkeep();
+    }
+    if (currentStatus.equals(Status.BESIEGING)) {
+      return unit.getCurrentSoldierCount() * unit.getSiegeUpkeep();
+    }
+    return unit.getCurrentSoldierCount() * unit.getMarchingUpkeep();
   }
 
   public void killUnits() {

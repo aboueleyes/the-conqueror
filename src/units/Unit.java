@@ -4,7 +4,6 @@ import exceptions.FriendlyFireException;
 import views.panel.DefendingUnitPanel;
 import views.panel.InfoUnitPanel;
 import views.panel.UnitPanel;
-import java.awt.event.*;
 
 public abstract class Unit {
 
@@ -133,8 +132,7 @@ public abstract class Unit {
     }
   }
 
-  public void addInfoUnitPanel(ActionListener a) {
-    InfoUnitPanel infoUnitPanel = new InfoUnitPanel(a, this);
+  public void addInfoUnitPanel() {
     setInfoUnitPanel(infoUnitPanel);
   }
 

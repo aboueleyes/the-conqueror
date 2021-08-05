@@ -59,4 +59,15 @@ public abstract class MilitaryBuilding extends Building {
     setUpgradeCost(upgradeCosts[getLevel() - 1]);
     setRecruitmentCost(recruitCosts[getLevel() - 1]);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
 }

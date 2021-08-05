@@ -16,18 +16,16 @@ import utlis.ReadingCSVFile;
 
 public class Game {
 
-  private static final String NUMBER_OF_UNITS = "Number Of Units: ";
-
   private Player player;
-
+  private GameListener gameListener;
   private UnitFactory unitFactory = new UnitFactory();
   private ArrayList<City> availableCities;
-  private ArrayList<Distance> distances;
+  private ArrayList<Rout> distances;
   private static final int MAX_TURN_COUNT = 50;
   private int currentTurnCount = 1;
   private static final double INITIAL_TREASURY = 5000;
-  private static final String ON_ROAD = "OnRoad";
-  private GameListener gameListener;
+  private static final String ON_ROAD_STRING = "OnRoad";
+  private static final String NUMBER_OF_UNITS_STRING = "Number Of Units: ";
 
   public Player getPlayer() {
     return player;
@@ -57,7 +55,7 @@ public class Game {
     return this.availableCities;
   }
 
-  public List<Distance> getDistances() {
+  public List<Rout> getDistances() {
     return this.distances;
   }
 
@@ -97,7 +95,7 @@ public class Game {
       String from = line.get(0);
       String to = line.get(1);
       var distance = Integer.parseInt(line.get(2));
-      distances.add(new Distance(from, to, distance));
+      distances.add(new Rout(from, to, distance));
       addToSet(new City(to));
       addToSet(new City(from));
     }
@@ -134,7 +132,8 @@ public class Game {
   }
 
   public static City searchForCity(String cityName, List<City> availableCities) throws NullPointerException {
-    return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst().orElse(new City(cityName));
+    return availableCities.stream().filter(city -> cityName.equals(city.getName())).findFirst()
+        .orElse(new City(cityName));
   }
 
   private void setUnitType(ArrayList<Unit> unitList, String unitName, int level, Army army) {
@@ -148,7 +147,7 @@ public class Game {
   }
 
   public int searchForDistance(String x, String y) {
-    for (Distance distance : distances) {
+    for (Rout distance : distances) {
       if (distance.containsCity(x, y)) {
         return distance.getDistance();
       }
@@ -164,7 +163,7 @@ public class Game {
     var previousCity = searchForCity(army.getCurrentLocation(), availableCities);
     int distance = searchForDistance(currentCity, targetName);
 
-    if (army.getCurrentLocation().equals(ON_ROAD)) {
+    if (army.getCurrentLocation().equals(ON_ROAD_STRING)) {
       currentCity = army.getTarget();
       distance = searchForDistance(currentCity, targetName);
       distance += army.getDistancetoTarget();
@@ -176,7 +175,7 @@ public class Game {
 
     army.setDistancetoTarget(distance);
     army.setTarget(targetName);
-    army.setCurrentLocation(ON_ROAD);
+    army.setCurrentLocation(ON_ROAD_STRING);
     army.setCurrentStatus(Status.MARCHING);
     if (gameListener != null) {
       gameListener.onTargetCity(army, previousCity);
@@ -363,7 +362,7 @@ public class Game {
 
   public String toString(Army army) {
     String r = "Current location : " + army.getCurrentLocation() + "\n" + "Current status : " + army.getCurrentStatus()
-        + "\n" + NUMBER_OF_UNITS + army.getUnits().size() + "\n";
+        + "\n" + NUMBER_OF_UNITS_STRING + army.getUnits().size() + "\n";
     if (army.getCurrentStatus().equals(Status.MARCHING))
       r += "Target : " + army.getTarget() + "\n" + "No of turns till reach : " + army.getDistancetoTarget() + "\n"
           + "\n";

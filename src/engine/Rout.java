@@ -1,6 +1,6 @@
 package engine;
 
-public class Distance {
+public class Rout {
 
   private String from;
   private String to;
@@ -18,7 +18,7 @@ public class Distance {
     return this.distance;
   }
 
-  public Distance(String from, String to, int distance) {
+  public Rout(String from, String to, int distance) {
     this.from = from;
     this.to = to;
     this.distance = distance;

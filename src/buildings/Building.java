@@ -78,6 +78,11 @@ public abstract class Building {
     return this.getClass().equals(o.getClass());
   }
 
+  @Override
+  public int hashCode() {
+    return this.getClass().hashCode();
+  }
+
   public String toString() {
     return ("Cost : " + this.getCost() + "\n" + "Level : " + this.getLevel() + "\n" + "Upgrade Cost : "
         + this.getUpgradeCost() + "\n");

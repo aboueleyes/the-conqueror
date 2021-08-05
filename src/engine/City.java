@@ -70,17 +70,13 @@ public class City {
   public Building searchForBuilding(String type) {
     var factory = new BuildingFactory();
     var building = factory.createBuilding(type);
-    for (EconomicBuilding economicBuilding : economicalBuildings) {
-      if (economicBuilding.equals(building)) {
-        return economicBuilding;
-      }
+    Building eBuilding = economicalBuildings.stream().filter(ecobuilding -> ecobuilding.equals(building)).findFirst()
+        .orElse(null);
+    if (eBuilding != null) {
+      return eBuilding;
     }
-    for (MilitaryBuilding militaryBuilding : militaryBuildings) {
-      if (militaryBuilding.equals(building)) {
-        return militaryBuilding;
-      }
-    }
-    return building;
+    return militaryBuildings.stream().filter(mBuilding -> mBuilding.equals(building)).findFirst()
+        .orElse((MilitaryBuilding) building);
   }
 
   @Override
@@ -93,6 +89,11 @@ public class City {
     }
     City city = (City) o;
     return city.getName().equals(this.getName());
+  }
+
+  @Override
+  public int hashCode() {
+    return this.getName().hashCode();
   }
 
   public boolean reachedMaxSiege() {
