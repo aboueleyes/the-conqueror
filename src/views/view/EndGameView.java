@@ -2,7 +2,6 @@ package views.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
@@ -40,14 +39,6 @@ public class EndGameView extends JFrame {
 
 	public void addLabel(JLabel text) {
 		this.background.add(text, BorderLayout.CENTER);
-	}
-
-	public static void main(String[] args) {
-		EndGameView test = new EndGameView(null);
-		var text = new JLabel("text");
-		text.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
-		test.addLabel(text);
-		test.setVisible(true);
 	}
 
 }

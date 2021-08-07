@@ -20,7 +20,7 @@ public class Game {
   private GameListener gameListener;
   private UnitFactory unitFactory = new UnitFactory();
   private ArrayList<City> availableCities;
-  private ArrayList<Rout> distances;
+  private ArrayList<Route> distances;
   private static final int MAX_TURN_COUNT = 50;
   private int currentTurnCount = 1;
   private static final double INITIAL_TREASURY = 5000;
@@ -55,7 +55,7 @@ public class Game {
     return this.availableCities;
   }
 
-  public List<Rout> getDistances() {
+  public List<Route> getDistances() {
     return this.distances;
   }
 
@@ -95,7 +95,7 @@ public class Game {
       String from = line.get(0);
       String to = line.get(1);
       var distance = Integer.parseInt(line.get(2));
-      distances.add(new Rout(from, to, distance));
+      distances.add(new Route(from, to, distance));
       addToSet(new City(to));
       addToSet(new City(from));
     }
@@ -147,7 +147,7 @@ public class Game {
   }
 
   public int searchForDistance(String x, String y) {
-    for (Rout distance : distances) {
+    for (Route distance : distances) {
       if (distance.containsCity(x, y)) {
         return distance.getDistance();
       }
@@ -361,14 +361,27 @@ public class Game {
   }
 
   public String toString(Army army) {
-    String r = "Current location : " + army.getCurrentLocation() + "\n" + "Current status : " + army.getCurrentStatus()
-        + "\n" + NUMBER_OF_UNITS_STRING + army.getUnits().size() + "\n";
-    if (army.getCurrentStatus().equals(Status.MARCHING))
-      r += "Target : " + army.getTarget() + "\n" + "No of turns till reach : " + army.getDistancetoTarget() + "\n"
-          + "\n";
-    if (army.getCurrentStatus().equals(Status.BESIEGING))
-      r += "Besieged city : " + army.getCurrentLocation() + "\n" + "Turns under siege : "
-          + searchForCity(army.getCurrentLocation(), this.getAvailableCities()).getTurnsUnderSiege() + "\n" + "\n";
-    return r;
+    var message = new StringBuilder();
+    var city = searchForCity(army.getCurrentLocation(), this.getAvailableCities());
+    message.append("Current Location : " + army.getCurrentLocation() + "\n");
+    message.append("Current Status : " + army.getCurrentStatus() + "\n");
+    message.append(NUMBER_OF_UNITS_STRING + " : " + army.getUnits().size() + "\n");
+    marchingLog(army, message);
+    besiegingLog(army, message, city);
+    return message.toString();
+  }
+
+  private void besiegingLog(Army army, StringBuilder message, City city) {
+    if (army.getCurrentStatus().equals(Status.BESIEGING)) {
+      message.append("Besieged City : " + army.getCurrentLocation() + "\n");
+      message.append("Turns undersiege : " + city.getTurnsUnderSiege() + "\n" + "\n");
+    }
+  }
+
+  private void marchingLog(Army army, StringBuilder message) {
+    if (army.getCurrentStatus().equals(Status.MARCHING)) {
+      message.append("Target : " + army.getTarget() + "\n");
+      message.append("No of Turns till reach : " + army.getDistancetoTarget() + "\n" + "\n");
+    }
   }
 }

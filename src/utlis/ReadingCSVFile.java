@@ -16,7 +16,7 @@ public class ReadingCSVFile {
   private static final String COMMA_DELIMITER = ",";
 
   public static List<List<String>> readFile(String path) throws IOException {
-    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+    try (var br = new BufferedReader(new FileReader(path))) {
 
       List<List<String>> result = new ArrayList<>();
       String line;

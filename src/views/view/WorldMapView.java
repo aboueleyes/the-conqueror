@@ -145,7 +145,7 @@ public class WorldMapView extends JFrame {
     var spartaPanel = new ImagePanel(new ImageIcon("./assets/img/cities/sparta.png").getImage());
 
     cairoPanel.setLayout(new BorderLayout());
-    var cairoName = new StyledLabel("Cairo", 70, true);
+    var cairoName = new StyledLabel("Cairo", 70);
     cairoButton = new CityButton("view", 15);
     cairoButton.addActionListener(a);
     var buttonArea = new JPanel();
@@ -162,7 +162,7 @@ public class WorldMapView extends JFrame {
     cairoPanel.add(panel3, BorderLayout.SOUTH);
 
     spartaPanel.setLayout(new BorderLayout());
-    var spartaName = new StyledLabel("Sparta", 70, true);
+    var spartaName = new StyledLabel("Sparta", 70);
     spartaButton = new CityButton("view", 15);
     spartaButton.setActionCommand("sparta");
     spartaButton.addActionListener(a);
@@ -183,7 +183,7 @@ public class WorldMapView extends JFrame {
     spartaPanel.add(panel1, BorderLayout.SOUTH);
 
     romePanel.setLayout(new BorderLayout());
-    var romeName = new StyledLabel("Rome", 70, true);
+    var romeName = new StyledLabel("Rome", 70);
     romePanel.add(romeName, BorderLayout.LINE_START);
     romeButton = new CityButton("view", 15);
     var buttonArea3 = new JPanel();

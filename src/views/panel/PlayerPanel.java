@@ -26,29 +26,29 @@ public class PlayerPanel extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(new DimensionUIResource(7, PLAYER_PANEL_HEIGHT));
         setBackground(Color.decode("#C8AE81"));
-        var name = new StyledLabel("Player Name :", PLAYER_LABEL_SIZE, true);
-        playerName = new StyledLabel("", PLAYER_LABEL_SIZE, false);
+        var name = new StyledLabel("Player Name :", PLAYER_LABEL_SIZE);
+        playerName = new StyledLabel("", PLAYER_LABEL_SIZE);
 
         name.setBorder(new EmptyBorder(10, 10, 10, 10));
         playerName.setBorder(new EmptyBorder(10, 10, 10, 50));
-        var gold = new StyledLabel("Gold :", PLAYER_LABEL_SIZE, true);
-        playerGold = new StyledLabel("", PLAYER_LABEL_SIZE, true);
-        var food = new StyledLabel("Food :", PLAYER_LABEL_SIZE, true);
-        var turns = new StyledLabel("Current Turn :", PLAYER_LABEL_SIZE, true);
-        playerFood = new StyledLabel("", PLAYER_LABEL_SIZE, true);
+        var gold = new StyledLabel("Gold :", PLAYER_LABEL_SIZE);
+        playerGold = new StyledLabel("", PLAYER_LABEL_SIZE);
+        var food = new StyledLabel("Food :", PLAYER_LABEL_SIZE);
+        var turns = new StyledLabel("Current Turn :", PLAYER_LABEL_SIZE);
+        playerFood = new StyledLabel("", PLAYER_LABEL_SIZE);
         gold.setBorder(new EmptyBorder(10, 10, 10, 10));
         playerGold.setBorder(new EmptyBorder(10, 10, 10, 50));
         food.setBorder(new EmptyBorder(10, 10, 10, 10));
         playerFood.setBorder(new EmptyBorder(10, 10, 10, 50));
         turns.setBorder(new EmptyBorder(10, 10, 10, 10));
-        numOfTurns = new StyledLabel("", PLAYER_LABEL_SIZE, true);
+        numOfTurns = new StyledLabel("", PLAYER_LABEL_SIZE);
         numOfTurns.setBorder(new EmptyBorder(10, 10, 10, 10));
         endTurn = new StyledButton("End Turn", PLAYER_LABEL_SIZE);
         endTurn.addActionListener(a);
         back = new StyledButton("Back", PLAYER_LABEL_SIZE);
         back.addActionListener(a);
         var infoJPanel = new JPanel();
-        infoJPanel.setLayout(new BoxLayout(infoJPanel,BoxLayout.X_AXIS));
+        infoJPanel.setLayout(new BoxLayout(infoJPanel, BoxLayout.X_AXIS));
         infoJPanel.add(name);
         infoJPanel.add(playerName);
         infoJPanel.add(gold);
@@ -57,17 +57,15 @@ public class PlayerPanel extends JPanel {
         infoJPanel.add(playerFood);
         infoJPanel.add(turns);
         infoJPanel.add(numOfTurns);
-        var buttonJPanel =  new JPanel();
+        var buttonJPanel = new JPanel();
         buttonJPanel.setLayout(new BoxLayout(buttonJPanel, BoxLayout.X_AXIS));
         buttonJPanel.add(endTurn);
         buttonJPanel.add(back);
-        add(infoJPanel,BorderLayout.WEST);
-        add(buttonJPanel,BorderLayout.EAST);
+        add(infoJPanel, BorderLayout.WEST);
+        add(buttonJPanel, BorderLayout.EAST);
         buttonJPanel.setOpaque(false);
         infoJPanel.setOpaque(false);
-        buttonJPanel.setBorder(new EmptyBorder(5,10,5,10));
-
-
+        buttonJPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
 
     }
 

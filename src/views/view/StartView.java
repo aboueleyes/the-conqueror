@@ -82,9 +82,9 @@ public class StartView extends JFrame {
     }
 
     private void setComponent() {
-        setLabel1(new StyledLabel("Enter your name", 20, true));
+        setLabel1(new StyledLabel("Enter your name", 20));
         setNameOfPlayer(new JTextField());
-        setLabel2(new StyledLabel("Choose yourCity", 20, true));
+        setLabel2(new StyledLabel("Choose yourCity", 20));
         nameOfPlayer.setInputVerifier(new MyInputVerifier());
         setCityOfPlayer(new JComboBox<>(Controller.CITIES_NAMES));
         setStart(new StyledButton("Start", 16));

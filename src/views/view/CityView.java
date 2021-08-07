@@ -121,7 +121,7 @@ public class CityView extends JFrame {
 
   public void addArmyPane() {
     armyPanel.setLayout(new GridLayout(1, 3));
-    armyPanel.setPreferredSize(new DimensionUIResource(JFrame.WIDTH, 400));
+    armyPanel.setPreferredSize(new DimensionUIResource(WIDTH, 400));
     unitsCards = new CardsPanel();
     armyCards = new CardsPanel();
     var panel1 = new JPanel();
