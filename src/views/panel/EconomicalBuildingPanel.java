@@ -16,7 +16,7 @@ import views.button.CityButton;
 public class EconomicalBuildingPanel extends BuildingPanel {
 
   public EconomicalBuildingPanel(ActionListener a, String name, City city) {
-    super(a, name, city);
+    super(name, city);
     setLayout(new BorderLayout());
     var background = new ImagePanel(new ImageIcon(setImageType(name)).getImage());
     background.setLayout(new BorderLayout());

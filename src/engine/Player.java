@@ -75,9 +75,10 @@ public class Player {
 
   public void setFood(double food) {
     if (food < 0) {
-      food = 0;
+      this.food = 0;
+    } else {
+      this.food = food;
     }
-    this.food = food;
   }
 
   public void decFood(double food) throws NotEnoughFoodException {
@@ -237,14 +238,16 @@ public class Player {
     controlledArmies.forEach(Army::killUnits);
   }
 
-  public double defendingArmyFeeding(double foodNeeded) {
+  public double defendingArmyFeeding() {
+    double foodNeeded = 0;
     for (City city : controlledCities) {
       foodNeeded += city.feedDefendingArmy();
     }
     return foodNeeded;
   }
 
-  public double attackingArmyFeeding(double foodNeeded) {
+  public double attackingArmyFeeding() {
+    double foodNeeded = 0;
     for (Army army : controlledArmies) {
       foodNeeded += army.foodNeeded();
     }

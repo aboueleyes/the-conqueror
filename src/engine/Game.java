@@ -239,8 +239,8 @@ public class Game {
 
   private void feedArmy() {
     double foodNeeded = 0;
-    foodNeeded += player.attackingArmyFeeding(foodNeeded);
-    foodNeeded += player.defendingArmyFeeding(foodNeeded);
+    foodNeeded += player.attackingArmyFeeding();
+    foodNeeded += player.defendingArmyFeeding();
     if (!player.isFoodEnough(foodNeeded)) {
       player.loseAttackingArmies();
       player.loseDefendingArmies();

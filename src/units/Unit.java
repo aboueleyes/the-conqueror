@@ -73,9 +73,10 @@ public abstract class Unit {
 
   public void setCurrentSoldierCount(int currentSoldierCount) {
     if (currentSoldierCount < 0) {
-      currentSoldierCount = 0;
+      this.currentSoldierCount = 0;
+    } else {
+      this.currentSoldierCount = currentSoldierCount;
     }
-    this.currentSoldierCount = currentSoldierCount;
   }
 
   public void decCurrentSoldierCount() {

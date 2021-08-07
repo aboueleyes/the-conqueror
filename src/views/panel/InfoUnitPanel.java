@@ -2,7 +2,6 @@ package views.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -27,7 +26,7 @@ public class InfoUnitPanel extends JPanel {
   public InfoUnitPanel(Unit unit) {
     this.unit = unit;
     setLayout(new BorderLayout());
-    ImagePanel background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
+    var background = new ImagePanel(new ImageIcon(setUnitPanelTypeImage(unit)).getImage());
 
     background.setLayout(new BorderLayout());
 

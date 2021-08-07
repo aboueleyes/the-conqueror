@@ -16,7 +16,7 @@ public class BuildingPanel extends JPanel {
   private JTextArea info;
   private City city;
 
-  public BuildingPanel(ActionListener a, String name, City city) {
+  public BuildingPanel(String name, City city) {
     this.city = city;
   }
 

@@ -8,13 +8,13 @@ import javax.swing.border.EmptyBorder;
 
 public class StyledButton extends JButton {
 
-  public StyledButton(String string) {
+  public StyledButton() {
 
   }
 
   public StyledButton(String s, int size) {
     super(s);
-    Color color = new Color(153, 102, 0);
+    var color = new Color(153, 102, 0);
     setFont(new Font(Font.MONOSPACED, Font.PLAIN, size));
     setForeground(Color.WHITE);
     setBackground(color);
