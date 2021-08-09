@@ -77,14 +77,28 @@ src/
   
 the game consists of 3 views beside the start view 
 
-### WorldMapView 
-  <img src = "assets/img/views/worldMapView.jpeg" >
+1) <strong> World Map View </strong> 
+ 
+ 
+   <img src = "assets/img/views/worldMapView.jpeg" >
+  
+   responsible for viewing the cities of the game , armies of the player and thier status.
 
-### cityView
+2) <strong> City View </strong>
+
+
    <img src = "assets/img/views/cityView.jpeg">
+   
+   responsible for showing different buildings for each city where the player could build , upgrade and recruit units ti build his/her army.
 
-### battleView 
+
+3) <strong> Battle View </strong> 
+
+
    <img src = "assets/img/views/battleView.jpeg"> 
+   
+   responsible for battles between army of the player and opponent cities where player could manage the battle manually or choose to auto resolve it.
+ 
 
 ## Authors 
 1. [Shimaa Ahmed](https://github.com/ShimaaBetah)
