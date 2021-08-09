@@ -29,8 +29,6 @@ public class MilitaryBuildingPanel extends BuildingPanel {
     getInfo().setVisible(false);
     getInfo().setOpaque(false);
     getInfo().setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
-    Image gray = GrayFilter.createDisabledImage(background.getImg());
-    background.setImg(gray);
     setRecruit(new CityButton("Recruit", 15));
     recruit.setEnabled(false);
     var label = new JLabel("<html><h2><strong><i>" + name + "</i></strong></h2><hr></html>");

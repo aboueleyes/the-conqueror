@@ -30,7 +30,7 @@ public class ImagePanel extends JPanel {
   }
 
   public ImagePanel(Image img) {
-    this.img =  GrayFilter.createDisabledImage(this.img);
+    this.img =  img;
 
     Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
     setPreferredSize(size);
