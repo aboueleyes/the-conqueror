@@ -72,12 +72,20 @@ src/
 
 ```
 </details>
+
 ## Views Of the game 
   
 the game consists of 3 views beside the start view 
-1) WorldMapView 
+
+### WorldMapView 
   <img src = "assets/img/views/worldMapView.jpeg" >
-  
+
+### cityView
+   <img src = "assets/img/views/cityView.jpeg">
+
+### battleView 
+   <img src = "assets/img/views/battleView.jpeg"> 
+
 ## Authors 
 1. [Shimaa Ahmed](https://github.com/ShimaaBetah)
 2. [Ahmed Shaawray](https://github.com/shaarawy29)
