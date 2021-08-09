@@ -67,6 +67,7 @@ public abstract class Building {
     setCoolDown(true);
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (o == this) {

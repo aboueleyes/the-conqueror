@@ -27,7 +27,7 @@ public class Barracks extends MilitaryBuilding {
     if (isCoolDown()) {
       throw new BuildingInCoolDownException("Building is cooling down");
     }
-    if (getCurrentRecruit() == getMaxRecruit()) {
+    if (isMaxRecruited()) {
       throw new MaxRecruitedException("You have reached the max recruit");
     }
     setCurrentRecruit(getCurrentRecruit() + 1);

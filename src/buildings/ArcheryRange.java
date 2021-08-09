@@ -37,7 +37,4 @@ public class ArcheryRange extends MilitaryBuilding {
 
   }
 
-  private boolean isMaxRecruited() {
-    return getCurrentRecruit() == getMaxRecruit();
-  }
 }

@@ -70,4 +70,7 @@ public abstract class MilitaryBuilding extends Building {
     return super.hashCode();
   }
 
+  public boolean isMaxRecruited() {
+    return getCurrentRecruit() == getMaxRecruit();
+  }
 }

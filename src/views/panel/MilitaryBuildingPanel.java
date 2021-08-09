@@ -15,7 +15,7 @@ public class MilitaryBuildingPanel extends BuildingPanel {
   private CityButton recruit;
 
   public MilitaryBuildingPanel(ActionListener a, String name, City city) {
-    super(name, city);
+    super( name, city);
     setLayout(new BorderLayout());
     var background = new ImagePanel(new ImageIcon(setImageType(name)).getImage());
     background.setLayout(new BorderLayout());

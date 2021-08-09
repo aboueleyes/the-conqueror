@@ -363,13 +363,17 @@ public class Game {
   public String toString(Army army) {
     var message = new StringBuilder();
     var city = searchForCity(army.getCurrentLocation(), this.getAvailableCities());
-    message.append("Current Location : " + army.getCurrentLocation() + "\n");
-    message.append("Current Status : " + army.getCurrentStatus() + "\n");
-    message.append(NUMBER_OF_UNITS_STRING + " : " + army.getUnits().size() + "\n");
+    unitsLog(army, message);
     marchingLog(army, message);
     besiegingLog(army, message, city);
     return message.toString();
   }
+
+private void unitsLog(Army army, StringBuilder message) {
+	message.append("Current Location : " + army.getCurrentLocation() + "\n");
+  message.append("Current Status : " + army.getCurrentStatus() + "\n");
+  message.append(NUMBER_OF_UNITS_STRING + " : " + army.getUnits().size() + "\n");
+}
 
   private void besiegingLog(Army army, StringBuilder message, City city) {
     if (army.getCurrentStatus().equals(Status.BESIEGING)) {
