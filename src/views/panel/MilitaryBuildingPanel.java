@@ -1,11 +1,12 @@
 package views.panel;
-
+import java.awt.Image;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import engine.City;
 import views.button.CityButton;
@@ -28,7 +29,8 @@ public class MilitaryBuildingPanel extends BuildingPanel {
     getInfo().setVisible(false);
     getInfo().setOpaque(false);
     getInfo().setFont(new Font(Font.MONOSPACED, Font.ITALIC | Font.BOLD, 16));
-
+    Image gray = GrayFilter.createDisabledImage(background.getImg());
+    background.setImg(gray);
     setRecruit(new CityButton("Recruit", 15));
     recruit.setEnabled(false);
     var label = new JLabel("<html><h2><strong><i>" + name + "</i></strong></h2><hr></html>");
